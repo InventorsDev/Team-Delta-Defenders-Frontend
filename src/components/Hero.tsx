@@ -32,6 +32,21 @@ const Hero = () => {
             Connect straight to farmers, price am your way, and get your produce fresh-fresh. Easy talk, easy deal.
           </p>
 
+          {/* Stats Text */}
+          <p 
+            className="text-white mb-8"
+            style={{
+              fontFamily: 'Montserrat',
+              fontWeight: 700,
+              fontStyle: 'italic',
+              fontSize: '20px',
+              lineHeight: '36px',
+              letterSpacing: '0%'
+            }}
+          >
+            "100+ Farmers & Market Sellers already on agrilink"
+          </p>
+
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mb-12">
             <Button 

@@ -36,21 +36,51 @@ const Index = () => {
         >
           {/* Partners Section */}
           <div className="text-center h-full flex flex-col justify-center">
-            <p className="text-gray-700 text-center mb-6 text-sm uppercase tracking-wide">
-              In Collaboration With
-            </p>
+            <div className="flex items-center justify-center mb-6">
+              <span 
+                className="bg-primary"
+                style={{
+                  width: '100px',
+                  height: '10px',
+                  opacity: 1,
+                  transform: 'rotate(0deg)',
+                  borderRadius: '20px',
+                  marginRight: '20px'
+                }}
+              ></span>
+              <p className="text-gray-700 text-sm uppercase tracking-wide">
+                In Collaboration With
+              </p>
+              <span 
+                className="bg-primary"
+                style={{
+                  width: '100px',
+                  height: '10px',
+                  opacity: 1,
+                  transform: 'rotate(0deg)',
+                  borderRadius: '20px',
+                  marginLeft: '20px'
+                }}
+              ></span>
+            </div>
             <div className="flex flex-wrap justify-center items-center gap-8">
-              {[
-                { name: "Partner 1", logo: "🌱" },
-                { name: "Partner 2", logo: "🚜" },
-                { name: "Partner 3", logo: "🌾" },
-                { name: "Partner 4", logo: "🥕" },
-              ].map((partner, index) => (
+              {Array.from({ length: 5 }, (_, index) => (
                 <div 
                   key={index}
-                  className="flex items-center justify-center w-16 h-16 bg-white/60 rounded-lg text-2xl shadow-sm"
+                  className="w-20 h-20 bg-white/60 rounded-lg shadow-sm flex items-center justify-center border-2 border-dashed border-gray-300"
                 >
-                  {partner.logo}
+                  <img 
+                    src={`/partner-${index + 1}.png`}
+                    alt={`Partner ${index + 1}`}
+                    className="w-full h-full object-contain rounded-lg"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                      e.currentTarget.nextElementSibling.style.display = 'block';
+                    }}
+                  />
+                  <span className="text-gray-400 text-sm hidden">
+                    Partner {index + 1}
+                  </span>
                 </div>
               ))}
             </div>
