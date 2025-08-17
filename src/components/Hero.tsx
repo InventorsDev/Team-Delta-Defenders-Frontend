@@ -10,9 +10,15 @@ const Hero = () => {
 
   return (
     <section
-      className="bg-gradient-to-b from-[hsl(120,65%,20%)] to-[hsl(120,65%,25%)] text-white py-20 lg:py-32 relative bg-[url('/hero-bg.png')] bg-cover bg-center"
+      className="text-white py-20 lg:py-32 relative"
+      style={{
+        backgroundImage: `linear-gradient(to bottom, hsl(120, 65%, 20%, 0.3), hsl(120, 65%, 25%, 0.3)), url('/hero-bg.png')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundBlendMode: 'overlay'
+      }}
     >
-      <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+      <div className="absolute inset-0 bg-black/20 pointer-events-none" />
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <div className="max-w-4xl text-left">
           {/* Main Heading */}
@@ -43,22 +49,6 @@ const Hero = () => {
             </Button>
           </div>
 
-          {/* Partners Section */}
-          <div className="mt-16 text-center max-w-4xl">
-            <p className="text-white text-center mb-6 text-sm uppercase tracking-wide">
-              In Collaboration With
-            </p>
-            <div className="flex flex-wrap justify-center items-center gap-8 opacity-80">
-              {partners.map((partner, index) => (
-                <div 
-                  key={index}
-                  className="flex items-center justify-center w-16 h-16 bg-white/10 rounded-lg text-2xl"
-                >
-                  {partner.logo}
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </section>

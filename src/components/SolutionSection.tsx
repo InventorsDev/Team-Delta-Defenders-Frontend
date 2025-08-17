@@ -28,6 +28,9 @@ const SolutionSection = () => {
           {/* Content Column */}
           <div>
             <div className="max-w-xl">
+              <div className="flex items-center mb-2">
+                <span className="w-20 h-2 bg-primary rounded-full mr-3"></span>
+              </div>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
                 <span className="text-primary">Agrilink</span> - The Direct<br />
                 Connection You Have Been<br />

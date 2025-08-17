@@ -10,10 +10,11 @@ const Header = () => {
     { name: "How It Works", href: "#how-it-works" },
     { name: "Benefits", href: "#benefits" },
     { name: "Testimonials", href: "#testimonials" },
+    { name: "FAQ", href: "#faq" },
   ];
 
   return (
-    <header className="bg-background border-b sticky top-0 z-50">
+    <header className="backdrop-blur-md bg-white/40 border-b border-white/10 sticky top-0 z-50 shadow-lg">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -28,7 +29,18 @@ const Header = () => {
                 />
               </span>
             </div>
-            <span className="text-2xl font-bold text-primary">agrilink</span>
+            <span 
+              className="text-primary"
+              style={{
+                fontFamily: 'Montserrat, MadaniArabic-Bold, sans-serif',
+                fontWeight: 700,
+                fontSize: '25.95px',
+                lineHeight: '100%',
+                letterSpacing: '0%'
+              }}
+            >
+              agrilink
+            </span>
           </div>
 
           {/* Desktop Navigation - Centered */}
@@ -37,7 +49,14 @@ const Header = () => {
               <a
                 key={link.name}
                 href={link.href}
-                className="text-foreground hover:text-primary transition-colors font-bold"
+                className="text-foreground hover:text-primary transition-colors"
+                style={{
+                  fontFamily: 'Montserrat, MadaniArabic-Bold, sans-serif',
+                  fontWeight: 400,
+                  fontSize: '16px',
+                  lineHeight: '100%',
+                  letterSpacing: '0%'
+                }}
               >
                 {link.name}
               </a>
@@ -62,7 +81,14 @@ const Header = () => {
                   <a
                     key={link.name}
                     href={link.href}
-                    className="text-lg text-foreground hover:text-primary transition-colors font-bold"
+                    className="text-foreground hover:text-primary transition-colors"
+                    style={{
+                      fontFamily: 'Montserrat, MadaniArabic-Bold, sans-serif',
+                      fontWeight: 400,
+                      fontSize: '16px',
+                      lineHeight: '100%',
+                      letterSpacing: '0%'
+                    }}
                     onClick={() => setIsOpen(false)}
                   >
                     {link.name}

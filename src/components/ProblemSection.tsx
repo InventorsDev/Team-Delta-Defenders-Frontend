@@ -23,7 +23,7 @@ const ProblemSection = () => {
           <div className="order-1 lg:order-2">
             <div className="max-w-xl">
               <div className="flex items-center mb-2">
-                <span className="w-10 h-1 bg-primary rounded-full mr-3"></span>
+                <span className="w-20 h-2 bg-primary rounded-full mr-3"></span>
               </div>
               <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">
                 The Problem? Too Many Hands,<br />Too Much Wahala

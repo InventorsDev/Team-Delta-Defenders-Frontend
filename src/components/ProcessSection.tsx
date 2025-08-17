@@ -3,18 +3,18 @@ import { UserPlus, Search, Handshake, Truck } from "lucide-react";
 const ProcessCard = ({ title, description, number, isWide = false }) => {
   return (
     <div 
-      className="relative p-6 shadow-md overflow-hidden flex flex-col"
+      className={`relative p-4 md:p-6 shadow-md overflow-hidden flex flex-col w-full ${
+        isWide ? 'md:w-[757px] lg:w-[757px]' : 'md:w-[535px] lg:w-[535px]'
+      } h-auto min-h-[300px] md:min-h-[409px]`}
       style={{
-        width: isWide ? '757px' : '535px',
-        height: '409px',
-        borderRadius: '30px',
+        borderRadius: '20px',
         opacity: 1,
         transform: 'rotate(0deg)',
         backgroundColor: '#E4FDE1'
       }}
     >
       {/* Background logo image */}
-      <div className="absolute bottom-4 right-4 w-16 h-16 opacity-30 z-0">
+      <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 w-12 h-12 md:w-16 md:h-16 opacity-30 z-0">
         <img 
           src="/agrilink-logo.png" 
           alt="Agrilink Logo Background" 
@@ -23,7 +23,7 @@ const ProcessCard = ({ title, description, number, isWide = false }) => {
       </div>
       
       <span 
-        className="absolute bottom-4 left-4 text-6xl font-extrabold text-gray-200 z-0"
+        className="absolute bottom-2 left-2 md:bottom-4 md:left-4 text-4xl md:text-6xl font-extrabold text-gray-200 z-0"
         style={{ 
           background: 'rgba(24, 38, 5, 0.36)' 
         }}
@@ -32,10 +32,10 @@ const ProcessCard = ({ title, description, number, isWide = false }) => {
       </span>
       
       <div className="relative z-10">
-        <h3 className="text-xl font-bold text-gray-800 mt-10">
+        <h3 className="text-lg md:text-xl font-bold text-gray-800 mt-6 md:mt-10">
           {title}
         </h3>
-        <p className="mt-2 text-base text-gray-600">
+        <p className="mt-2 text-sm md:text-base text-gray-600 leading-relaxed">
           {description}
         </p>
       </div>
@@ -76,17 +76,28 @@ const ProcessSection = () => {
           </h2>
         </div>
 
-        <div className="flex flex-col items-center gap-2">
-          {/* First Row - Cards 1 & 2 (Card 1 wider) */}
-          <div className="flex gap-2">
-            <ProcessCard {...steps[0]} isWide={true} />
+        <div className="flex flex-col items-center gap-4">
+          {/* Mobile: Stack all cards vertically */}
+          <div className="flex flex-col md:hidden gap-4 w-full max-w-md">
+            <ProcessCard {...steps[0]} />
             <ProcessCard {...steps[1]} />
+            <ProcessCard {...steps[2]} />
+            <ProcessCard {...steps[3]} />
           </div>
           
-          {/* Second Row - Cards 3 & 4 (Card 4 wider) */}
-          <div className="flex gap-2">
-            <ProcessCard {...steps[2]} />
-            <ProcessCard {...steps[3]} isWide={true} />
+          {/* Desktop: Two rows with varying widths */}
+          <div className="hidden md:flex flex-col items-center gap-4">
+            {/* First Row - Cards 1 & 2 (Card 1 wider) */}
+            <div className="flex gap-4">
+              <ProcessCard {...steps[0]} isWide={true} />
+              <ProcessCard {...steps[1]} />
+            </div>
+            
+            {/* Second Row - Cards 3 & 4 (Card 4 wider) */}
+            <div className="flex gap-4">
+              <ProcessCard {...steps[2]} />
+              <ProcessCard {...steps[3]} isWide={true} />
+            </div>
           </div>
         </div>
 

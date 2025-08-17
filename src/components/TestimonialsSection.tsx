@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-// Corrected image imports for a Vite project
+
 import image1 from '/image1.png';
 import image2 from '/image2.png';
 import image3 from '/image3.png';
@@ -118,47 +119,37 @@ const TestimonialsSection = () => {
 
         {/* Images and Content Layout */}
         <div 
-          className="relative w-full max-w-7xl mt-12 mb-20 flex flex-col items-center"
+          className="relative w-full max-w-7xl mt-12 flex flex-col items-center"
         >
-          {/* All testimonial images cluster - compact staircase arrangement */}
-          <div className="relative w-full h-[500px] flex justify-center items-center">
-            
+          {/* All testimonial images cluster - non-overlapping grid arrangement */}
+          <div className="hidden md:block relative w-full h-[500px] flex justify-center items-center">
             {testimonials.map((testimonial, index) => {
-              // Create a compact staircase pattern
-              const positions = [
-                { x: -180, y: -60 },   // Image 1 - top area
-                { x: -60, y: -100 },   // Image 2 - higher center left
-                { x: 100, y: -80 },    // Image 3 - center right up
-                { x: -200, y: -40 },   // Image 4 - next to stack, slightly above image 8
-                { x: 60, y: -20 },     // Image 5 - center
-                { x: -180, y: 20 },    // Image 6 - next to stack, between images 4 & 10
-                { x: -120, y: 120 },   // Image 7 - bottom left area
-                { x: -320, y: -60 },   // Image 8 - extreme left top (reduced margin)
-                { x: -20, y: 140 },    // Image 9 - bottom center
-                { x: -320, y: 60 },    // Image 10 - extreme left bottom (reduced margin)
-                { x: 220, y: 40 }      // Image 11 - right side
-              ];
-
-              const pos = positions[index] || { x: 0, y: 0 };
+              // Create a non-overlapping circular arrangement
+              const radius = 200;
+              const angleStep = (2 * Math.PI) / testimonials.length;
+              const angle = index * angleStep;
+              const x = Math.cos(angle) * radius;
+              const y = Math.sin(angle) * radius;
               
               return (
                 <div 
                   key={index}
-                  className={`absolute overflow-hidden border-2 transition-all duration-500 ${
+                  className={`absolute overflow-hidden border-2 transition-all duration-500 cursor-pointer ${
                     index === currentTestimonialIndex 
                       ? 'border-green-500 border-4 z-20 shadow-xl scale-110' 
                       : 'border-green-300 hover:border-green-400 z-10 opacity-80 hover:opacity-100'
                   }`}
                   style={{
-                    width: '120px',
-                    height: '150px',
+                    width: '100px',
+                    height: '120px',
                     borderRadius: '16px',
-                    transform: `translate(${pos.x}px, ${pos.y}px)`,
+                    transform: `translate(${x}px, ${y}px)`,
                     left: '50%',
                     top: '50%',
-                    marginLeft: '-60px', // Half of width
-                    marginTop: '-75px'   // Half of height
+                    marginLeft: '-50px',
+                    marginTop: '-60px'
                   }}
+                  onClick={() => setCurrentTestimonialIndex(index)}
                 >
                   <img 
                     src={testimonial.imageSrc} 
@@ -168,7 +159,34 @@ const TestimonialsSection = () => {
                 </div>
               );
             })}
-
+          </div>
+          
+          {/* Mobile: Simple horizontal scroll */}
+          <div className="md:hidden w-full overflow-x-auto pb-4">
+            <div className="flex gap-4 px-4">
+              {testimonials.map((testimonial, index) => (
+                <div 
+                  key={index}
+                  className={`flex-shrink-0 overflow-hidden border-2 transition-all duration-300 cursor-pointer ${
+                    index === currentTestimonialIndex 
+                      ? 'border-green-500 border-4 shadow-xl scale-105' 
+                      : 'border-green-300 hover:border-green-400 opacity-80'
+                  }`}
+                  style={{
+                    width: '80px',
+                    height: '100px',
+                    borderRadius: '12px'
+                  }}
+                  onClick={() => setCurrentTestimonialIndex(index)}
+                >
+                  <img 
+                    src={testimonial.imageSrc} 
+                    alt={testimonial.name} 
+                    className="w-full h-full object-cover" 
+                  />
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Main testimonial content */}
@@ -192,26 +210,34 @@ const TestimonialsSection = () => {
           </div>
           
           {/* Navigation arrows */}
-          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex items-center mt-8">
+          <div className="flex items-center justify-center mt-8 gap-4">
             <button 
               onClick={prevTestimonial}
-              className="p-2 mr-4 bg-white rounded-full shadow-lg hover:bg-gray-100 transition"
+              className="p-3 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-all duration-200 hover:shadow-xl"
+              aria-label="Previous testimonial"
             >
-              &lt;
+              <ChevronLeft className="w-5 h-5 text-gray-600" />
             </button>
+            
             <div className="flex space-x-2">
               {testimonials.map((_, index) => (
-                <div 
+                <button
                   key={index}
-                  className={`w-2 h-2 rounded-full transition-colors duration-300 ${index === currentTestimonialIndex ? 'bg-green-500' : 'bg-gray-300'}`}
-                ></div>
+                  onClick={() => setCurrentTestimonialIndex(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === currentTestimonialIndex ? 'bg-green-500 scale-125' : 'bg-gray-300 hover:bg-gray-400'
+                  }`}
+                  aria-label={`Go to testimonial ${index + 1}`}
+                ></button>
               ))}
             </div>
+            
             <button 
               onClick={nextTestimonial}
-              className="p-2 ml-4 bg-white rounded-full shadow-lg hover:bg-gray-100 transition"
+              className="p-3 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-all duration-200 hover:shadow-xl"
+              aria-label="Next testimonial"
             >
-              &gt;
+              <ChevronRight className="w-5 h-5 text-gray-600" />
             </button>
           </div>
         </div>

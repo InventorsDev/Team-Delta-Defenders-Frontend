@@ -68,7 +68,7 @@ const FAQSection = () => {
   ];
 
   return (
-    <section className="py-16 bg-white">
+    <section id="faq" className="py-16 bg-white">
       <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         {/* Left Column: Heading and Image */}
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
