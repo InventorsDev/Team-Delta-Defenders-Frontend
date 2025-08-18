@@ -14,7 +14,10 @@ const Header = () => {
   ];
 
   return (
-    <header className="backdrop-blur-md bg-white/40 border-b border-white/10 sticky top-0 z-50 shadow-lg">
+    <header 
+      className="backdrop-blur-md border-b border-white/10 sticky top-0 z-50 shadow-lg"
+      style={{ background: 'var(--brand-colors-SproutGreen, hsla(86, 64%, 47%, 1))' }}
+    >
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -49,11 +52,14 @@ const Header = () => {
               <a
                 key={link.name}
                 href={link.href}
-                className="text-foreground hover:text-primary transition-colors"
+                className="hover:text-primary transition-colors"
                 style={{
-                  fontFamily: 'Montserrat, MadaniArabic-Bold, sans-serif',
+                  color: 'var(--brand-colors-RootBlack, hsla(86, 78%, 8%, 1))',
+                  fontFamily: 'MadaniArabic-Bold',
                   fontWeight: 400,
+                  fontStyle: 'normal',
                   fontSize: '16px',
+                  leadingTrim: 'cap-height',
                   lineHeight: '100%',
                   letterSpacing: '0%'
                 }}
@@ -66,7 +72,26 @@ const Header = () => {
             <Button 
               className="bg-primary text-primary-foreground transition-colors duration-200"
               style={{ 
-                '--hover-bg': 'var(--brand-colors-SoilBlush, rgba(211, 171, 158, 1))' 
+                '--hover-bg': 'var(--brand-colors-SoilBlush, rgba(211, 171, 158, 1))',
+                fontFamily: 'MadaniArabic-Bold',
+                fontWeight: 400,
+                fontStyle: 'normal',
+                fontSize: '16px',
+                leadingTrim: 'cap-height',
+                lineHeight: '100%',
+                letterSpacing: '0%',
+                width: '160px',
+                height: '40px',
+                minWidth: '160px',
+                minHeight: '40px',
+                borderRadius: '30px',
+                paddingTop: '12px',
+                paddingRight: '24px',
+                paddingBottom: '12px',
+                paddingLeft: '24px',
+                gap: '10px',
+                transform: 'rotate(0deg)',
+                opacity: 1
               } as React.CSSProperties}
               onMouseEnter={(e) => {
                 (e.target as HTMLElement).style.backgroundColor = 'var(--brand-colors-SoilBlush, rgba(211, 171, 158, 1))';
@@ -75,7 +100,7 @@ const Header = () => {
                 (e.target as HTMLElement).style.backgroundColor = '';
               }}
             >
-              Get Started
+              Log In
             </Button>
           </div>
 
@@ -107,6 +132,27 @@ const Header = () => {
                 ))}
                 <Button 
                   className="bg-primary text-primary-foreground mt-4 transition-colors duration-200"
+                  style={{
+                    fontFamily: 'MadaniArabic-Bold',
+                    fontWeight: 400,
+                    fontStyle: 'normal',
+                    fontSize: '16px',
+                    leadingTrim: 'cap-height',
+                    lineHeight: '100%',
+                    letterSpacing: '0%',
+                    width: '160px',
+                    height: '40px',
+                    minWidth: '160px',
+                    minHeight: '40px',
+                    borderRadius: '30px',
+                    paddingTop: '12px',
+                    paddingRight: '24px',
+                    paddingBottom: '12px',
+                    paddingLeft: '24px',
+                    gap: '10px',
+                    transform: 'rotate(0deg)',
+                    opacity: 1
+                  }}
                   onMouseEnter={(e) => {
                     (e.target as HTMLElement).style.backgroundColor = 'var(--brand-colors-SoilBlush, rgba(211, 171, 158, 1))';
                   }}
@@ -114,7 +160,7 @@ const Header = () => {
                     (e.target as HTMLElement).style.backgroundColor = '';
                   }}
                 >
-                  Get Started
+                  Log In
                 </Button>
               </div>
             </SheetContent>

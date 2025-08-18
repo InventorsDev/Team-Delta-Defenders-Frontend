@@ -9,10 +9,10 @@ const Footer = () => {
       {/* Top Section */}
       <div className="container mx-auto px-4 border-b border-gray-700 pb-8 mb-8">
         <div className="text-center md:text-left">
-          <h2 className="mb-6 break-words" style={{ fontFamily: 'MadaniArabic-Bold, Cairo, Tajawal, sans-serif', fontWeight: 400, fontStyle: 'normal', fontSize: '32px', lineHeight: '50px', letterSpacing: '0%' }}>
+          <h2 className="mb-6 break-words" style={{ fontFamily: 'MadaniArabic-Bold, sans-serif', fontWeight: 700, fontStyle: 'normal', fontSize: '32px', lineHeight: '50px', letterSpacing: '0%' }}>
             Connecting Farms, Empowering Markets. Join AgriLink NG Today!
           </h2>
-          <p className="text-gray-300 mb-8 break-words" style={{ fontFamily: 'MadaniArabic-Medium, Cairo, Tajawal, sans-serif', fontWeight: 400, fontStyle: 'normal', fontSize: '20px', lineHeight: '37px', letterSpacing: '0%' }}>
+          <p className="text-gray-300 mb-8 break-words" style={{ fontFamily: 'MadaniArabic-Medium, sans-serif', fontWeight: 500, fontStyle: 'normal', fontSize: '20px', lineHeight: '37px', letterSpacing: '0%' }}>
             At Agrilink, we're committed to bridging the gap between farmers and buyers through direct, transparent, and stress-free trade. We're building a smarter agricultural economy, one fresh connection at a time.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">

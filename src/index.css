@@ -5,19 +5,23 @@
 /* Custom Font Faces */
 @font-face {
   font-family: 'MadaniArabic-Bold';
-  src: url('/fonts/MadaniArabic-Bold.woff2') format('woff2'),
-       url('/fonts/MadaniArabic-Bold.woff') format('woff'),
-       url('/fonts/MadaniArabic-Bold.ttf') format('truetype');
-  font-weight: 400;
+  src: url('/fonts/Madani-Arabic-Font-Family/Madani Arabic Bold.ttf') format('truetype');
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'MadaniArabic-Medium';
-  src: url('/fonts/MadaniArabic-Medium.woff2') format('woff2'),
-       url('/fonts/MadaniArabic-Medium.woff') format('woff'),
-       url('/fonts/MadaniArabic-Medium.ttf') format('truetype');
+  src: url('/fonts/Madani-Arabic-Font-Family/Madani Arabic Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MadaniArabic-Regular';
+  src: url('/fonts/Madani-Arabic-Font-Family/Madani Arabic Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -62,6 +66,11 @@ All colors MUST be HSL.
     --agrilink-green-dark: 120 65% 25%;
     --agrilink-green-light: 120 45% 88%;
     --agrilink-hero-bg: 120 65% 20%;
+
+    /* Brand colors */
+    --brand-colors-SproutGreen: 86 64% 47%;
+    --brand-colors-SoilBlush: 18 37% 72%;
+    --brand-colors-RootBlack: 86 78% 8%;
 
     --radius: 0.5rem;
 
