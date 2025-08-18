@@ -12,16 +12,16 @@ interface FAQItemProps {
 
 const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, onClick }) => {
   return (
-    <div className="border-b border-green-200 py-4">
+    <div className="border-b border-green-200 py-3 sm:py-4">
       <button
-        className="flex justify-between items-center w-full text-left"
+        className="flex justify-between items-center w-full text-left gap-3"
         onClick={onClick}
       >
-        <h4 className="text-lg font-semibold text-gray-800">
+        <h4 className="text-base sm:text-lg font-semibold text-gray-800">
           {question}
         </h4>
-        <span className={`text-green-500 transform transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`}>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+        <span className={`text-green-500 transform transition-transform duration-300 flex-shrink-0 ${isOpen ? 'rotate-180' : 'rotate-0'}`}>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6" viewBox="0 0 24 24" fill="currentColor">
             <path d="M7 10l5 5 5-5z" />
           </svg>
         </span>
@@ -29,7 +29,7 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, onClick }) 
       <div 
         className={`overflow-hidden transition-max-height duration-500 ease-in-out ${isOpen ? 'max-h-96' : 'max-h-0'}`}
       >
-        <p className="mt-2 text-base text-gray-600 pr-10">
+        <p className="mt-2 text-sm sm:text-base text-gray-600 pr-8 sm:pr-10">
           {answer}
         </p>
       </div>
@@ -68,26 +68,28 @@ const FAQSection = () => {
   ];
 
   return (
-    <section id="faq" className="py-16 bg-white">
-      <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <section id="faq" className="py-12 sm:py-16 bg-white">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
         {/* Left Column: Heading and Image */}
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
-          <div className="w-20 h-1 bg-green-500 rounded-full mb-4"></div>
-          <h2 className="text-4xl font-extrabold text-gray-900 leading-tight">
-            Got Questions? We've Got <br></br>Answers.
+          <div className="w-16 sm:w-20 h-1 bg-green-500 rounded-full mb-4"></div>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">
+            Got Questions? We've Got <br className="hidden sm:block" />Answers.
           </h2>
-          <div className="relative w-full max-w-lg mt-8 hidden lg:block">
-            {/* The img src is updated to point to the public directory */}
+          <div className="relative w-full max-w-md lg:max-w-lg mt-6 sm:mt-8 hidden sm:block">
             <img
               src="/FAQ.png"
               alt="A large question mark illustration"
-              className="rounded-40px shadow-lg w-[535px] h-[662px]"
+              className="w-full h-auto rounded-3xl shadow-lg object-cover"
+              style={{
+                aspectRatio: '535/662'
+              }}
             />
           </div>
         </div>
 
         {/* Right Column: FAQ List */}
-        <div className="mt-8 lg:mt-0">
+        <div className="mt-6 sm:mt-8 lg:mt-0">
           {faqData.map((faq, index) => (
             <FAQItem
               key={index}

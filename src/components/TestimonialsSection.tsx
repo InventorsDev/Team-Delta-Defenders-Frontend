@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import TestimonialCard from './TestimonialCard';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 
 import image1 from '/image1.png';
@@ -89,17 +90,37 @@ const testimonials = [
 
 const TestimonialsSection = () => {
   const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
+  const [cardsToShow, setCardsToShow] = useState(3);
+  const isMobile = useIsMobile();
+
+  useEffect(() => {
+    const updateCardsToShow = () => {
+      if (window.innerWidth < 768) {
+        setCardsToShow(1);
+      } else if (window.innerWidth < 1100) {
+        setCardsToShow(2);
+      } else {
+        setCardsToShow(3);
+      }
+    };
+
+    updateCardsToShow();
+    window.addEventListener('resize', updateCardsToShow);
+    return () => window.removeEventListener('resize', updateCardsToShow);
+  }, []);
 
   const nextTestimonial = () => {
-    setCurrentTestimonialIndex((prevIndex) => 
-      prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
-    );
+    setCurrentTestimonialIndex((prevIndex) => {
+      const maxIndex = testimonials.length - cardsToShow;
+      return prevIndex >= maxIndex ? 0 : prevIndex + 1;
+    });
   };
 
   const prevTestimonial = () => {
-    setCurrentTestimonialIndex((prevIndex) => 
-      prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
-    );
+    setCurrentTestimonialIndex((prevIndex) => {
+      const maxIndex = testimonials.length - cardsToShow;
+      return prevIndex === 0 ? maxIndex : prevIndex - 1;
+    });
   };
   
   const currentTestimonial = testimonials[currentTestimonialIndex];
@@ -108,73 +129,72 @@ const TestimonialsSection = () => {
     <section className="bg-white relative overflow-hidden">
       {/* Main Layout Container */}
       <div 
-        className="flex flex-col items-center text-center py-16 px-4"
+        className="flex flex-col items-center text-center py-8 sm:py-12 md:py-16 px-4 sm:px-6 md:px-8"
       >
         {/* Header with Navigation */}
         <div className="w-full">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="text-left">
-              <div className="w-24 h-2 mb-2 bg-green-500 rounded-full"></div>
-              <h2 className="text-4xl font-extrabold text-gray-900 leading-tight">
-                Trusted by Farmers and Buyers <br></br> Across Nigeria
+              <div className="w-16 sm:w-20 md:w-24 h-2 mb-2 bg-green-500 rounded-full"></div>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">
+                Trusted by Farmers and Buyers <br className="hidden sm:block" /> Across Nigeria
               </h2>
             </div>
             
-            {/* Navigation buttons aligned with 'Across Nigeria' text */}
-            <div className="flex" style={{ gap: '10px', alignSelf: 'flex-end' }}>
+            {/* Navigation buttons */}
+            <div className="flex gap-2 sm:gap-3 self-end sm:self-auto">
               <button 
                 onClick={prevTestimonial}
                 className="flex items-center justify-center shadow-lg hover:opacity-90 transition-all duration-200 hover:shadow-xl"
                 style={{
-                  width: '70px',
-                  height: '70px',
-                  borderRadius: '40px',
+                  width: '50px',
+                  height: '50px',
+                  borderRadius: '25px',
                   opacity: 1,
                   background: 'var(--brand-colors-SproutGreen, rgba(132, 198, 44, 1))'
                 }}
                 aria-label="Previous testimonial"
               >
-                <ChevronLeft className="w-5 h-5 text-white" />
+                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </button>
               
               <button 
                 onClick={nextTestimonial}
                 className="flex items-center justify-center shadow-lg hover:opacity-90 transition-all duration-200 hover:shadow-xl"
                 style={{
-                  width: '70px',
-                  height: '70px',
-                  borderRadius: '40px',
+                  width: '50px',
+                  height: '50px',
+                  borderRadius: '25px',
                   opacity: 1,
                   background: 'var(--brand-colors-SproutGreen, rgba(132, 198, 44, 1))'
                 }}
                 aria-label="Next testimonial"
               >
-                <ChevronRight className="w-5 h-5 text-white" />
+                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </button>
             </div>
           </div>
         </div>
 
         {/* Horizontal Card Carousel */}
-        <div className="relative w-full max-w-6xl mt-12">
+        <div className="relative w-full max-w-6xl mt-8 sm:mt-12">
           
           {/* Testimonial Cards Container */}
           <div className="overflow-hidden">
             <div 
               className="flex transition-transform duration-500 ease-in-out gap-6"
               style={{ 
-                transform: `translateX(-${Math.min(currentTestimonialIndex, testimonials.length - 3) * 33.33}%)` 
+                transform: `translateX(-${currentTestimonialIndex * (320 + 24)}px)` 
               }}
             >
               {testimonials.map((testimonial, index) => (
-                <div key={index} className="w-1/3 flex-shrink-0">
-                  <TestimonialCard
-                    quote={testimonial.quote}
-                    imageSrc={testimonial.imageSrc}
-                    name={testimonial.name}
-                    location={testimonial.location}
-                  />
-                </div>
+                <TestimonialCard
+                  key={index}
+                  quote={testimonial.quote}
+                  imageSrc={testimonial.imageSrc}
+                  name={testimonial.name}
+                  location={testimonial.location}
+                />
               ))}
             </div>
           </div>

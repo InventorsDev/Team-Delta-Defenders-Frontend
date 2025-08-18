@@ -63,7 +63,18 @@ const Header = () => {
             ))}
           </nav>
           <div className="hidden md:flex items-center">
-            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
+            <Button 
+              className="bg-primary text-primary-foreground transition-colors duration-200"
+              style={{ 
+                '--hover-bg': 'var(--brand-colors-SoilBlush, rgba(211, 171, 158, 1))' 
+              } as React.CSSProperties}
+              onMouseEnter={(e) => {
+                (e.target as HTMLElement).style.backgroundColor = 'var(--brand-colors-SoilBlush, rgba(211, 171, 158, 1))';
+              }}
+              onMouseLeave={(e) => {
+                (e.target as HTMLElement).style.backgroundColor = '';
+              }}
+            >
               Get Started
             </Button>
           </div>
@@ -94,7 +105,15 @@ const Header = () => {
                     {link.name}
                   </a>
                 ))}
-                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground mt-4">
+                <Button 
+                  className="bg-primary text-primary-foreground mt-4 transition-colors duration-200"
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLElement).style.backgroundColor = 'var(--brand-colors-SoilBlush, rgba(211, 171, 158, 1))';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLElement).style.backgroundColor = '';
+                  }}
+                >
                   Get Started
                 </Button>
               </div>

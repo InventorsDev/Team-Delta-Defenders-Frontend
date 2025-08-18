@@ -22,29 +22,29 @@ const SolutionSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-accent/5">
-      <div className="container mx-auto px-4 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+    <section className="py-12 sm:py-16 md:py-20 bg-accent/5">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
           {/* Content Column */}
           <div>
             <div className="max-w-xl">
               <div className="flex items-center mb-2">
-                <span className="w-20 h-2 bg-primary rounded-full mr-3"></span>
+                <span className="w-16 sm:w-20 h-2 bg-primary rounded-full mr-3"></span>
               </div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground mb-4 sm:mb-6">
                 <span className="text-primary">Agrilink</span> - The Direct<br />
                 Connection You Have Been<br />
                 Waiting For
               </h2>
               
 
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {features.map((feature, index) => (
-                  <div key={index} className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg">
+                  <div key={index} className="flex items-start gap-3 sm:gap-4">
+                    <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-base sm:text-lg">
                       {feature.number}
                     </div>
-                    <p className="text-foreground font-medium pt-3">
+                    <p className="text-foreground font-medium pt-2 sm:pt-3 text-sm sm:text-base">
                       {feature.text}
                     </p>
                   </div>
@@ -52,30 +52,40 @@ const SolutionSection = () => {
               </div>
 
               <p 
-                className="mt-8"
+                className="mt-6 sm:mt-8 text-base sm:text-lg md:text-xl"
                 style={{
                   fontFamily: 'Montserrat',
                   fontWeight: 700,
                   fontStyle: 'italic',
-                  fontSize: '20px',
-                  lineHeight: '36px',
-                  letterSpacing: '0%'
+                  lineHeight: '1.4'
                 }}
               >
                 "No middlemen. No stories. Just direct connection and better deals" sign up now
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 mt-6">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-4 sm:mt-6">
                 <Button 
                   size="lg" 
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg px-8 py-3"
+                  className="bg-primary text-primary-foreground text-base sm:text-lg px-6 sm:px-8 py-3 w-full sm:w-auto transition-colors duration-200"
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLElement).style.backgroundColor = 'var(--brand-colors-SoilBlush, rgba(211, 171, 158, 1))';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLElement).style.backgroundColor = '';
+                  }}
                 >
                   Farmers Sign Up
                 </Button>
                 <Button 
                   variant="outline" 
                   size="lg"
-                  className="text-black border-primary hover:bg-primary hover:text-white text-lg px-8 py-3"
+                  className="text-black border-primary text-base sm:text-lg px-6 sm:px-8 py-3 w-full sm:w-auto transition-colors duration-200"
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLElement).style.backgroundColor = 'var(--brand-colors-SoilBlush, rgba(211, 171, 158, 1))';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLElement).style.backgroundColor = '';
+                  }}
                 >
                   Buyers Sign Up
                 </Button>
@@ -84,21 +94,17 @@ const SolutionSection = () => {
           </div>
 
           {/* Image Column */}
-          <div>
+          <div className="flex justify-center">
             <div className="relative">
               <img 
                 src="/solution-image.png"
                 alt="Person using agrilink mobile app"
-                className="shadow-lg object-cover"
+                className="w-full max-w-md sm:max-w-lg lg:max-w-xl shadow-lg object-cover rounded-3xl"
                 style={{
-                  width: '587px',
-                  height: '730px',
-                  borderRadius: '40px',
-                  opacity: 1,
-                  transform: 'rotate(0deg)'
+                  aspectRatio: '587/730',
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-3xl"></div>
             </div>
           </div>
         </div>

@@ -1,10 +1,10 @@
 const FeatureCard = ({ title, description, number }) => {
   return (
     <div 
-      className="relative p-6 shadow-md overflow-hidden flex flex-col"
+      className="relative p-4 sm:p-6 shadow-md overflow-hidden flex flex-col w-full max-w-sm mx-auto"
       style={{
-        width: '424px',
-        height: '424px',
+        minHeight: '280px',
+        height: '320px',
         borderRadius: '30px',
         opacity: 1,
         transform: 'rotate(0deg)',
@@ -30,10 +30,10 @@ const FeatureCard = ({ title, description, number }) => {
       </span>
       
       <div className="relative z-10">
-        <h3 className="text-xl font-bold text-gray-800 mt-10">
+        <h3 className="text-lg sm:text-xl font-bold text-gray-800 mt-6 sm:mt-10">
           {title}
         </h3>
-        <p className="mt-2 text-base text-gray-600">
+        <p className="mt-2 text-sm sm:text-base text-gray-600">
           {description}
         </p>
       </div>
@@ -71,32 +71,32 @@ const FeaturesSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-background" id="benefits">
-      <div className="container mx-auto px-4 lg:px-8">
-        <div className="text-center mb-16">
-          <div className="flex items-center justify-center mb-4">
-            <span className="w-10 h-2 bg-primary rounded-full mr-3"></span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
+    <section className="py-12 sm:py-16 md:py-20 bg-background" id="benefits">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-8">
+        <div className="text-center mb-12 sm:mb-16">
+          <div className="flex flex-col sm:flex-row items-center justify-center mb-4 gap-2 sm:gap-0">
+            <span className="w-8 sm:w-10 h-2 bg-primary rounded-full sm:mr-3"></span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground text-center">
               Everything You Need to Buy and Sell Smarter
             </h2>
-            <span className="w-10 h-2 bg-primary rounded-full ml-3"></span>
+            <span className="w-8 sm:w-10 h-2 bg-primary rounded-full sm:ml-3"></span>
           </div>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
             Our comprehensive platform provides all the tools you need for successful 
             agricultural trading, from listing to delivery.
           </p>
         </div>
 
-        <div className="flex justify-center">
-          <div className="grid md:grid-cols-3 gap-2 auto-rows-fr">
+        <div className="flex justify-center mb-4 sm:mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 auto-rows-fr max-w-6xl">
             {features.slice(0, 3).map((feature, index) => (
               <FeatureCard key={index} {...feature} />
             ))}
           </div>
         </div>
         
-        <div className="flex justify-center mt-1.5">
-          <div className="grid md:grid-cols-2 gap-2 auto-rows-fr">
+        <div className="flex justify-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 auto-rows-fr max-w-4xl">
             {features.slice(3).map((feature, index) => (
               <FeatureCard key={index} {...feature} />
             ))}

@@ -18,56 +18,49 @@ const Index = () => {
         
         {/* Partners Box - part of hero section */}
         <div 
-          className="absolute z-20 shadow-lg"
+          className="absolute z-20 shadow-lg left-4 right-4 sm:left-8 sm:right-8 md:left-16 md:right-16 lg:left-24 lg:right-24"
           style={{
-            width: 'calc(100% - 198px)',
-            height: '168px',
-            bottom: '-84px',
-            left: '99px',
-            right: '99px',
-            paddingTop: '40px',
-            paddingBottom: '40px',
-            gap: '20px',
+            minHeight: '120px',
+            bottom: '-60px',
+            paddingTop: '24px',
+            paddingBottom: '24px',
+            paddingLeft: '16px',
+            paddingRight: '16px',
             borderRadius: '20px',
             opacity: 1,
-            transform: 'rotate(0deg)',
             background: 'var(--brand-colors-HarvestMist, rgba(228, 253, 225, 1))'
           }}
         >
           {/* Partners Section */}
           <div className="text-center h-full flex flex-col justify-center">
-            <div className="flex items-center justify-center mb-6">
+            <div className="flex items-center justify-center mb-4 sm:mb-6">
               <span 
-                className="bg-primary"
+                className="bg-primary hidden sm:block"
                 style={{
-                  width: '100px',
-                  height: '10px',
-                  opacity: 1,
-                  transform: 'rotate(0deg)',
+                  width: '60px',
+                  height: '8px',
                   borderRadius: '20px',
-                  marginRight: '20px'
+                  marginRight: '16px'
                 }}
               ></span>
-              <p className="text-gray-700 text-sm uppercase tracking-wide">
+              <p className="text-gray-700 text-xs sm:text-sm uppercase tracking-wide px-2 sm:px-0">
                 In Collaboration With
               </p>
               <span 
-                className="bg-primary"
+                className="bg-primary hidden sm:block"
                 style={{
-                  width: '100px',
-                  height: '10px',
-                  opacity: 1,
-                  transform: 'rotate(0deg)',
+                  width: '60px',
+                  height: '8px',
                   borderRadius: '20px',
-                  marginLeft: '20px'
+                  marginLeft: '16px'
                 }}
               ></span>
             </div>
-            <div className="flex flex-wrap justify-center items-center gap-8">
+            <div className="flex flex-wrap justify-center items-center gap-3 sm:gap-4 md:gap-6 lg:gap-8">
               {Array.from({ length: 5 }, (_, index) => (
                 <div 
                   key={index}
-                  className="w-20 h-20 bg-white/60 rounded-lg shadow-sm flex items-center justify-center border-2 border-dashed border-gray-300"
+                  className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-white/60 rounded-lg shadow-sm flex items-center justify-center border-2 border-dashed border-gray-300"
                 >
                   <img 
                     src={`/partner-${index + 1}.png`}
@@ -81,7 +74,7 @@ const Index = () => {
                       }
                     }}
                   />
-                  <span className="text-gray-400 text-sm hidden">
+                  <span className="text-gray-400 text-xs sm:text-sm hidden">
                     Partner {index + 1}
                   </span>
                 </div>
@@ -91,7 +84,7 @@ const Index = () => {
         </div>
       </div>
       
-      <div style={{ marginTop: '84px' }}>
+      <div className="mt-16 sm:mt-20 md:mt-24 lg:mt-28">
         <ProblemSection />
       </div>
       <SolutionSection />

@@ -16,10 +16,26 @@ const Footer = () => {
             At Agrilink, we're committed to bridging the gap between farmers and buyers through direct, transparent, and stress-free trade. We're building a smarter agricultural economy, one fresh connection at a time.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
-            <button className="bg-green-500 text-white font-bold py-3 px-6 rounded-xl hover:bg-green-600 transition-colors w-full sm:w-auto">
+            <button 
+              className="bg-green-500 text-white font-bold py-3 px-6 rounded-xl transition-colors w-full sm:w-auto"
+              onMouseEnter={(e) => {
+                (e.target as HTMLElement).style.backgroundColor = 'var(--brand-colors-SoilBlush, rgba(211, 171, 158, 1))';
+              }}
+              onMouseLeave={(e) => {
+                (e.target as HTMLElement).style.backgroundColor = '';
+              }}
+            >
               Farmers Sign Up
             </button>
-            <button className="bg-gray-200 text-gray-900 font-bold py-3 px-6 rounded-xl hover:bg-gray-300 transition-colors w-full sm:w-auto">
+            <button 
+              className="bg-gray-200 text-gray-900 font-bold py-3 px-6 rounded-xl transition-colors w-full sm:w-auto"
+              onMouseEnter={(e) => {
+                (e.target as HTMLElement).style.backgroundColor = 'var(--brand-colors-SoilBlush, rgba(211, 171, 158, 1))';
+              }}
+              onMouseLeave={(e) => {
+                (e.target as HTMLElement).style.backgroundColor = '';
+              }}
+            >
               Buyers Sign Up
             </button>
           </div>
