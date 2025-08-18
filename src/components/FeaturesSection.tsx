@@ -75,11 +75,11 @@ const FeaturesSection = () => {
       <div className="container mx-auto px-4 lg:px-8">
         <div className="text-center mb-16">
           <div className="flex items-center justify-center mb-4">
-            <span className="w-10 h-1 bg-primary rounded-full mr-3"></span>
+            <span className="w-10 h-2 bg-primary rounded-full mr-3"></span>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
               Everything You Need to Buy and Sell Smarter
             </h2>
-            <span className="w-10 h-1 bg-primary rounded-full ml-3"></span>
+            <span className="w-10 h-2 bg-primary rounded-full ml-3"></span>
           </div>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Our comprehensive platform provides all the tools you need for successful 

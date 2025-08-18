@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import TestimonialCard from './TestimonialCard';
 
 
 import image1 from '/image1.png';
@@ -109,136 +110,87 @@ const TestimonialsSection = () => {
       <div 
         className="flex flex-col items-center text-center py-16 px-4"
       >
-        {/* Header */}
-        <div>
-          <h2 className="text-4xl font-extrabold text-gray-900 leading-tight">
-            Trusted by Farmers and Buyers Across Nigeria
-          </h2>
-          <div className="w-24 h-1 mx-auto mt-4 bg-green-500 rounded-full"></div>
+        {/* Header with Navigation */}
+        <div className="w-full">
+          <div className="flex items-center justify-between">
+            <div className="text-left">
+              <div className="w-24 h-2 mb-2 bg-green-500 rounded-full"></div>
+              <h2 className="text-4xl font-extrabold text-gray-900 leading-tight">
+                Trusted by Farmers and Buyers <br></br> Across Nigeria
+              </h2>
+            </div>
+            
+            {/* Navigation buttons aligned with 'Across Nigeria' text */}
+            <div className="flex" style={{ gap: '10px', alignSelf: 'flex-end' }}>
+              <button 
+                onClick={prevTestimonial}
+                className="flex items-center justify-center shadow-lg hover:opacity-90 transition-all duration-200 hover:shadow-xl"
+                style={{
+                  width: '70px',
+                  height: '70px',
+                  borderRadius: '40px',
+                  opacity: 1,
+                  background: 'var(--brand-colors-SproutGreen, rgba(132, 198, 44, 1))'
+                }}
+                aria-label="Previous testimonial"
+              >
+                <ChevronLeft className="w-5 h-5 text-white" />
+              </button>
+              
+              <button 
+                onClick={nextTestimonial}
+                className="flex items-center justify-center shadow-lg hover:opacity-90 transition-all duration-200 hover:shadow-xl"
+                style={{
+                  width: '70px',
+                  height: '70px',
+                  borderRadius: '40px',
+                  opacity: 1,
+                  background: 'var(--brand-colors-SproutGreen, rgba(132, 198, 44, 1))'
+                }}
+                aria-label="Next testimonial"
+              >
+                <ChevronRight className="w-5 h-5 text-white" />
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* Images and Content Layout */}
-        <div 
-          className="relative w-full max-w-7xl mt-12 flex flex-col items-center"
-        >
-          {/* All testimonial images cluster - non-overlapping grid arrangement */}
-          <div className="hidden md:block relative w-full h-[500px] flex justify-center items-center">
-            {testimonials.map((testimonial, index) => {
-              // Create a non-overlapping circular arrangement
-              const radius = 200;
-              const angleStep = (2 * Math.PI) / testimonials.length;
-              const angle = index * angleStep;
-              const x = Math.cos(angle) * radius;
-              const y = Math.sin(angle) * radius;
-              
-              return (
-                <div 
-                  key={index}
-                  className={`absolute overflow-hidden border-2 transition-all duration-500 cursor-pointer ${
-                    index === currentTestimonialIndex 
-                      ? 'border-green-500 border-4 z-20 shadow-xl scale-110' 
-                      : 'border-green-300 hover:border-green-400 z-10 opacity-80 hover:opacity-100'
-                  }`}
-                  style={{
-                    width: '100px',
-                    height: '120px',
-                    borderRadius: '16px',
-                    transform: `translate(${x}px, ${y}px)`,
-                    left: '50%',
-                    top: '50%',
-                    marginLeft: '-50px',
-                    marginTop: '-60px'
-                  }}
-                  onClick={() => setCurrentTestimonialIndex(index)}
-                >
-                  <img 
-                    src={testimonial.imageSrc} 
-                    alt={testimonial.name} 
-                    className="w-full h-full object-cover" 
-                  />
-                </div>
-              );
-            })}
-          </div>
+        {/* Horizontal Card Carousel */}
+        <div className="relative w-full max-w-6xl mt-12">
           
-          {/* Mobile: Simple horizontal scroll */}
-          <div className="md:hidden w-full overflow-x-auto pb-4">
-            <div className="flex gap-4 px-4">
+          {/* Testimonial Cards Container */}
+          <div className="overflow-hidden">
+            <div 
+              className="flex transition-transform duration-500 ease-in-out gap-6"
+              style={{ 
+                transform: `translateX(-${Math.min(currentTestimonialIndex, testimonials.length - 3) * 33.33}%)` 
+              }}
+            >
               {testimonials.map((testimonial, index) => (
-                <div 
-                  key={index}
-                  className={`flex-shrink-0 overflow-hidden border-2 transition-all duration-300 cursor-pointer ${
-                    index === currentTestimonialIndex 
-                      ? 'border-green-500 border-4 shadow-xl scale-105' 
-                      : 'border-green-300 hover:border-green-400 opacity-80'
-                  }`}
-                  style={{
-                    width: '80px',
-                    height: '100px',
-                    borderRadius: '12px'
-                  }}
-                  onClick={() => setCurrentTestimonialIndex(index)}
-                >
-                  <img 
-                    src={testimonial.imageSrc} 
-                    alt={testimonial.name} 
-                    className="w-full h-full object-cover" 
+                <div key={index} className="w-1/3 flex-shrink-0">
+                  <TestimonialCard
+                    quote={testimonial.quote}
+                    imageSrc={testimonial.imageSrc}
+                    name={testimonial.name}
+                    location={testimonial.location}
                   />
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Main testimonial content */}
-          <div className="mt-8 md:mt-0 max-w-2xl mx-auto z-10 flex flex-col items-center">
-            {/* Testimonial person image */}
-            <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-green-500 mb-6">
-              <img 
-                src={currentTestimonial.imageSrc} 
-                alt={currentTestimonial.name} 
-                className="w-full h-full object-cover"
+          {/* Dots indicator */}
+          <div className="flex justify-center mt-8 gap-2">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentTestimonialIndex(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === currentTestimonialIndex ? 'bg-green-500 scale-125' : 'bg-gray-300 hover:bg-gray-400'
+                }`}
+                aria-label={`Go to testimonial ${index + 1}`}
               />
-            </div>
-            
-            <p className="text-lg font-semibold text-gray-700 italic text-center">
-              "{currentTestimonial.quote}"
-            </p>
-            <div className="mt-4 text-center">
-              <h4 className="text-base font-bold text-gray-900">{currentTestimonial.name}</h4>
-              <p className="text-sm text-gray-500">{currentTestimonial.location}</p>
-            </div>
-          </div>
-          
-          {/* Navigation arrows */}
-          <div className="flex items-center justify-center mt-8 gap-4">
-            <button 
-              onClick={prevTestimonial}
-              className="p-3 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-all duration-200 hover:shadow-xl"
-              aria-label="Previous testimonial"
-            >
-              <ChevronLeft className="w-5 h-5 text-gray-600" />
-            </button>
-            
-            <div className="flex space-x-2">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentTestimonialIndex(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentTestimonialIndex ? 'bg-green-500 scale-125' : 'bg-gray-300 hover:bg-gray-400'
-                  }`}
-                  aria-label={`Go to testimonial ${index + 1}`}
-                ></button>
-              ))}
-            </div>
-            
-            <button 
-              onClick={nextTestimonial}
-              className="p-3 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-all duration-200 hover:shadow-xl"
-              aria-label="Next testimonial"
-            >
-              <ChevronRight className="w-5 h-5 text-gray-600" />
-            </button>
+            ))}
           </div>
         </div>
       </div>

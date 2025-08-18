@@ -75,7 +75,10 @@ const Index = () => {
                     className="w-full h-full object-contain rounded-lg"
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
-                      e.currentTarget.nextElementSibling.style.display = 'block';
+                      const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                      if (nextElement) {
+                        nextElement.style.display = 'block';
+                      }
                     }}
                   />
                   <span className="text-gray-400 text-sm hidden">
