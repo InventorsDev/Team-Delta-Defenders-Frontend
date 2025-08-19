@@ -17,19 +17,19 @@ const testimonials = [
   {
     quote: "Since I joined AgriLink, I no dey struggle to find buyers for my tomatoes. I just list my tomatoes, and people dey message me sharp sharp.",
     imageSrc: image1,
-    name: "Chinelo, Tomato Farmer",
+    name: "Tunde, Restaurant Owner",
     location: "Enugu",
   },
   {
     quote: "AgriLink made it so easy for me to find fresh produce directly from the source. The quality is top-notch and the prices are fair. Highly recommended!",
     imageSrc: image2,
-    name: "Tunde, Restaurant Owner",
+    name: "Chinelo, Tomato Farmer",
     location: "Lagos",
   },
   {
     quote: "This platform has revolutionized how I sell my yams. I can now reach a wider market and get better prices without a middleman.",
     imageSrc: image3,
-    name: "Aisha, Yam Farmer",
+    name: "Luke, Yam Farmer",
     location: "Oyo",
   },
   {
@@ -110,10 +110,7 @@ const TestimonialsSection = () => {
                   borderRadius: '40px',
                   opacity: 1,
                   background: 'var(--brand-colors-SproutGreen, rgba(132, 198, 44, 1))',
-                  paddingTop: '10px',
-                  paddingRight: '15px',
-                  paddingBottom: '10px',
-                  paddingLeft: '15px',
+                  padding: '0',
                   transform: 'rotate(0deg)'
                 }}
                 aria-label="Previous testimonial"
@@ -138,10 +135,7 @@ const TestimonialsSection = () => {
                   borderRadius: '40px',
                   opacity: 1,
                   background: 'var(--brand-colors-SproutGreen, rgba(132, 198, 44, 1))',
-                  paddingTop: '10px',
-                  paddingRight: '15px',
-                  paddingBottom: '10px',
-                  paddingLeft: '15px',
+                  padding: '0',
                   transform: 'rotate(0deg)'
                 }}
                 aria-label="Next testimonial"

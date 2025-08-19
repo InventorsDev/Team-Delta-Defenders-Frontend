@@ -74,7 +74,7 @@ const FAQSection = () => {
       <div className="container mx-auto px-4 sm:px-6 md:px-8 grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
         {/* Left Column: Heading and Image */}
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
-          <div className="w-16 sm:w-20 h-1 bg-green-500 rounded-full mb-4"></div>
+          <div className="w-16 sm:w-20 md:w-24 h-2 mb-2 bg-green-500 rounded-full"></div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">
             Got Questions? We've Got <br className="hidden sm:block" />Answers.
           </h2>

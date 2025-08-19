@@ -1,10 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, X } from "lucide-react";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 100;
+      setScrolled(isScrolled);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navLinks = [
     { name: "How It Works", href: "#how-it-works" },
@@ -15,8 +26,16 @@ const Header = () => {
 
   return (
     <header 
-      className="backdrop-blur-md border-b border-white/10 sticky top-0 z-50 shadow-lg"
-      style={{ background: 'var(--brand-colors-SproutGreen, hsla(86, 64%, 47%, 1))' }}
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled 
+          ? 'backdrop-blur-md border-b border-white/10 shadow-lg' 
+          : 'border-b border-transparent shadow-none'
+      }`}
+      style={{ 
+        background: scrolled 
+          ? 'rgba(255, 255, 255, 0.1)' 
+          : 'var(--brand-colors-HarvestMist, rgba(228, 253, 225, 1))'
+      }}
     >
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-16">
