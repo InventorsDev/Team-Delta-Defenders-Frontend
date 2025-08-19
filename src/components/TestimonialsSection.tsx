@@ -100,35 +100,61 @@ const TestimonialsSection = () => {
             </div>
             
             {/* Navigation buttons */}
-            <div className="flex gap-2 sm:gap-3 self-end sm:self-auto">
+            <div className="flex self-end sm:self-auto" style={{ gap: '10px' }}>
               <button 
                 onClick={prevTestimonial}
                 className="flex items-center justify-center shadow-lg hover:opacity-90 transition-all duration-200 hover:shadow-xl"
                 style={{
-                  width: '50px',
-                  height: '50px',
-                  borderRadius: '25px',
+                  width: '70px',
+                  height: '70px',
+                  borderRadius: '40px',
                   opacity: 1,
-                  background: 'var(--brand-colors-SproutGreen, rgba(132, 198, 44, 1))'
+                  background: 'var(--brand-colors-SproutGreen, rgba(132, 198, 44, 1))',
+                  paddingTop: '10px',
+                  paddingRight: '15px',
+                  paddingBottom: '10px',
+                  paddingLeft: '15px',
+                  transform: 'rotate(0deg)'
                 }}
                 aria-label="Previous testimonial"
               >
-                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                <img 
+                  src="/chevron-left.svg" 
+                  alt="Previous" 
+                  style={{ 
+                    width: '100%', 
+                    height: '100%', 
+                    objectFit: 'contain' 
+                  }} 
+                />
               </button>
               
               <button 
                 onClick={nextTestimonial}
                 className="flex items-center justify-center shadow-lg hover:opacity-90 transition-all duration-200 hover:shadow-xl"
                 style={{
-                  width: '50px',
-                  height: '50px',
-                  borderRadius: '25px',
+                  width: '70px',
+                  height: '70px',
+                  borderRadius: '40px',
                   opacity: 1,
-                  background: 'var(--brand-colors-SproutGreen, rgba(132, 198, 44, 1))'
+                  background: 'var(--brand-colors-SproutGreen, rgba(132, 198, 44, 1))',
+                  paddingTop: '10px',
+                  paddingRight: '15px',
+                  paddingBottom: '10px',
+                  paddingLeft: '15px',
+                  transform: 'rotate(0deg)'
                 }}
                 aria-label="Next testimonial"
               >
-                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                <img 
+                  src="/chevron-right.svg" 
+                  alt="Next" 
+                  style={{ 
+                    width: '100%', 
+                    height: '100%', 
+                    objectFit: 'contain' 
+                  }} 
+                />
               </button>
             </div>
           </div>
