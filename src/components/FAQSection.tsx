@@ -20,10 +20,12 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, onClick }) 
         <h4 className="text-base sm:text-lg font-semibold text-gray-800">
           {question}
         </h4>
-        <span className={`text-green-500 transform transition-transform duration-300 flex-shrink-0 ${isOpen ? 'rotate-180' : 'rotate-0'}`}>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M7 10l5 5 5-5z" />
-          </svg>
+        <span className="flex-shrink-0">
+          <img 
+            src={isOpen ? "/chevron-down.svg" : "/chevron-up.svg"}
+            alt={isOpen ? "Close answer" : "Open answer"}
+            className="h-5 w-5 sm:h-6 sm:w-6"
+          />
         </span>
       </button>
       <div 
