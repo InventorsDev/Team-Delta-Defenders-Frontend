@@ -103,6 +103,15 @@ const SolutionSection = () => {
                 style={{
                   aspectRatio: '587/730',
                 }}
+                onError={(e) => {
+                  console.error('Solution image failed to load:', e);
+                  const target = e.target as HTMLImageElement;
+                  target.style.backgroundColor = '#f3f4f6';
+                  target.alt = 'Solution image not available';
+                }}
+                onLoad={() => {
+                  console.log('Solution image loaded successfully');
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-3xl"></div>
             </div>

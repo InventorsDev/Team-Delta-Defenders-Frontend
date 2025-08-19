@@ -11,12 +11,6 @@ import image2 from '/image2.png';
 import image3 from '/image3.png';
 import image4 from '/image4.png';
 import image5 from '/image5.png';
-import image6 from '/image6.png';
-import image7 from '/image7.png';
-import image8 from '/image8.png';
-import image9 from '/image9.png';
-import image10 from '/image10.png';
-import image11 from '/image11.png';
 
 
 const testimonials = [
@@ -49,42 +43,6 @@ const testimonials = [
     imageSrc: image5,
     name: "Grace, Hotel Owner",
     location: "Abuja",
-  },
-  {
-    quote: "My pepper business don blow since I join this platform. Buyers dey come directly, and I dey sell everything fast fast.",
-    imageSrc: image6,
-    name: "Emeka, Pepper Farmer",
-    location: "Anambra",
-  },
-  {
-    quote: "This app changed my farming game completely. I now have steady buyers for my plantains and the payments are prompt.",
-    imageSrc: image7,
-    name: "Folake, Plantain Farmer",
-    location: "Osun",
-  },
-  {
-    quote: "AgriLink has been a blessing to my catering business. I get fresh ingredients directly from farmers at great prices.",
-    imageSrc: image8,
-    name: "Samuel, Caterer",
-    location: "Rivers",
-  },
-  {
-    quote: "Before AgriLink, selling my maize was stressful. Now I have multiple buyers contacting me directly. Very convenient!",
-    imageSrc: image9,
-    name: "Fatima, Maize Farmer",
-    location: "Kaduna",
-  },
-  {
-    quote: "My supermarket now gets the freshest produce directly from farms. Customers are happy and my profit margins improved.",
-    imageSrc: image10,
-    name: "David, Supermarket Owner",
-    location: "Ogun",
-  },
-  {
-    quote: "This platform don help my okra farming business. I dey get orders even before harvest. God bless AgriLink!",
-    imageSrc: image11,
-    name: "Mary, Okra Farmer",
-    location: "Cross River",
   },
 ];
 

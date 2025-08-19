@@ -63,7 +63,7 @@ const Index = () => {
                   className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-white/60 rounded-lg shadow-sm flex items-center justify-center border-2 border-dashed border-gray-300"
                 >
                   <img 
-                    src={`/partner-${index + 1}.png`}
+                    src={index < 4 ? `/partner-${index + 1}.svg` : `/partner-${index + 1}.png`}
                     alt={`Partner ${index + 1}`}
                     className="w-full h-full object-contain rounded-lg"
                     onError={(e) => {
