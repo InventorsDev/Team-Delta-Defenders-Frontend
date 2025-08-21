@@ -10,8 +10,8 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    base: '/<Team-Delta-Defenders-Frontend>/
   ],
+  base: '/Team-Delta-Defenders-Frontend/',
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
