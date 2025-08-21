@@ -10,6 +10,7 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
+    base: '/<Team-Delta-Defenders-Frontend>/
   ],
   resolve: {
     alias: {
