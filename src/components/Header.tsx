@@ -71,7 +71,7 @@ const Header = () => {
               <a
                 key={link.name}
                 href={link.href}
-                className="hover:text-primary transition-colors"
+                className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors"
                 style={{
                   color: 'var(--brand-colors-RootBlack, hsla(86, 78%, 8%, 1))',
                   fontFamily: 'MadaniArabic-Bold',
@@ -89,9 +89,8 @@ const Header = () => {
           </nav>
           <div className="hidden md:flex items-center">
             <Button 
-              className="bg-primary text-primary-foreground transition-colors duration-200"
+              className="bg-primary text-primary-foreground hover:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors duration-200"
               style={{ 
-                '--hover-bg': 'var(--brand-colors-SoilBlush, hsla(15, 38%, 72%, 1))',
                 fontFamily: 'MadaniArabic-Bold',
                 fontWeight: 400,
                 fontStyle: 'normal',
@@ -112,12 +111,6 @@ const Header = () => {
                 transform: 'rotate(0deg)',
                 opacity: 1
               } as React.CSSProperties}
-              onMouseEnter={(e) => {
-                (e.target as HTMLElement).style.backgroundColor = 'var(--brand-colors-SoilBlush, hsla(15, 38%, 72%, 1))';
-              }}
-              onMouseLeave={(e) => {
-                (e.target as HTMLElement).style.backgroundColor = '';
-              }}
             >
               Log In
             </Button>
@@ -136,7 +129,7 @@ const Header = () => {
                   <a
                     key={link.name}
                     href={link.href}
-                    className="text-foreground hover:text-primary transition-colors"
+                    className="text-foreground hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors"
                     style={{
                       fontFamily: 'Montserrat, MadaniArabic-Bold, sans-serif',
                       fontWeight: 400,
@@ -150,7 +143,7 @@ const Header = () => {
                   </a>
                 ))}
                 <Button 
-                  className="bg-primary text-primary-foreground mt-4 transition-colors duration-200"
+                  className="bg-primary text-primary-foreground hover:bg-[hsl(var(--brand-colors-SoilBlush))] mt-4 transition-colors duration-200"
                   style={{
                     fontFamily: 'MadaniArabic-Bold',
                     fontWeight: 400,
@@ -171,12 +164,6 @@ const Header = () => {
                     gap: '10px',
                     transform: 'rotate(0deg)',
                     opacity: 1
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.target as HTMLElement).style.backgroundColor = 'var(--brand-colors-SoilBlush, hsla(15, 38%, 72%, 1))';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.target as HTMLElement).style.backgroundColor = '';
                   }}
                 >
                   Log In

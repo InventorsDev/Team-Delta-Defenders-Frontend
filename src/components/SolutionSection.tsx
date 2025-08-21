@@ -66,26 +66,14 @@ const SolutionSection = () => {
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-4 sm:mt-6">
                 <Button 
                   size="lg" 
-                  className="bg-primary text-primary-foreground text-base sm:text-lg px-6 sm:px-8 py-3 w-full sm:w-auto transition-colors duration-200"
-                  onMouseEnter={(e) => {
-                    (e.target as HTMLElement).style.backgroundColor = 'var(--brand-colors-SoilBlush, hsla(15, 38%, 72%, 1))';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.target as HTMLElement).style.backgroundColor = '';
-                  }}
+                  className="bg-primary text-primary-foreground hover:bg-[hsl(var(--brand-colors-SoilBlush))] text-base sm:text-lg px-6 sm:px-8 py-3 w-full sm:w-auto transition-colors duration-200"
                 >
                   Farmers Sign Up
                 </Button>
                 <Button 
                   variant="outline" 
                   size="lg"
-                  className="text-black border-primary text-base sm:text-lg px-6 sm:px-8 py-3 w-full sm:w-auto transition-colors duration-200"
-                  onMouseEnter={(e) => {
-                    (e.target as HTMLElement).style.backgroundColor = 'var(--brand-colors-SoilBlush, hsla(15, 38%, 72%, 1))';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.target as HTMLElement).style.backgroundColor = '';
-                  }}
+                  className="text-black border-primary hover:bg-[hsl(var(--brand-colors-SoilBlush))] hover:text-white text-base sm:text-lg px-6 sm:px-8 py-3 w-full sm:w-auto transition-colors duration-200"
                 >
                   Buyers Sign Up
                 </Button>

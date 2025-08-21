@@ -43,27 +43,15 @@ const CTASection = () => {
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
               <Button 
                 size="lg" 
-                className="bg-primary text-primary-foreground text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-full w-full sm:w-auto transition-colors duration-200"
-                onMouseEnter={(e) => {
-                  (e.target as HTMLElement).style.backgroundColor = 'var(--brand-colors-SoilBlush, hsla(15, 38%, 72%, 1))';
-                }}
-                onMouseLeave={(e) => {
-                  (e.target as HTMLElement).style.backgroundColor = '';
-                }}
+                className="bg-primary text-primary-foreground hover:bg-[hsl(var(--brand-colors-SoilBlush))] text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-full w-full sm:w-auto transition-colors duration-200"
               >
                 Farmers Sign Up
               </Button>
               <Button 
                 variant="outline" 
                 size="lg"
-                className="text-black text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-full border-none w-full sm:w-auto transition-colors duration-200"
+                className="text-black hover:bg-[hsl(var(--brand-colors-SoilBlush))] hover:text-white text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-full border-none w-full sm:w-auto transition-colors duration-200"
                 style={{ background: 'rgba(228, 253, 225, 1)' }}
-                onMouseEnter={(e) => {
-                  (e.target as HTMLElement).style.backgroundColor = 'var(--brand-colors-SoilBlush, hsla(15, 38%, 72%, 1))';
-                }}
-                onMouseLeave={(e) => {
-                  (e.target as HTMLElement).style.backgroundColor = 'rgba(228, 253, 225, 1)';
-                }}
               >
                 Buyers Sign Up
               </Button>
