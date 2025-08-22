@@ -12,7 +12,7 @@ interface FAQItemProps {
 
 const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, onClick }) => {
   return (
-    <div className="border-b border-green-200 py-3 sm:py-4">
+    <div className="border-b border-[hsl(var(--brand-colors-SproutGreen))] py-3 sm:py-4">
       <button
         className="flex justify-between items-center w-full text-left gap-3 hover:bg-[hsl(var(--brand-colors-SoilBlush))] hover:text-white transition-colors rounded-lg p-2 -m-2"
         onClick={onClick}
@@ -70,11 +70,11 @@ const FAQSection = () => {
   ];
 
   return (
-    <section id="faq" className="py-12 sm:py-16 bg-white">
+    <section id="faq" className="py-12 sm:py-16" style={{ background: 'hsl(var(--brand-colors-SteamWhite, 0 0% 100%))' }}>
       <div className="container mx-auto px-4 sm:px-6 md:px-8 grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
         {/* Left Column: Heading and Image */}
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
-          <div className="w-16 sm:w-20 md:w-24 h-2 mb-2 bg-green-500 rounded-full"></div>
+          <div className="w-16 sm:w-20 md:w-24 h-2 mb-2 bg-[hsl(var(--brand-colors-SproutGreen))] rounded-full"></div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">
             Got Questions? We've Got <br className="hidden sm:block" />Answers.
           </h2>

@@ -10,7 +10,7 @@ const CTASection = () => {
           alt="Nigerian farmland landscape"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[hsl(120,65%,20%)]/60 to-[hsl(120,65%,25%)]/60"></div>
+        <div className="absolute inset-0" style={{ background: 'hsla(0, 0%, 0%, 0.5)' }}></div>
       </div>
 
       {/* Content */}
@@ -33,7 +33,7 @@ const CTASection = () => {
             
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
               Why Wait? Start Connecting & Trading 
-              <span className="text-green-300"> Smarter Today.</span>
+              <span className="text-[hsl(var(--brand-colors-SproutGreen))]"> Smarter Today.</span>
             </h2>
             
             <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">

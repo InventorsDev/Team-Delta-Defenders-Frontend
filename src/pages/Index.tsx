@@ -28,7 +28,7 @@ const Index = () => {
             paddingRight: '16px',
             borderRadius: '20px',
             opacity: 1,
-            background: 'var(--brand-colors-HarvestMist, rgba(228, 253, 225, 1))'
+            background: 'hsl(var(--brand-colors-HarvestMist, 114 88% 94%))'
           }}
         >
           {/* Partners Section */}

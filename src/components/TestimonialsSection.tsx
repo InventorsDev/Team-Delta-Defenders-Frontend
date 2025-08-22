@@ -84,7 +84,7 @@ const TestimonialsSection = () => {
   const currentTestimonial = testimonials[currentTestimonialIndex];
 
   return (
-    <section className="bg-white relative overflow-hidden">
+    <section className="relative overflow-hidden" style={{ background: 'hsl(var(--brand-colors-SteamWhite, 0 0% 100%))' }}>
       {/* Main Layout Container */}
       <div 
         className="flex flex-col items-center text-center py-8 sm:py-12 md:py-16 px-4 sm:px-6 md:px-8"
@@ -93,7 +93,7 @@ const TestimonialsSection = () => {
         <div className="w-full">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="text-left">
-              <div className="w-16 sm:w-20 md:w-24 h-2 mb-2 bg-green-500 rounded-full"></div>
+              <div className="w-16 sm:w-20 md:w-24 h-2 mb-2 bg-[hsl(var(--brand-colors-SproutGreen))] rounded-full"></div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">
                 Trusted by Farmers and Buyers <br className="hidden sm:block" /> Across Nigeria
               </h2>
@@ -184,7 +184,7 @@ const TestimonialsSection = () => {
                 key={index}
                 onClick={() => setCurrentTestimonialIndex(index)}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentTestimonialIndex ? 'bg-green-500 scale-125' : 'bg-gray-300 hover:bg-[hsl(var(--brand-colors-SoilBlush))]'
+                  index === currentTestimonialIndex ? 'bg-[hsl(var(--brand-colors-SproutGreen))] scale-125' : 'bg-gray-300 hover:bg-[hsl(var(--brand-colors-SoilBlush))]'
                 }`}
                 aria-label={`Go to testimonial ${index + 1}`}
               />

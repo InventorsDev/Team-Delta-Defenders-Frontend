@@ -8,7 +8,7 @@ const FeatureCard = ({ title, description, number }) => {
         borderRadius: '30px',
         opacity: 1,
         transform: 'rotate(0deg)',
-        backgroundColor: '#E4FDE1'
+        background: 'hsl(var(--brand-colors-HarvestMist, 114 88% 94%))'
       }}
     >
       {/* Background logo image */}
@@ -53,10 +53,10 @@ const FeatureCard = ({ title, description, number }) => {
       </span>
       
       <div className="relative z-10">
-        <h3 className="text-lg sm:text-xl font-bold text-gray-800">
+        <h3 className="text-gray-800" style={{ fontFamily: 'MadaniArabic-Bold', fontSize: '24px' }}>
           {title}
         </h3>
-        <p className="mt-2 text-sm sm:text-base text-gray-600">
+        <p className="mt-2 text-gray-600" style={{ fontFamily: 'MadaniArabic-Medium' }}>
           {description}
         </p>
       </div>
@@ -94,15 +94,15 @@ const FeaturesSection = () => {
   ];
 
   return (
-    <section className="py-12 sm:py-16 md:py-20 bg-background" id="benefits">
+    <section className="py-12 sm:py-16 md:py-20" id="benefits" style={{ background: 'hsla(0, 0%, 100%, 1)' }}>
       <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-8">
         <div className="text-center mb-12 sm:mb-16">
           <div className="flex flex-col sm:flex-row items-center justify-center mb-4 gap-2 sm:gap-0">
-            <span className="w-16 sm:w-20 md:w-24 h-2 mb-2 bg-green-500 rounded-full sm:mr-3"></span>
+            <span className="w-16 sm:w-20 md:w-24 h-2 mb-2 bg-[hsl(var(--brand-colors-SproutGreen))] rounded-full sm:mr-3"></span>
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground text-center">
               Everything You Need to Buy and Sell Smarter
             </h2>
-            <span className="w-16 sm:w-20 md:w-24 h-2 mb-2 bg-green-500 rounded-full sm:ml-3"></span>
+            <span className="w-16 sm:w-20 md:w-24 h-2 mb-2 bg-[hsl(var(--brand-colors-SproutGreen))] rounded-full sm:ml-3"></span>
           </div>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
             Our comprehensive platform provides all the tools you need for successful 

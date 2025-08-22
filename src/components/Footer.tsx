@@ -5,7 +5,7 @@ import agrilinkLogo from '/agrilink-logo.png'; // Corrected import for Vite
 
 const Footer = () => {
   return (
-    <footer className="bg-[#0A2600] text-white py-16">
+    <footer className="text-white py-16" style={{ background: 'hsl(var(--brand-colors-RootBlack, 86 78% 8%))' }}>
       {/* Top Section */}
       <div className="container mx-auto px-4 border-b border-gray-700 pb-8 mb-8">
         <div className="text-center md:text-left">
@@ -17,7 +17,7 @@ const Footer = () => {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
             <button 
-              className="bg-green-500 text-white font-bold hover:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors"
+              className="bg-[hsl(var(--brand-colors-SproutGreen))] text-white font-bold hover:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors"
               style={{
                 width: '200px',
                 height: '60px',
@@ -55,7 +55,7 @@ const Footer = () => {
       </div>
 
       {/* Main Footer Content */}
-      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-6 gap-8">
         {/* About Section */}
         <div className="md:col-span-2">
           <h4 className="font-bold text-lg mb-4" style={{ fontFamily: 'MadaniArabic-Bold', fontWeight: 400, fontStyle: 'normal', fontSize: '24px', leadingTrim: 'cap-height', lineHeight: '100%', letterSpacing: '0%' }}>About Agrilink</h4>
@@ -83,9 +83,9 @@ const Footer = () => {
         </div>
 
         {/* Quick Links */}
-        <div>
+        <div className="md:col-span-2 text-center">
           <h4 className="font-bold text-lg mb-4" style={{ fontFamily: 'MadaniArabic-Bold', fontWeight: 400, fontStyle: 'normal', fontSize: '24px', leadingTrim: 'cap-height', lineHeight: '100%', letterSpacing: '0%' }}>Quick Links</h4>
-          <ul className="text-gray-400 text-sm space-y-2">
+          <ul className="text-gray-400 text-sm space-y-2 leading-relaxed" style={{ fontFamily: 'MadaniArabic-Medium', fontWeight: 400, fontStyle: 'normal', fontSize: '14px', leadingTrim: 'cap-height', lineHeight: '24px', letterSpacing: '0%' }}>
             <li><a href="#" className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors">Farmers Sign Up</a></li>
             <li><a href="#" className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors">Buyers Sign Up</a></li>
             <li><a href="#" className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors">How It Works</a></li>
@@ -95,7 +95,7 @@ const Footer = () => {
         </div>
 
         {/* Stay Connected */}
-        <div>
+        <div className="md:col-span-2">
           <h4 className="font-bold text-lg mb-4" style={{ fontFamily: 'MadaniArabic-Bold', fontWeight: 400, fontStyle: 'normal', fontSize: '24px', leadingTrim: 'cap-height', lineHeight: '100%', letterSpacing: '0%' }}>Stay Connected</h4>
           <p className="text-gray-400 text-sm mb-4" style={{ fontFamily: 'MadaniArabic-Medium', fontWeight: 400, fontStyle: 'normal', fontSize: '14px', leadingTrim: 'cap-height', lineHeight: '24px', letterSpacing: '0%' }}>
             Subscribe to get updates when new features or farmer listings go live.
@@ -104,7 +104,7 @@ const Footer = () => {
             <input
               type="email"
               placeholder="Your email"
-              className="text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[hsl(var(--brand-colors-SproutGreen))]"
               style={{
                 width: '280px',
                 height: '50px',
@@ -123,7 +123,7 @@ const Footer = () => {
             />
             <button
               type="submit"
-              className="mt-4 bg-green-500 text-white font-bold hover:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors"
+              className="mt-4 bg-[hsl(var(--brand-colors-SproutGreen))] text-white font-bold hover:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors"
               style={{
                 width: '280px',
                 height: '50px',

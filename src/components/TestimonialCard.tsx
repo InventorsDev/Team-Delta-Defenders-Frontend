@@ -15,7 +15,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
 }) => {
   return (
     <div 
-      className="flex-shrink-0 bg-white overflow-hidden shadow-lg border border-green-200 relative"
+      className="flex-shrink-0 bg-white overflow-hidden shadow-lg border border-[hsl(var(--brand-colors-SproutGreen))] relative"
       style={{
         width: '320px',
         height: '480px',

@@ -3,14 +3,14 @@ import { UserPlus, Search, Handshake, Truck } from "lucide-react";
 const ProcessCard = ({ title, description, number, isWide = false }) => {
   return (
     <div 
-      className={`relative p-4 md:p-6 shadow-md overflow-hidden flex flex-col w-full ${
+      className={`relative p-4 md:p-6 overflow-hidden flex flex-col w-full ${
         isWide ? 'md:w-[757px] lg:w-[757px]' : 'md:w-[535px] lg:w-[535px]'
       } h-auto min-h-[300px] md:min-h-[409px]`}
       style={{
         borderRadius: '20px',
         opacity: 1,
         transform: 'rotate(0deg)',
-        backgroundColor: '#E4FDE1'
+        background: 'hsl(var(--brand-colors-SteamWhite, 0 0% 100%))'
       }}
     >
       {/* Background logo image */}
@@ -38,10 +38,10 @@ const ProcessCard = ({ title, description, number, isWide = false }) => {
       </span>
       
       <div className="relative z-10">
-        <h3 className="text-lg md:text-xl font-bold text-gray-800 mt-6 md:mt-10">
+        <h3 className="text-gray-800" style={{ fontFamily: 'MadaniArabic-Bold', fontWeight: 400, fontStyle: 'normal', fontSize: '32px', leadingTrim: 'cap-height', lineHeight: '50px', letterSpacing: '0%' }}>
           {title}
         </h3>
-        <p className="mt-2 text-sm md:text-base text-gray-600 leading-relaxed">
+        <p className="mt-2 text-gray-600" style={{ fontFamily: 'MadaniArabic-Medium', fontWeight: 400, fontStyle: 'normal', fontSize: '20px', leadingTrim: 'cap-height', lineHeight: '37px', letterSpacing: '0%' }}>
           {description}
         </p>
       </div>
@@ -74,7 +74,7 @@ const ProcessSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-accent/5" id="how-it-works">
+    <section className="py-20" id="how-it-works" style={{ background: 'hsl(var(--brand-colors-HarvestMist, 114 88% 94%))' }}>
       <div className="container mx-auto px-4 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">

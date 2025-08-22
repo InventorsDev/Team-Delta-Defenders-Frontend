@@ -6,7 +6,7 @@ const Hero = () => {
     <section
       className="text-white py-12 sm:py-16 md:py-20 lg:py-32 relative min-h-screen sm:min-h-[70vh]"
       style={{
-        backgroundImage: `linear-gradient(to bottom, hsl(120, 65%, 20%, 0.3), hsl(120, 65%, 25%, 0.3)), url('/hero-bg.png')`,
+        backgroundImage: `linear-gradient(to bottom, hsl(86, 64%, 20%, 0.3), hsl(86, 64%, 25%, 0.3)), url('/hero-bg.png')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
         backgroundRepeat: 'no-repeat',
@@ -64,7 +64,15 @@ const Hero = () => {
             <Button 
               variant="outline" 
               size="lg"
-              className="text-black border-white hover:bg-[hsl(var(--brand-colors-SoilBlush))] hover:text-white transition-colors duration-200"
+              className="text-black border-white transition-colors duration-200"
+              onMouseEnter={(e) => {
+                e.target.style.background = 'hsl(var(--brand-colors-SoilBlush))';
+                e.target.style.color = 'white';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.background = 'hsl(var(--brand-colors-HarvestMist, 114 88% 94%))';
+                e.target.style.color = 'black';
+              }}
               style={{
                 width: '200px',
                 height: '60px',
@@ -75,7 +83,8 @@ const Hero = () => {
                 paddingTop: '12px',
                 paddingRight: '24px',
                 paddingBottom: '12px',
-                paddingLeft: '24px'
+                paddingLeft: '24px',
+                background: 'hsl(var(--brand-colors-HarvestMist, 114 88% 94%))'
               }}
             >
               Buyers Sign Up
