@@ -1,7 +1,7 @@
 const FeatureCard = ({ title, description, number }) => {
   return (
     <div 
-      className="relative p-4 sm:p-6 shadow-md overflow-hidden flex flex-col w-full max-w-sm mx-auto"
+      className="relative p-4 sm:p-6 shadow-md overflow-visible flex flex-col w-full max-w-sm mx-auto"
       style={{
         minHeight: '280px',
         height: '320px',
@@ -12,25 +12,48 @@ const FeatureCard = ({ title, description, number }) => {
       }}
     >
       {/* Background logo image */}
-      <div className="absolute bottom-4 right-4 w-16 h-16 opacity-30 z-0">
+      <div 
+        className="absolute z-0"
+        style={{
+          width: '120px',
+          height: '120px',
+          bottom: '10px',
+          right: '-30px',
+          opacity: 0.15,
+          border: '6.66px solid var(--brand-colors-SproutGreen, hsla(86, 64%, 47%, 1))',
+          transform: 'rotate(0deg)',
+          borderRadius: '50%'
+        }}
+      >
         <img 
-          src="/agrilink-logo.png" 
+          src="/agrilink-logo-features-card.png" 
           alt="Agrilink Logo Background" 
           className="w-full h-full object-contain"
+          onError={(e) => {
+            console.log('Image failed to load:', e.target.src);
+            e.target.style.backgroundColor = 'red';
+          }}
+          onLoad={() => console.log('Image loaded successfully')}
         />
       </div>
       
       <span 
-        className="absolute bottom-4 left-4 text-6xl font-extrabold text-gray-200 z-0"
-        style={{ 
-          background: 'rgba(24, 38, 5, 0.36)' 
+        className="absolute bottom-4 left-4 z-0"
+        style={{
+          fontFamily: 'Montserrat',
+          fontWeight: 700,
+          fontStyle: 'normal',
+          fontSize: '80px',
+          lineHeight: '60px',
+          letterSpacing: '0%',
+          color: 'hsla(86, 78%, 8%, 0.36)'
         }}
       >
         {number}
       </span>
       
       <div className="relative z-10">
-        <h3 className="text-lg sm:text-xl font-bold text-gray-800 mt-6 sm:mt-10">
+        <h3 className="text-lg sm:text-xl font-bold text-gray-800">
           {title}
         </h3>
         <p className="mt-2 text-sm sm:text-base text-gray-600">

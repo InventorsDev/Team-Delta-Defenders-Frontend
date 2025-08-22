@@ -12,7 +12,7 @@ const Footer = () => {
           <h2 className="mb-6 break-words" style={{ fontFamily: 'MadaniArabic-Bold, sans-serif', fontWeight: 700, fontStyle: 'normal', fontSize: '32px', lineHeight: '50px', letterSpacing: '0%' }}>
             Connecting Farms, Empowering Markets. Join AgriLink NG Today!
           </h2>
-          <p className="text-gray-300 mb-8 break-words" style={{ fontFamily: 'MadaniArabic-Medium, sans-serif', fontWeight: 500, fontStyle: 'normal', fontSize: '20px', lineHeight: '37px', letterSpacing: '0%' }}>
+          <p className="text-gray-300 mb-8 break-words" style={{ fontFamily: 'MadaniArabic-Medium', fontWeight: 400, fontStyle: 'normal', fontSize: '14px', leadingTrim: 'cap-height', lineHeight: '24px', letterSpacing: '0%' }}>
             At Agrilink, we're committed to bridging the gap between farmers and buyers through direct, transparent, and stress-free trade. We're building a smarter agricultural economy, one fresh connection at a time.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
@@ -59,15 +59,25 @@ const Footer = () => {
         {/* About Section */}
         <div className="md:col-span-2">
           <h4 className="font-bold text-lg mb-4" style={{ fontFamily: 'MadaniArabic-Bold', fontWeight: 400, fontStyle: 'normal', fontSize: '24px', leadingTrim: 'cap-height', lineHeight: '100%', letterSpacing: '0%' }}>About Agrilink</h4>
-          <p className="text-gray-400 text-sm leading-relaxed" style={{ fontFamily: 'MadaniArabic-Medium', fontWeight: 400, fontStyle: 'normal', fontSize: '20px', leadingTrim: 'cap-height', lineHeight: '37px', letterSpacing: '0%' }}>
-            AgriLink NG is a digital platform that connects farmers and buyers directly, making it easier to trade fresh produce without middlemen. Simple, fast, and trusted across Nigeria.
+          <p className="text-gray-400 text-sm leading-relaxed" style={{ fontFamily: 'MadaniArabic-Medium', fontWeight: 400, fontStyle: 'normal', fontSize: '14px', leadingTrim: 'cap-height', lineHeight: '24px', letterSpacing: '0%' }}>
+            AgriLink NG is a digital platform that connects<br />
+            farmers and buyers directly, making it easier<br />
+            to trade fresh produce without middlemen.<br />
+            Simple, fast, and trusted<br />
+            across Nigeria.
           </p>
-          <div className="mt-8 flex items-center">
-            {/* Corrected img tag for Vite */}
+          
+          {/* Footer Logo */}
+          <div className="mt-8">
             <img
-              src={agrilinkLogo}
+              src="/Agrilink-logo-light.svg"
               alt="AgriLink Logo"
-              className="w-24 h-auto"
+              style={{
+                width: '186.49px',
+                height: '60px',
+                opacity: 1,
+                transform: 'rotate(0deg)'
+              }}
             />
           </div>
         </div>
@@ -87,18 +97,46 @@ const Footer = () => {
         {/* Stay Connected */}
         <div>
           <h4 className="font-bold text-lg mb-4" style={{ fontFamily: 'MadaniArabic-Bold', fontWeight: 400, fontStyle: 'normal', fontSize: '24px', leadingTrim: 'cap-height', lineHeight: '100%', letterSpacing: '0%' }}>Stay Connected</h4>
-          <p className="text-gray-400 text-sm mb-4" style={{ fontFamily: 'MadaniArabic-Medium', fontWeight: 400, fontStyle: 'normal', fontSize: '20px', leadingTrim: 'cap-height', lineHeight: '37px', letterSpacing: '0%' }}>
+          <p className="text-gray-400 text-sm mb-4" style={{ fontFamily: 'MadaniArabic-Medium', fontWeight: 400, fontStyle: 'normal', fontSize: '14px', leadingTrim: 'cap-height', lineHeight: '24px', letterSpacing: '0%' }}>
             Subscribe to get updates when new features or farmer listings go live.
           </p>
           <form className="flex flex-col">
             <input
               type="email"
               placeholder="Your email"
-              className="p-3 rounded-lg border border-green-500 bg-white-900 text-black placeholder-white focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500"
+              style={{
+                width: '280px',
+                height: '50px',
+                opacity: 1,
+                borderRadius: '25px',
+                gap: '10px',
+                borderWidth: '2px',
+                borderColor: 'var(--brand-colors-SproutGreen, hsla(86, 64%, 47%, 1))',
+                paddingTop: '8px',
+                paddingRight: '20px',
+                paddingBottom: '8px',
+                paddingLeft: '20px',
+                background: 'var(--brand-colors-HarvestMist, hsla(114, 88%, 94%, 1))',
+                transform: 'rotate(0deg)'
+              }}
             />
             <button
               type="submit"
-              className="mt-4 bg-green-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors"
+              className="mt-4 bg-green-500 text-white font-bold hover:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors"
+              style={{
+                width: '280px',
+                height: '50px',
+                minWidth: '200px',
+                opacity: 1,
+                borderRadius: '25px',
+                gap: '10px',
+                paddingTop: '10px',
+                paddingRight: '20px',
+                paddingBottom: '10px',
+                paddingLeft: '20px',
+                transform: 'rotate(0deg)'
+              }}
             >
               Subscribe
             </button>

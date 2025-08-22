@@ -16,16 +16,22 @@ const ProcessCard = ({ title, description, number, isWide = false }) => {
       {/* Background logo image */}
       <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 w-12 h-12 md:w-16 md:h-16 opacity-30 z-0">
         <img 
-          src="/agrilink-logo.png" 
+          src="/agrilink-logo-steps-card.png" 
           alt="Agrilink Logo Background" 
           className="w-full h-full object-contain"
         />
       </div>
       
       <span 
-        className="absolute bottom-2 left-2 md:bottom-4 md:left-4 text-4xl md:text-6xl font-extrabold text-gray-200 z-0"
-        style={{ 
-          background: 'rgba(24, 38, 5, 0.36)' 
+        className="absolute bottom-2 left-2 md:bottom-4 md:left-4 z-0"
+        style={{
+          fontFamily: 'Montserrat',
+          fontWeight: 700,
+          fontStyle: 'normal',
+          fontSize: '80px',
+          lineHeight: '60px',
+          letterSpacing: '0%',
+          color: 'hsla(86, 78%, 8%, 0.36)'
         }}
       >
         {number}

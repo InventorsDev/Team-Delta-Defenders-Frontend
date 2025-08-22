@@ -41,28 +41,11 @@ const Header = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            {/* Logo Placeholder */}
-            <div className="mr-3 flex items-center">
-              <span className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-bold text-xl overflow-hidden">
-                <img
-                  src="/agrilink-logo.png"
-                  alt="Agrilink Logo"
-                  className="w-6 h-6 object-contain"
-                />
-              </span>
-            </div>
-            <span 
-              className="text-primary"
-              style={{
-                fontFamily: 'Montserrat, MadaniArabic-Bold, sans-serif',
-                fontWeight: 700,
-                fontSize: '25.95px',
-                lineHeight: '100%',
-                letterSpacing: '0%'
-              }}
-            >
-              agrilink
-            </span>
+            <img
+              src="/Agrilink-logo-dark.svg"
+              alt="Agrilink Logo"
+              className="h-10 w-auto object-contain ml-4"
+            />
           </div>
 
           {/* Desktop Navigation - Centered */}
