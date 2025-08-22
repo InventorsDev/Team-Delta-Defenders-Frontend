@@ -1,13 +1,12 @@
-import { UserPlus, Search, Handshake, Truck } from "lucide-react";
 
 const ProcessCard = ({ title, description, number, isWide = false }) => {
   return (
     <div 
       className={`relative p-4 md:p-6 overflow-hidden flex flex-col w-full ${
         isWide ? 'md:w-[757px] lg:w-[757px]' : 'md:w-[535px] lg:w-[535px]'
-      } h-auto min-h-[300px] md:min-h-[409px]`}
+      } h-auto min-h-[250px] sm:min-h-[280px] md:min-h-[350px] lg:min-h-[409px]`}
       style={{
-        borderRadius: '20px',
+        borderRadius: '15px',
         opacity: 1,
         transform: 'rotate(0deg)',
         background: 'hsl(var(--brand-colors-SteamWhite, 0 0% 100%))'
@@ -23,13 +22,12 @@ const ProcessCard = ({ title, description, number, isWide = false }) => {
       </div>
       
       <span 
-        className="absolute bottom-2 left-2 md:bottom-4 md:left-4 z-0"
+        className="absolute bottom-2 left-2 md:bottom-4 md:left-4 z-0 text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
         style={{
           fontFamily: 'Montserrat',
           fontWeight: 700,
           fontStyle: 'normal',
-          fontSize: '80px',
-          lineHeight: '60px',
+          lineHeight: '0.8',
           letterSpacing: '0%',
           color: 'hsla(86, 78%, 8%, 0.36)'
         }}
@@ -38,10 +36,10 @@ const ProcessCard = ({ title, description, number, isWide = false }) => {
       </span>
       
       <div className="relative z-10">
-        <h3 className="text-gray-800" style={{ fontFamily: 'MadaniArabic-Bold', fontWeight: 400, fontStyle: 'normal', fontSize: '32px', leadingTrim: 'cap-height', lineHeight: '50px', letterSpacing: '0%' }}>
+        <h3 className="text-gray-800 text-xl md:text-2xl lg:text-3xl" style={{ fontFamily: 'MadaniArabic-Bold', fontWeight: 400, fontStyle: 'normal', lineHeight: '1.4', letterSpacing: '0%' }}>
           {title}
         </h3>
-        <p className="mt-2 text-gray-600" style={{ fontFamily: 'MadaniArabic-Medium', fontWeight: 400, fontStyle: 'normal', fontSize: '20px', leadingTrim: 'cap-height', lineHeight: '37px', letterSpacing: '0%' }}>
+        <p className="mt-2 text-gray-600 text-sm md:text-base lg:text-lg" style={{ fontFamily: 'MadaniArabic-Medium', fontWeight: 400, fontStyle: 'normal', lineHeight: '1.5', letterSpacing: '0%' }}>
           {description}
         </p>
       </div>
@@ -84,7 +82,15 @@ const ProcessSection = () => {
 
         <div className="flex flex-col items-center gap-4">
           {/* Mobile: Stack all cards vertically */}
-          <div className="flex flex-col md:hidden gap-4 w-full max-w-md">
+          <div className="flex flex-col md:hidden gap-4 w-full max-w-sm px-4">
+            <ProcessCard {...steps[0]} />
+            <ProcessCard {...steps[1]} />
+            <ProcessCard {...steps[2]} />
+            <ProcessCard {...steps[3]} />
+          </div>
+          
+          {/* Tablet: Stack all cards vertically with better spacing */}
+          <div className="hidden md:flex lg:hidden flex-col items-center gap-4 w-full max-w-2xl">
             <ProcessCard {...steps[0]} />
             <ProcessCard {...steps[1]} />
             <ProcessCard {...steps[2]} />
@@ -92,7 +98,7 @@ const ProcessSection = () => {
           </div>
           
           {/* Desktop: Two rows with varying widths */}
-          <div className="hidden md:flex flex-col items-center gap-4">
+          <div className="hidden lg:flex flex-col items-center gap-4">
             {/* First Row - Cards 1 & 2 (Card 1 wider) */}
             <div className="flex gap-4">
               <ProcessCard {...steps[0]} isWide={true} />

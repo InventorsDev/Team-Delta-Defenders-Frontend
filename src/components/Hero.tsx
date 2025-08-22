@@ -66,12 +66,12 @@ const Hero = () => {
               size="lg"
               className="text-black border-white transition-colors duration-200"
               onMouseEnter={(e) => {
-                e.target.style.background = 'hsl(var(--brand-colors-SoilBlush))';
-                e.target.style.color = 'white';
+                (e.target as HTMLElement).style.background = 'hsl(var(--brand-colors-SoilBlush))';
+                (e.target as HTMLElement).style.color = 'white';
               }}
               onMouseLeave={(e) => {
-                e.target.style.background = 'hsl(var(--brand-colors-HarvestMist, 114 88% 94%))';
-                e.target.style.color = 'black';
+                (e.target as HTMLElement).style.background = 'hsl(var(--brand-colors-HarvestMist, 114 88% 94%))';
+                (e.target as HTMLElement).style.color = 'black';
               }}
               style={{
                 width: '200px',

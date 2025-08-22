@@ -17,7 +17,7 @@ const Footer = () => {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
             <button 
-              className="bg-[hsl(var(--brand-colors-SproutGreen))] text-white font-bold hover:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors"
+              className="bg-[hsl(var(--brand-colors-SproutGreen))] text-white font-bold hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors"
               style={{
                 width: '200px',
                 height: '60px',
@@ -34,7 +34,7 @@ const Footer = () => {
               Farmers Sign Up
             </button>
             <button 
-              className="bg-gray-200 text-gray-900 font-bold hover:bg-[hsl(var(--brand-colors-SoilBlush))] hover:text-white transition-colors"
+              className="bg-gray-200 text-gray-900 font-bold hover:bg-[hsl(var(--brand-colors-SoilBlush))] hover:text-white active:bg-[hsl(var(--brand-colors-SoilBlush))] active:text-white transition-colors"
               style={{
                 width: '200px',
                 height: '60px',
@@ -57,7 +57,7 @@ const Footer = () => {
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-6 gap-8">
         {/* About Section */}
-        <div className="md:col-span-2">
+        <div className="md:col-span-2 text-center md:text-left">
           <h4 className="font-bold text-lg mb-4" style={{ fontFamily: 'MadaniArabic-Bold', fontWeight: 400, fontStyle: 'normal', fontSize: '24px', leadingTrim: 'cap-height', lineHeight: '100%', letterSpacing: '0%' }}>About Agrilink</h4>
           <p className="text-gray-400 text-sm leading-relaxed" style={{ fontFamily: 'MadaniArabic-Medium', fontWeight: 400, fontStyle: 'normal', fontSize: '14px', leadingTrim: 'cap-height', lineHeight: '24px', letterSpacing: '0%' }}>
             AgriLink NG is a digital platform that connects<br />
@@ -68,7 +68,7 @@ const Footer = () => {
           </p>
           
           {/* Footer Logo */}
-          <div className="mt-8">
+          <div className="mt-8 flex justify-center md:justify-start">
             <img
               src="/Agrilink-logo-light.svg"
               alt="AgriLink Logo"
@@ -95,12 +95,12 @@ const Footer = () => {
         </div>
 
         {/* Stay Connected */}
-        <div className="md:col-span-2">
+        <div className="md:col-span-2 text-center md:text-left">
           <h4 className="font-bold text-lg mb-4" style={{ fontFamily: 'MadaniArabic-Bold', fontWeight: 400, fontStyle: 'normal', fontSize: '24px', leadingTrim: 'cap-height', lineHeight: '100%', letterSpacing: '0%' }}>Stay Connected</h4>
           <p className="text-gray-400 text-sm mb-4" style={{ fontFamily: 'MadaniArabic-Medium', fontWeight: 400, fontStyle: 'normal', fontSize: '14px', leadingTrim: 'cap-height', lineHeight: '24px', letterSpacing: '0%' }}>
             Subscribe to get updates when new features or farmer listings go live.
           </p>
-          <form className="flex flex-col">
+          <form className="flex flex-col items-center md:items-start">
             <input
               type="email"
               placeholder="Your email"
@@ -117,13 +117,13 @@ const Footer = () => {
                 paddingRight: '20px',
                 paddingBottom: '8px',
                 paddingLeft: '20px',
-                background: 'var(--brand-colors-HarvestMist, hsla(114, 88%, 94%, 1))',
+                background: 'hsl(var(--brand-colors-HarvestMist, 114 88% 94%))',
                 transform: 'rotate(0deg)'
               }}
             />
             <button
               type="submit"
-              className="mt-4 bg-[hsl(var(--brand-colors-SproutGreen))] text-white font-bold hover:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors"
+              className="mt-4 bg-[hsl(var(--brand-colors-SproutGreen))] text-white font-bold hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors"
               style={{
                 width: '280px',
                 height: '50px',
@@ -141,36 +141,36 @@ const Footer = () => {
               Subscribe
             </button>
           </form>
-          <div className="flex space-x-4 mt-8">
-            <a href="#" aria-label="Facebook" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors">
+          <div className="flex space-x-4 mt-8 justify-center md:justify-start">
+            <a href="#" aria-label="Facebook" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors">
               <img 
                 src="/facebook-fill 2.svg" 
                 alt="Facebook" 
                 className="w-5 h-5"
               />
             </a>
-            <a href="#" aria-label="X" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors">
+            <a href="#" aria-label="X" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors">
               <img 
                 src="/X-icon.svg" 
                 alt="X (Twitter)" 
                 className="w-5 h-5"
               />
             </a>
-            <a href="#" aria-label="LinkedIn" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors">
+            <a href="#" aria-label="LinkedIn" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors">
               <img 
                 src="/linkedin-icon.svg" 
                 alt="LinkedIn" 
                 className="w-5 h-5"
               />
             </a>
-            <a href="#" aria-label="Instagram" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors">
+            <a href="#" aria-label="Instagram" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors">
               <img 
                 src="/Instagram-icon.svg" 
                 alt="Instagram" 
                 className="w-5 h-5"
               />
             </a>
-            <a href="#" aria-label="YouTube" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors">
+            <a href="#" aria-label="YouTube" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors">
               <img 
                 src="/Youtube-icon.svg" 
                 alt="YouTube" 
