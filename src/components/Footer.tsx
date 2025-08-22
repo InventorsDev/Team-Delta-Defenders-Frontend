@@ -17,12 +17,36 @@ const Footer = () => {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
             <button 
-              className="bg-green-500 text-white font-bold py-3 px-6 rounded-xl hover:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors w-full sm:w-auto"
+              className="bg-green-500 text-white font-bold hover:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors"
+              style={{
+                width: '200px',
+                height: '60px',
+                minWidth: '200px',
+                gap: '10px',
+                opacity: 1,
+                borderRadius: '30px',
+                paddingTop: '12px',
+                paddingRight: '24px',
+                paddingBottom: '12px',
+                paddingLeft: '24px'
+              }}
             >
               Farmers Sign Up
             </button>
             <button 
-              className="bg-gray-200 text-gray-900 font-bold py-3 px-6 rounded-xl hover:bg-[hsl(var(--brand-colors-SoilBlush))] hover:text-white transition-colors w-full sm:w-auto"
+              className="bg-gray-200 text-gray-900 font-bold hover:bg-[hsl(var(--brand-colors-SoilBlush))] hover:text-white transition-colors"
+              style={{
+                width: '200px',
+                height: '60px',
+                minWidth: '200px',
+                gap: '10px',
+                opacity: 1,
+                borderRadius: '30px',
+                paddingTop: '12px',
+                paddingRight: '24px',
+                paddingBottom: '12px',
+                paddingLeft: '24px'
+              }}
             >
               Buyers Sign Up
             </button>
@@ -34,8 +58,8 @@ const Footer = () => {
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* About Section */}
         <div className="md:col-span-2">
-          <h4 className="font-bold text-lg mb-4">About Agrilink</h4>
-          <p className="text-gray-400 text-sm leading-relaxed">
+          <h4 className="font-bold text-lg mb-4" style={{ fontFamily: 'MadaniArabic-Bold', fontWeight: 400, fontStyle: 'normal', fontSize: '24px', leadingTrim: 'cap-height', lineHeight: '100%', letterSpacing: '0%' }}>About Agrilink</h4>
+          <p className="text-gray-400 text-sm leading-relaxed" style={{ fontFamily: 'MadaniArabic-Medium', fontWeight: 400, fontStyle: 'normal', fontSize: '20px', leadingTrim: 'cap-height', lineHeight: '37px', letterSpacing: '0%' }}>
             AgriLink NG is a digital platform that connects farmers and buyers directly, making it easier to trade fresh produce without middlemen. Simple, fast, and trusted across Nigeria.
           </p>
           <div className="mt-8 flex items-center">
@@ -50,7 +74,7 @@ const Footer = () => {
 
         {/* Quick Links */}
         <div>
-          <h4 className="font-bold text-lg mb-4">Quick Links</h4>
+          <h4 className="font-bold text-lg mb-4" style={{ fontFamily: 'MadaniArabic-Bold', fontWeight: 400, fontStyle: 'normal', fontSize: '24px', leadingTrim: 'cap-height', lineHeight: '100%', letterSpacing: '0%' }}>Quick Links</h4>
           <ul className="text-gray-400 text-sm space-y-2">
             <li><a href="#" className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors">Farmers Sign Up</a></li>
             <li><a href="#" className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors">Buyers Sign Up</a></li>
@@ -62,15 +86,8 @@ const Footer = () => {
 
         {/* Stay Connected */}
         <div>
-          <h4 className="font-bold text-lg mb-4">Stay Connected</h4>
-          <p className="text-gray-400 text-sm mb-4"
-          style={{
-                fontFamily: 'Montserrat, MadaniArabic-Medium, sans-serif',
-                fontWeight: 400,
-                fontSize: '15px',
-                lineHeight: '37px',
-                letterSpacing: '0%'
-              }}>
+          <h4 className="font-bold text-lg mb-4" style={{ fontFamily: 'MadaniArabic-Bold', fontWeight: 400, fontStyle: 'normal', fontSize: '24px', leadingTrim: 'cap-height', lineHeight: '100%', letterSpacing: '0%' }}>Stay Connected</h4>
+          <p className="text-gray-400 text-sm mb-4" style={{ fontFamily: 'MadaniArabic-Medium', fontWeight: 400, fontStyle: 'normal', fontSize: '20px', leadingTrim: 'cap-height', lineHeight: '37px', letterSpacing: '0%' }}>
             Subscribe to get updates when new features or farmer listings go live.
           </p>
           <form className="flex flex-col">

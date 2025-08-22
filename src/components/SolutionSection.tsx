@@ -66,14 +66,38 @@ const SolutionSection = () => {
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-4 sm:mt-6">
                 <Button 
                   size="lg" 
-                  className="bg-primary text-primary-foreground hover:bg-[hsl(var(--brand-colors-SoilBlush))] text-base sm:text-lg px-6 sm:px-8 py-3 w-full sm:w-auto transition-colors duration-200"
+                  className="bg-primary text-primary-foreground hover:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors duration-200"
+                  style={{
+                    width: '200px',
+                    height: '60px',
+                    minWidth: '200px',
+                    gap: '10px',
+                    opacity: 1,
+                    borderRadius: '30px',
+                    paddingTop: '12px',
+                    paddingRight: '24px',
+                    paddingBottom: '12px',
+                    paddingLeft: '24px'
+                  }}
                 >
                   Farmers Sign Up
                 </Button>
                 <Button 
                   variant="outline" 
                   size="lg"
-                  className="text-black border-primary hover:bg-[hsl(var(--brand-colors-SoilBlush))] hover:text-white text-base sm:text-lg px-6 sm:px-8 py-3 w-full sm:w-auto transition-colors duration-200"
+                  className="text-black border-primary hover:bg-[hsl(var(--brand-colors-SoilBlush))] hover:text-white transition-colors duration-200"
+                  style={{
+                    width: '200px',
+                    height: '60px',
+                    minWidth: '200px',
+                    gap: '10px',
+                    opacity: 1,
+                    borderRadius: '30px',
+                    paddingTop: '12px',
+                    paddingRight: '24px',
+                    paddingBottom: '12px',
+                    paddingLeft: '24px'
+                  }}
                 >
                   Buyers Sign Up
                 </Button>
