@@ -4,11 +4,13 @@ const Hero = () => {
 
   return (
     <section
-      className="text-white py-12 sm:py-16 md:py-20 lg:py-32 relative"
+      className="text-white py-12 sm:py-16 md:py-20 lg:py-32 relative min-h-screen sm:min-h-[70vh]"
       style={{
         backgroundImage: `linear-gradient(to bottom, hsl(120, 65%, 20%, 0.3), hsl(120, 65%, 25%, 0.3)), url('/hero-bg.png')`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'scroll',
         backgroundBlendMode: 'overlay'
       }}
     >
@@ -40,7 +42,7 @@ const Hero = () => {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-12">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-12 items-center sm:items-start">
             <Button 
               size="lg" 
               className="bg-primary text-primary-foreground hover:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors duration-200"
