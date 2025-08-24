@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
 
@@ -43,52 +44,56 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-12 items-center sm:items-start">
-            <Button 
-              size="lg" 
-              className="bg-primary text-primary-foreground hover:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors duration-200"
-              style={{
-                width: '200px',
-                height: '60px',
-                minWidth: '200px',
-                gap: '10px',
-                opacity: 1,
-                borderRadius: '30px',
-                paddingTop: '12px',
-                paddingRight: '24px',
-                paddingBottom: '12px',
-                paddingLeft: '24px'
-              }}
-            >
-              Farmers Sign Up
-            </Button>
-            <Button 
-              variant="outline" 
-              size="lg"
-              className="text-black border-white transition-colors duration-200"
-              onMouseEnter={(e) => {
-                (e.target as HTMLElement).style.background = 'hsl(var(--brand-colors-SoilBlush))';
-                (e.target as HTMLElement).style.color = 'white';
-              }}
-              onMouseLeave={(e) => {
-                (e.target as HTMLElement).style.background = 'hsl(var(--brand-colors-HarvestMist, 114 88% 94%))';
-                (e.target as HTMLElement).style.color = 'black';
-              }}
-              style={{
-                width: '200px',
-                height: '60px',
-                minWidth: '200px',
-                gap: '10px',
-                opacity: 1,
-                borderRadius: '30px',
-                paddingTop: '12px',
-                paddingRight: '24px',
-                paddingBottom: '12px',
-                paddingLeft: '24px',
-                background: 'hsl(var(--brand-colors-HarvestMist, 114 88% 94%))'
-              }}
-            >
-              Buyers Sign Up
-            </Button>
+            <Link to="/signup?type=farmer">
+              <Button 
+                size="lg" 
+                className="bg-primary text-primary-foreground hover:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors duration-200"
+                style={{
+                  width: '200px',
+                  height: '60px',
+                  minWidth: '200px',
+                  gap: '10px',
+                  opacity: 1,
+                  borderRadius: '30px',
+                  paddingTop: '12px',
+                  paddingRight: '24px',
+                  paddingBottom: '12px',
+                  paddingLeft: '24px'
+                }}
+              >
+                Farmers Sign Up
+              </Button>
+            </Link>
+            <Link to="/signup?type=buyer">
+              <Button 
+                variant="outline" 
+                size="lg"
+                className="text-black border-white transition-colors duration-200"
+                onMouseEnter={(e) => {
+                  (e.target as HTMLElement).style.background = 'hsl(var(--brand-colors-SoilBlush))';
+                  (e.target as HTMLElement).style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  (e.target as HTMLElement).style.background = 'hsl(var(--brand-colors-HarvestMist, 114 88% 94%))';
+                  (e.target as HTMLElement).style.color = 'black';
+                }}
+                style={{
+                  width: '200px',
+                  height: '60px',
+                  minWidth: '200px',
+                  gap: '10px',
+                  opacity: 1,
+                  borderRadius: '30px',
+                  paddingTop: '12px',
+                  paddingRight: '24px',
+                  paddingBottom: '12px',
+                  paddingLeft: '24px',
+                  background: 'hsl(var(--brand-colors-HarvestMist, 114 88% 94%))'
+                }}
+              >
+                Buyers Sign Up
+              </Button>
+            </Link>
           </div>
 
         </div>
