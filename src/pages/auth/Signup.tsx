@@ -15,8 +15,7 @@ const Signup: React.FC = () => {
   const [formData, setFormData] = useState({
     fullName: '',
     phoneNumber: '',
-    email: '',
-    password: ''
+    email: ''
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,11 +26,36 @@ const Signup: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Navigate to step 2
-    navigate('/signup-step2');
+    
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL || ''}/auth/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          phoneNumber: formData.phoneNumber,
+          email: formData.email,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Signup step 1 successful:', data);
+        // Navigate to step 2 on success
+        navigate('/signup-step2');
+      } else {
+        const errorData = await response.json();
+        console.error('Signup step 1 failed:', errorData);
+        alert(errorData.message || 'Registration failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+      alert('Network error. Please check your connection and try again.');
+    }
   };
 
   const handleGoogleSignup = () => {
@@ -164,22 +188,6 @@ const Signup: React.FC = () => {
               />
             </div>
 
-            {/* Password */}
-            <div className="space-y-1">
-              <label htmlFor="password" className="block text-brand-colors-RootBlack text-sm font-madani-medium">
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                placeholder="Enter your password"
-                className="w-full h-11 px-4 bg-brand-colors-HarvestMist border-2 border-brand-colors-HarvestMist rounded-2xl text-brand-colors-RootBlack text-sm font-madani-medium focus:outline-none focus:border-brand-colors-SproutGreen transition-colors custom-placeholder"
-                required
-              />
-            </div>
 
             {/* Submit Button */}
             <button

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const GoogleIcon: React.FC = () => (
   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -11,20 +11,15 @@ const GoogleIcon: React.FC = () => (
 );
 
 const EyeIcon: React.FC<{ isVisible: boolean }> = ({ isVisible }) => (
-  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {isVisible ? (
-      <path d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z" stroke="currentColor" strokeWidth="2"/>
-    ) : (
-      <>
-        <path d="M2 2L22 22" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-        <path d="M6.71277 6.7226C3.66479 8.79527 2 12 2 12C2 12 5.63636 19 12 19C14.0503 19 15.8174 18.2734 17.2711 17.2884M11 5.05822C11.3254 5.02013 11.6588 5 12 5C18.3636 5 22 12 22 12C22 12 21.3082 13.3317 20 14.8335" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-      </>
-    )}
-    <path d="M2 12C2 12 5.63636 5 12 5C18.3636 5 22 12 22 12C22 12 18.3636 19 12 19C5.63636 19 2 12 2 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-  </svg>
+  <img 
+    src={isVisible ? "/eye.svg" : "/eye-closed.svg"} 
+    alt={isVisible ? "Hide password" : "Show password"}
+    className="w-5 h-5"
+  />
 );
 
 const SignupStep2: React.FC = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     businessName: '',
     state: '',
@@ -35,6 +30,7 @@ const SignupStep2: React.FC = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -46,7 +42,14 @@ const SignupStep2: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!acceptedTerms) {
+      alert('Please accept the Terms and Conditions to continue.');
+      return;
+    }
+    
     console.log('Step 2 Form submitted:', formData);
+    navigate('/signup-step3');
   };
 
   const handleGoogleSignup = () => {
@@ -284,6 +287,8 @@ const SignupStep2: React.FC = () => {
               type="checkbox" 
               id="terms" 
               name="terms"
+              checked={acceptedTerms}
+              onChange={(e) => setAcceptedTerms(e.target.checked)}
               className="mt-1 w-4 h-4 accent-brand-colors-SproutGreen"
               required 
             />
