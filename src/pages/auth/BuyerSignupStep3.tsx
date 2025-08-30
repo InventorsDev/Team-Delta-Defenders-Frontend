@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const SignupStep3: React.FC = () => {
+const BuyerSignupStep3: React.FC = () => {
   const [countdown, setCountdown] = useState(5);
   const [showFallbackLink, setShowFallbackLink] = useState(false);
 
@@ -17,13 +17,13 @@ const SignupStep3: React.FC = () => {
   }, [countdown]);
 
   const handleContinue = () => {
-    console.log('Continue clicked');
+    console.log('Buyer Continue clicked');
   };
 
   return (
     <>
       <div className="min-h-screen bg-cover bg-center bg-no-repeat relative flex items-center" style={{
-        backgroundImage: 'url("/signupstep3.png")',
+        backgroundImage: 'url("/buyerssignup3.png")',
         backgroundColor: 'hsl(var(--brand-colors-HarvestMist))'
       }}>
         <div 
@@ -33,35 +33,37 @@ const SignupStep3: React.FC = () => {
             left: 0,
             width: '100%',
             height: '100%',
-            background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.60) 0%, rgba(0, 0, 0, 0.60) 100%)',
+            background: 'hsla(0, 0%, 0%, 0.6)',
             zIndex: 1
           }}
         />
         
-        <div className="relative z-10 w-full min-h-screen flex flex-col lg:flex-row items-start justify-center lg:justify-between p-4 md:p-6 lg:p-8 xl:px-12 gap-4 lg:gap-8">
+        <div className="relative z-10 w-full min-h-screen flex flex-col lg:flex-row items-stretch justify-center lg:justify-between p-4 md:p-6 lg:p-8 xl:px-12 gap-4 lg:gap-8">
           {/* Left Side - Brand */}
-          <div className="hidden lg:flex flex-col max-w-sm xl:max-w-md justify-between min-h-[600px]">
-            {/* Logo aligned with form top */}
-            <div className="mb-6">
-              <img 
-                src="/Agrilink-logo-light.svg" 
-                alt="Agrilink" 
-                className="h-10 w-auto"
-              />
-            </div>
+          <div className="hidden lg:flex max-w-sm xl:max-w-md">
+            <div className="flex flex-col justify-between p-8 w-full">
+              {/* Logo at top */}
+              <div>
+                <img 
+                  src="/Agrilink-logo-light.svg" 
+                  alt="Agrilink" 
+                  className="h-10 w-auto"
+                />
+              </div>
 
-            {/* Content positioned lower */}
-            <div className="space-y-4 flex-1 flex flex-col justify-end pb-16">
-              <h1 className="text-brand-colors-SteamWhite text-2xl xl:text-3xl font-madani-bold leading-tight">
-                Welcome to AgriLink
-              </h1>
-              <p className="text-brand-colors-SteamWhite text-sm xl:text-base font-madani-medium leading-relaxed">
-                You're all set! Complete your profile to get the most out of your AgriLink experience.
-              </p>
-              <div className="flex items-center gap-2 mt-6">
-                <div className="w-6 h-1 bg-brand-colors-SteamWhite/50 rounded-full" />
-                <div className="w-6 h-1 bg-brand-colors-SteamWhite/50 rounded-full" />
-                <div className="w-8 h-1 bg-brand-colors-SteamWhite rounded-full" />
+              {/* Content at bottom */}
+              <div className="space-y-4">
+                <h1 className="text-brand-colors-SteamWhite text-2xl xl:text-3xl font-madani-bold leading-tight">
+                  Welcome to AgriLink
+                </h1>
+                <p className="text-brand-colors-SteamWhite text-sm xl:text-base font-madani-medium leading-relaxed">
+                  You're all set! Start exploring fresh produce from farmers near you and build lasting partnerships.
+                </p>
+                <div className="flex items-center gap-2 mt-6">
+                  <div className="w-6 h-1 bg-brand-colors-SteamWhite/50 rounded-full" />
+                  <div className="w-6 h-1 bg-brand-colors-SteamWhite/50 rounded-full" />
+                  <div className="w-8 h-1 bg-brand-colors-SteamWhite rounded-full" />
+                </div>
               </div>
             </div>
           </div>
@@ -76,9 +78,9 @@ const SignupStep3: React.FC = () => {
           </div>
 
           {/* Right Side - Success Card */}
-          <div className="w-full max-w-md md:max-w-lg lg:max-w-xl backdrop-blur-xl backdrop-saturate-200 backdrop-brightness-125 border-2 border-white/60 rounded-2xl p-6 md:p-8 pb-32 md:pb-40 shadow-2xl drop-shadow-2xl before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-white/25 before:via-white/8 before:to-transparent before:pointer-events-none relative after:absolute after:inset-0 after:rounded-2xl after:bg-gradient-to-tl after:from-transparent after:via-transparent after:to-white/15 after:pointer-events-none" style={{ backgroundColor: 'rgba(228, 253, 225, 0.50)' }}>
+          <div className="w-full max-w-sm md:max-w-md backdrop-blur-xl backdrop-saturate-200 backdrop-brightness-125 border-2 border-white/60 rounded-2xl p-6 md:p-8 shadow-2xl drop-shadow-2xl before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-white/25 before:via-white/8 before:to-transparent before:pointer-events-none relative after:absolute after:inset-0 after:rounded-2xl after:bg-gradient-to-tl after:from-transparent after:via-transparent after:to-white/15 after:pointer-events-none flex flex-col justify-between" style={{ backgroundColor: 'rgba(228, 253, 225, 0.50)' }}>
             {/* Header */}
-            <div className="mb-6">
+            <div>
               <div className="w-16 h-2 bg-brand-colors-SproutGreen rounded-full mb-3" />
               <h2 style={{ 
                 color: 'var(--brand-colors-RootBlack, #182605)', 
@@ -87,21 +89,20 @@ const SignupStep3: React.FC = () => {
                 fontWeight: '400', 
                 wordWrap: 'break-word' 
               }} className="leading-tight">
-                Your farmers account is ready
+                Your buyers account is ready
               </h2>
             </div>
 
-            {/* Success Icon */}
-            <div className="flex justify-center mb-6">
+            {/* Success Icon - Centered with content below */}
+            <div className="flex flex-col items-center justify-center flex-1 space-y-6">
               <img 
                 src="/icon-park_success.svg" 
                 alt="Success" 
                 className="w-32 h-32"
               />
-            </div>
-
-            {/* Content Section */}
-            <div className="space-y-6">
+              
+              {/* Content Section - Close to icon */}
+              <div className="space-y-3">
               
               <div style={{width: '100%', textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', textAlign: 'center'}}>
                 {!showFallbackLink ? (
@@ -145,30 +146,18 @@ const SignupStep3: React.FC = () => {
                     }}>
                       Not automatically redirected?&nbsp;
                     </span>
-                    <Link 
-                      to="/dashboard" 
-                      style={{
-                        color: '#182605', 
-                        fontSize: '18px', 
-                        fontFamily: 'MadaniArabic-Bold', 
-                        fontWeight: 400, 
-                        wordWrap: 'break-word',
-                        textDecoration: 'underline'
-                      }}
-                    >
-                      Click Here to continue
-                    </Link>
                   </>
                 )}
               </div>
               
               <button 
                 type="button"
-                className="w-full h-11 bg-brand-colors-SproutGreen hover:bg-brand-colors-SproutGreen/90 rounded-2xl flex items-center justify-center text-brand-colors-SteamWhite text-sm font-madani-bold transition-colors mt-5 mb-6"
+                className="w-full h-11 bg-brand-colors-SproutGreen hover:bg-brand-colors-SproutGreen/90 rounded-2xl flex items-center justify-center text-brand-colors-SteamWhite text-sm font-madani-bold transition-colors"
                 onClick={handleContinue}
               >
                 Continue
               </button>
+              </div>
             </div>
           </div>
         </div>
@@ -177,4 +166,4 @@ const SignupStep3: React.FC = () => {
   );
 };
 
-export default SignupStep3;
+export default BuyerSignupStep3;

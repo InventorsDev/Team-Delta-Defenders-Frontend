@@ -10,7 +10,7 @@ const GoogleIcon: React.FC = () => (
   </svg>
 );
 
-const Signup: React.FC = () => {
+const BuyerSignup: React.FC = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
@@ -29,8 +29,14 @@ const Signup: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Bypass API call for testing - navigate directly to step 2
+    console.log('Bypassing API call for testing. Buyer Form data:', formData);
+    navigate('/buyer-signup-step2');
+    
+    // Original API call (commented out for testing)
+    /*
     try {
-      const response = await fetch(`${process.env.REACT_APP_BASE_URL || ''}/auth/signup`, {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL || ''}/auth/buyer/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -44,18 +50,19 @@ const Signup: React.FC = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log('Signup step 1 successful:', data);
+        console.log('Buyer signup step 1 successful:', data);
         // Navigate to step 2 on success
-        navigate('/signup-step2');
+        navigate('/buyer-signup-step2');
       } else {
         const errorData = await response.json();
-        console.error('Signup step 1 failed:', errorData);
+        console.error('Buyer signup step 1 failed:', errorData);
         alert(errorData.message || 'Registration failed. Please try again.');
       }
     } catch (error) {
       console.error('Network error:', error);
       alert('Network error. Please check your connection and try again.');
     }
+    */
   };
 
   const handleGoogleSignup = () => {
@@ -78,34 +85,48 @@ const Signup: React.FC = () => {
         `}
       </style>
       <div className="min-h-screen bg-cover bg-center bg-no-repeat relative flex items-center" style={{
-        backgroundImage: 'url("/signup1.png")',
+        backgroundImage: 'url("/buyersignup1.png")',
         backgroundColor: 'hsl(var(--brand-colors-HarvestMist))'
       }}>
+        <div 
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: 'hsla(0, 0%, 0%, 0.6)',
+            zIndex: 1
+          }}
+        />
         
-      <div className="relative z-10 w-full min-h-screen flex flex-col lg:flex-row items-start justify-center lg:justify-between p-4 md:p-6 lg:p-8 xl:px-12 gap-4 lg:gap-8">
+      <div className="relative z-10 w-full min-h-screen flex flex-col lg:flex-row items-stretch justify-center lg:justify-between p-4 md:p-6 lg:p-8 xl:px-12 gap-4 lg:gap-8">
         {/* Left Side - Brand */}
-        <div className="hidden lg:flex flex-col max-w-sm xl:max-w-md justify-between min-h-[600px]">
-          {/* Logo aligned with form top */}
-          <div className="mb-6">
-            <img 
-              src="/Agrilink-logo-light.svg" 
-              alt="Agrilink" 
-              className="h-10 w-auto"
-            />
-          </div>
+        <div className="hidden lg:flex max-w-sm xl:max-w-md">
+          {/* Fixed height box matching form height */}
+          <div className="flex flex-col justify-between p-8 w-full">
+            {/* Logo at top */}
+            <div>
+              <img 
+                src="/Agrilink-logo-light.svg" 
+                alt="Agrilink" 
+                className="h-10 w-auto"
+              />
+            </div>
 
-          {/* Content positioned lower */}
-          <div className="space-y-4 flex-1 flex flex-col justify-end pb-16">
-            <h1 className="text-brand-colors-SteamWhite text-2xl xl:text-3xl font-madani-bold leading-tight">
-              Sell Without Middleman Wahala
-            </h1>
-            <p className="text-brand-colors-SteamWhite text-sm xl:text-base font-madani-medium leading-relaxed">
-              Post your farm produce and connect directly with buyers. No cut, no delay — just clean, fair trade.
-            </p>
-            <div className="flex items-center gap-2 mt-6">
-              <div className="w-8 h-1 bg-brand-colors-SteamWhite rounded-full" />
-              <div className="w-6 h-1 bg-brand-colors-SteamWhite/50 rounded-full" />
-              <div className="w-6 h-1 bg-brand-colors-SteamWhite/50 rounded-full" />
+            {/* Content at bottom */}
+            <div className="space-y-4">
+              <h1 className="text-brand-colors-SteamWhite text-2xl xl:text-3xl font-madani-bold leading-tight">
+                Buy Direct from Farmers
+              </h1>
+              <p className="text-brand-colors-SteamWhite text-sm xl:text-base font-madani-medium leading-relaxed">
+                Access fresh farm produce directly from farmers. Get the best quality at fair prices with no middleman markup.
+              </p>
+              <div className="flex items-center gap-2 mt-6">
+                <div className="w-8 h-1 bg-brand-colors-SteamWhite rounded-full" />
+                <div className="w-6 h-1 bg-brand-colors-SteamWhite/50 rounded-full" />
+                <div className="w-6 h-1 bg-brand-colors-SteamWhite/50 rounded-full" />
+              </div>
             </div>
           </div>
         </div>
@@ -131,7 +152,7 @@ const Signup: React.FC = () => {
               fontWeight: '400', 
               wordWrap: 'break-word' 
             }} className="leading-tight">
-              Create your farmers account
+              Create your buyers account
             </h2>
           </div>
 
@@ -238,6 +259,30 @@ const Signup: React.FC = () => {
               Login
             </Link>
           </p>
+
+          {/* Switch to Farmer Signup */}
+          <p className="mt-2 text-center text-sm">
+            <span style={{
+              color: 'white', 
+              fontSize: 14, 
+              fontFamily: 'MadaniArabic-Medium', 
+              fontWeight: '400', 
+              wordWrap: 'break-word'
+            }}>Want to sell produce? </span>
+            <Link 
+              to="/farmers-signup" 
+              className="hover:underline"
+              style={{
+                color: 'var(--brand-colors-RootBlack, #182605)', 
+                fontSize: 14, 
+                fontFamily: 'MadaniArabic-Medium', 
+                fontWeight: '400', 
+                wordWrap: 'break-word'
+              }}
+            >
+              Sign up as Farmer
+            </Link>
+          </p>
         </div>
       </div>
     </div>
@@ -245,4 +290,4 @@ const Signup: React.FC = () => {
   );
 };
 
-export default Signup;
+export default BuyerSignup;

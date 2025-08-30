@@ -126,7 +126,7 @@ const Login = () => {
             <p className="text-gray-600" style={{ fontFamily: 'MadaniArabic-Medium' }}>
               Don't have an account?{" "}
               <Link
-                to="/signup"
+                to="/farmers-signup"
                 className="text-[hsl(var(--brand-colors-SproutGreen))] hover:underline font-semibold"
               >
                 Sign up here

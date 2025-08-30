@@ -44,7 +44,7 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-12 items-center sm:items-start">
-            <Link to="/signup?type=farmer">
+            <Link to="/farmers-signup">
               <Button 
                 size="lg" 
                 className="bg-primary text-primary-foreground hover:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors duration-200"
@@ -64,7 +64,7 @@ const Hero = () => {
                 Farmers Sign Up
               </Button>
             </Link>
-            <Link to="/signup?type=buyer">
+            <Link to="/buyer-signup">
               <Button 
                 variant="outline" 
                 size="lg"

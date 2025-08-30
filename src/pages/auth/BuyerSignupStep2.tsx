@@ -1,15 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-const GoogleIcon: React.FC = () => (
-  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M22.56 12.25C22.56 11.47 22.49 10.79 22.38 10.11H12.25V14.26H18.24C17.93 15.72 17.07 16.94 15.83 17.78V20.54H19.41C21.36 18.8 22.56 16.25 22.56 12.25Z" fill="#4285F4"/>
-    <path d="M12.25 23C15.49 23 18.2 21.92 19.41 20.54L15.83 17.78C14.82 18.48 13.55 18.9 12.25 18.9C9.12 18.9 6.46 16.94 5.57 14.27H1.86V17.14C3.11 19.62 7.42 23 12.25 23Z" fill="#34A853"/>
-    <path d="M5.57 14.27C5.33 13.57 5.2 12.8 5.2 12C5.2 11.2 5.33 10.43 5.57 9.73V6.86H1.86C1.07 8.44 0.625 10.17 0.625 12C0.625 13.83 1.07 15.56 1.86 17.14L5.57 14.27Z" fill="#FBBC05"/>
-    <path d="M12.25 5.1C13.71 5.1 15.06 5.67 16.1 6.67L19.24 3.53C18.19 2.56 15.49 1 12.25 1C7.42 1 3.11 4.38 1.86 6.86L5.57 9.73C6.46 7.06 9.12 5.1 12.25 5.1Z" fill="#EA4335"/>
-  </svg>
-);
-
 const EyeIcon: React.FC<{ isVisible: boolean }> = ({ isVisible }) => (
   <img 
     src={isVisible ? "/eye.svg" : "/eye-closed.svg"} 
@@ -18,12 +9,11 @@ const EyeIcon: React.FC<{ isVisible: boolean }> = ({ isVisible }) => (
   />
 );
 
-const SignupStep2: React.FC = () => {
+const BuyerSignupStep2: React.FC = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    businessName: '',
     state: '',
-    farmAddress: '',
+    houseAddress: '',
     password: '',
     confirmPassword: ''
   });
@@ -48,12 +38,8 @@ const SignupStep2: React.FC = () => {
       return;
     }
     
-    console.log('Step 2 Form submitted:', formData);
-    navigate('/signup-step3');
-  };
-
-  const handleGoogleSignup = () => {
-    console.log('Google signup clicked');
+    console.log('Buyer Step 2 Form submitted:', formData);
+    navigate('/buyer-signup-step3');
   };
 
   return (
@@ -72,34 +58,47 @@ const SignupStep2: React.FC = () => {
         `}
       </style>
       <div className="min-h-screen bg-cover bg-center bg-no-repeat relative flex items-center" style={{
-        backgroundImage: 'url("/signupstep2.png")',
+        backgroundImage: 'url("/buyerssignup2.png")',
         backgroundColor: 'hsl(var(--brand-colors-HarvestMist))'
       }}>
+        <div 
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: 'hsla(0, 0%, 0%, 0.6)',
+            zIndex: 1
+          }}
+        />
         
-      <div className="relative z-10 w-full min-h-screen flex flex-col lg:flex-row items-start justify-center lg:justify-between p-4 md:p-6 lg:p-8 xl:px-12 gap-4 lg:gap-8">
+      <div className="relative z-10 w-full min-h-screen flex flex-col lg:flex-row items-stretch justify-center lg:justify-between p-4 md:p-6 lg:p-8 xl:px-12 gap-4 lg:gap-8">
         {/* Left Side - Brand */}
-        <div className="hidden lg:flex flex-col max-w-sm xl:max-w-md justify-between min-h-[600px]">
-          {/* Logo aligned with form top */}
-          <div className="mb-6">
-            <img 
-              src="/Agrilink-logo-light.svg" 
-              alt="Agrilink" 
-              className="h-10 w-auto"
-            />
-          </div>
+        <div className="hidden lg:flex max-w-sm xl:max-w-md">
+          <div className="flex flex-col justify-between p-8 w-full">
+            {/* Logo at top */}
+            <div>
+              <img 
+                src="/Agrilink-logo-light.svg" 
+                alt="Agrilink" 
+                className="h-10 w-auto"
+              />
+            </div>
 
-          {/* Content positioned lower */}
-          <div className="space-y-4 flex-1 flex flex-col justify-end pb-16">
-            <h1 className="text-brand-colors-SteamWhite text-2xl xl:text-3xl font-madani-bold leading-tight">
-              Your Market, Your Price
-            </h1>
-            <p className="text-brand-colors-SteamWhite text-sm xl:text-base font-madani-medium leading-relaxed">
-              Set your own price, talk to buyers, and close deals your way. AgriLink puts you in control of your hustle.
-            </p>
-            <div className="flex items-center gap-2 mt-6">
-              <div className="w-6 h-1 bg-brand-colors-SteamWhite/50 rounded-full" />
-              <div className="w-8 h-1 bg-brand-colors-SteamWhite rounded-full" />
-              <div className="w-6 h-1 bg-brand-colors-SteamWhite/50 rounded-full" />
+            {/* Content at bottom */}
+            <div className="space-y-4">
+              <h1 className="text-brand-colors-SteamWhite text-2xl xl:text-3xl font-madani-bold leading-tight">
+                Quality Produce, Fair Prices
+              </h1>
+              <p className="text-brand-colors-SteamWhite text-sm xl:text-base font-madani-medium leading-relaxed">
+                Connect directly with farmers for the freshest produce. Build relationships and get the best deals for your business.
+              </p>
+              <div className="flex items-center gap-2 mt-6">
+                <div className="w-6 h-1 bg-brand-colors-SteamWhite/50 rounded-full" />
+                <div className="w-8 h-1 bg-brand-colors-SteamWhite rounded-full" />
+                <div className="w-6 h-1 bg-brand-colors-SteamWhite/50 rounded-full" />
+              </div>
             </div>
           </div>
         </div>
@@ -125,29 +124,12 @@ const SignupStep2: React.FC = () => {
               fontWeight: '400', 
               wordWrap: 'break-word' 
             }} className="leading-tight">
-              Just a few more details
+              Complete your buyer profile
             </h2>
           </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Business Name */}
-            <div className="space-y-1">
-              <label htmlFor="businessName" className="block text-brand-colors-RootBlack text-sm font-madani-medium">
-                Business Name
-              </label>
-              <input
-                type="text"
-                id="businessName"
-                name="businessName"
-                value={formData.businessName}
-                onChange={handleInputChange}
-                placeholder="Enter your Business Name"
-                className="w-full h-11 px-4 bg-brand-colors-HarvestMist border-2 border-brand-colors-HarvestMist rounded-2xl text-brand-colors-RootBlack text-sm font-madani-medium focus:outline-none focus:border-brand-colors-SproutGreen transition-colors custom-placeholder"
-                required
-              />
-            </div>
-
             {/* State */}
             <div className="space-y-1">
               <label htmlFor="state" className="block text-brand-colors-RootBlack text-sm font-madani-medium">
@@ -202,18 +184,18 @@ const SignupStep2: React.FC = () => {
               </select>
             </div>
 
-            {/* Farm Address */}
+            {/* House Address */}
             <div className="space-y-1">
-              <label htmlFor="farmAddress" className="block text-brand-colors-RootBlack text-sm font-madani-medium">
-                Farm Address
+              <label htmlFor="houseAddress" className="block text-brand-colors-RootBlack text-sm font-madani-medium">
+                House Address
               </label>
               <input
                 type="text"
-                id="farmAddress"
-                name="farmAddress"
-                value={formData.farmAddress}
+                id="houseAddress"
+                name="houseAddress"
+                value={formData.houseAddress}
                 onChange={handleInputChange}
-                placeholder="Enter your farm address"
+                placeholder="Enter your house address"
                 className="w-full h-11 px-4 bg-brand-colors-HarvestMist border-2 border-brand-colors-HarvestMist rounded-2xl text-brand-colors-RootBlack text-sm font-madani-medium focus:outline-none focus:border-brand-colors-SproutGreen transition-colors custom-placeholder"
                 required
               />
@@ -257,7 +239,7 @@ const SignupStep2: React.FC = () => {
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
-                  placeholder="Enter your password"
+                  placeholder="Confirm your password"
                   className="w-full h-11 px-4 pr-12 bg-brand-colors-HarvestMist border-2 border-brand-colors-HarvestMist rounded-2xl text-brand-colors-RootBlack text-sm font-madani-medium focus:outline-none focus:border-brand-colors-SproutGreen transition-colors custom-placeholder"
                   required
                 />
@@ -316,4 +298,4 @@ const SignupStep2: React.FC = () => {
   );
 };
 
-export default SignupStep2;
+export default BuyerSignupStep2;

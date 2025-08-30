@@ -17,7 +17,7 @@ const Footer = () => {
             At Agrilink, we're committed to bridging the gap between farmers and buyers through direct, transparent, and stress-free trade. We're building a smarter agricultural economy, one fresh connection at a time.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
-            <Link to="/signup?type=farmer">
+            <Link to="/farmers-signup">
               <button 
                 className="bg-[hsl(var(--brand-colors-SproutGreen))] text-white font-bold hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors"
                 style={{
@@ -36,7 +36,7 @@ const Footer = () => {
                 Farmers Sign Up
               </button>
             </Link>
-            <Link to="/signup?type=buyer">
+            <Link to="/buyer-signup">
               <button 
                 className="bg-gray-200 text-gray-900 font-bold hover:bg-[hsl(var(--brand-colors-SoilBlush))] hover:text-white active:bg-[hsl(var(--brand-colors-SoilBlush))] active:text-white transition-colors"
                 style={{
@@ -91,8 +91,8 @@ const Footer = () => {
         <div className="md:col-span-2 text-center">
           <h4 className="font-bold text-lg mb-4" style={{ fontFamily: 'MadaniArabic-Bold', fontWeight: 400, fontStyle: 'normal', fontSize: '24px', leadingTrim: 'cap-height', lineHeight: '100%', letterSpacing: '0%' }}>Quick Links</h4>
           <ul className="text-gray-400 text-sm space-y-2 leading-relaxed" style={{ fontFamily: 'MadaniArabic-Medium', fontWeight: 400, fontStyle: 'normal', fontSize: '14px', leadingTrim: 'cap-height', lineHeight: '24px', letterSpacing: '0%' }}>
-            <li><Link to="/signup?type=farmer" className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors">Farmers Sign Up</Link></li>
-            <li><Link to="/signup?type=buyer" className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors">Buyers Sign Up</Link></li>
+            <li><Link to="/farmers-signup" className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors">Farmers Sign Up</Link></li>
+            <li><Link to="/buyer-signup" className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors">Buyers Sign Up</Link></li>
             <li><a href="#" className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors">How It Works</a></li>
             <li><a href="#" className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors">About Us</a></li>
             <li><a href="#" className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors">Contact Us</a></li>
