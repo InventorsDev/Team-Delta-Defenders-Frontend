@@ -6,6 +6,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/auth/Login";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ForgotPasswordStep2 from "./pages/auth/ForgotPasswordStep2";
+import ForgotPasswordStep3 from "./pages/auth/ForgotPasswordStep3";
+import PasswordResetSuccess from "./pages/auth/PasswordResetSuccess";
 import Signup from "./pages/auth/FarmersSignup";
 import SignupStep2 from "./pages/auth/FarmersSignupStep2";
 import SignupStep3 from "./pages/auth/FarmersSignupStep3";
@@ -24,6 +28,10 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/forgot-password-step2" element={<ForgotPasswordStep2 />} />
+          <Route path="/forgot-password-step3" element={<ForgotPasswordStep3 />} />
+          <Route path="/password-reset-success" element={<PasswordResetSuccess />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/farmers-signup" element={<Signup />} />
           <Route path="/signup-step2" element={<SignupStep2 />} />
