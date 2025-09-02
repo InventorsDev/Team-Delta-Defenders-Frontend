@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, X } from "lucide-react";
@@ -71,32 +72,34 @@ const Header = () => {
             ))}
           </nav>
           <div className="hidden md:flex items-center">
-            <Button 
-              className="bg-primary text-primary-foreground hover:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors duration-200"
-              style={{ 
-                fontFamily: 'MadaniArabic-Bold',
-                fontWeight: 400,
-                fontStyle: 'normal',
-                fontSize: '16px',
-                leadingTrim: 'cap-height',
-                lineHeight: '100%',
-                letterSpacing: '0%',
-                width: '160px',
-                height: '40px',
-                minWidth: '160px',
-                minHeight: '40px',
-                borderRadius: '30px',
-                paddingTop: '12px',
-                paddingRight: '24px',
-                paddingBottom: '12px',
-                paddingLeft: '24px',
-                gap: '10px',
-                transform: 'rotate(0deg)',
-                opacity: 1
-              } as React.CSSProperties}
-            >
-              Log In
-            </Button>
+            <Link to="/login">
+              <Button 
+                className="bg-primary text-primary-foreground hover:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors duration-200"
+                style={{ 
+                  fontFamily: 'MadaniArabic-Bold',
+                  fontWeight: 400,
+                  fontStyle: 'normal',
+                  fontSize: '16px',
+                  leadingTrim: 'cap-height',
+                  lineHeight: '100%',
+                  letterSpacing: '0%',
+                  width: '160px',
+                  height: '40px',
+                  minWidth: '160px',
+                  minHeight: '40px',
+                  borderRadius: '30px',
+                  paddingTop: '12px',
+                  paddingRight: '24px',
+                  paddingBottom: '12px',
+                  paddingLeft: '24px',
+                  gap: '10px',
+                  transform: 'rotate(0deg)',
+                  opacity: 1
+                } as React.CSSProperties}
+              >
+                Log In
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Navigation */}
@@ -125,32 +128,34 @@ const Header = () => {
                     {link.name}
                   </a>
                 ))}
-                <Button 
-                  className="bg-primary text-primary-foreground hover:bg-[hsl(var(--brand-colors-SoilBlush))] mt-4 transition-colors duration-200"
-                  style={{
-                    fontFamily: 'MadaniArabic-Bold',
-                    fontWeight: 400,
-                    fontStyle: 'normal',
-                    fontSize: '16px',
-                    leadingTrim: 'cap-height',
-                    lineHeight: '100%',
-                    letterSpacing: '0%',
-                    width: '160px',
-                    height: '40px',
-                    minWidth: '160px',
-                    minHeight: '40px',
-                    borderRadius: '30px',
-                    paddingTop: '12px',
-                    paddingRight: '24px',
-                    paddingBottom: '12px',
-                    paddingLeft: '24px',
-                    gap: '10px',
-                    transform: 'rotate(0deg)',
-                    opacity: 1
-                  }}
-                >
-                  Log In
-                </Button>
+                <Link to="/login" onClick={() => setIsOpen(false)}>
+                  <Button 
+                    className="bg-primary text-primary-foreground hover:bg-[hsl(var(--brand-colors-SoilBlush))] mt-4 transition-colors duration-200"
+                    style={{
+                      fontFamily: 'MadaniArabic-Bold',
+                      fontWeight: 400,
+                      fontStyle: 'normal',
+                      fontSize: '16px',
+                      leadingTrim: 'cap-height',
+                      lineHeight: '100%',
+                      letterSpacing: '0%',
+                      width: '160px',
+                      height: '40px',
+                      minWidth: '160px',
+                      minHeight: '40px',
+                      borderRadius: '30px',
+                      paddingTop: '12px',
+                      paddingRight: '24px',
+                      paddingBottom: '12px',
+                      paddingLeft: '24px',
+                      gap: '10px',
+                      transform: 'rotate(0deg)',
+                      opacity: 1
+                    }}
+                  >
+                    Log In
+                  </Button>
+                </Link>
               </div>
             </SheetContent>
           </Sheet>

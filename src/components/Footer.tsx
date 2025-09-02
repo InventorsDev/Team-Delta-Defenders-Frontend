@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import agrilinkLogo from '/agrilink-logo.png'; // Corrected import for Vite
 
 const Footer = () => {
@@ -16,40 +17,44 @@ const Footer = () => {
             At Agrilink, we're committed to bridging the gap between farmers and buyers through direct, transparent, and stress-free trade. We're building a smarter agricultural economy, one fresh connection at a time.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
-            <button 
-              className="bg-[hsl(var(--brand-colors-SproutGreen))] text-white font-bold hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors"
-              style={{
-                width: '200px',
-                height: '60px',
-                minWidth: '200px',
-                gap: '10px',
-                opacity: 1,
-                borderRadius: '30px',
-                paddingTop: '12px',
-                paddingRight: '24px',
-                paddingBottom: '12px',
-                paddingLeft: '24px'
-              }}
-            >
-              Farmers Sign Up
-            </button>
-            <button 
-              className="bg-gray-200 text-gray-900 font-bold hover:bg-[hsl(var(--brand-colors-SoilBlush))] hover:text-white active:bg-[hsl(var(--brand-colors-SoilBlush))] active:text-white transition-colors"
-              style={{
-                width: '200px',
-                height: '60px',
-                minWidth: '200px',
-                gap: '10px',
-                opacity: 1,
-                borderRadius: '30px',
-                paddingTop: '12px',
-                paddingRight: '24px',
-                paddingBottom: '12px',
-                paddingLeft: '24px'
-              }}
-            >
-              Buyers Sign Up
-            </button>
+            <Link to="/farmers-signup">
+              <button 
+                className="bg-[hsl(var(--brand-colors-SproutGreen))] text-white font-bold hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors"
+                style={{
+                  width: '200px',
+                  height: '60px',
+                  minWidth: '200px',
+                  gap: '10px',
+                  opacity: 1,
+                  borderRadius: '30px',
+                  paddingTop: '12px',
+                  paddingRight: '24px',
+                  paddingBottom: '12px',
+                  paddingLeft: '24px'
+                }}
+              >
+                Farmers Sign Up
+              </button>
+            </Link>
+            <Link to="/buyer-signup">
+              <button 
+                className="bg-gray-200 text-gray-900 font-bold hover:bg-[hsl(var(--brand-colors-SoilBlush))] hover:text-white active:bg-[hsl(var(--brand-colors-SoilBlush))] active:text-white transition-colors"
+                style={{
+                  width: '200px',
+                  height: '60px',
+                  minWidth: '200px',
+                  gap: '10px',
+                  opacity: 1,
+                  borderRadius: '30px',
+                  paddingTop: '12px',
+                  paddingRight: '24px',
+                  paddingBottom: '12px',
+                  paddingLeft: '24px'
+                }}
+              >
+                Buyers Sign Up
+              </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -86,11 +91,11 @@ const Footer = () => {
         <div className="md:col-span-2 text-center">
           <h4 className="font-bold text-lg mb-4" style={{ fontFamily: 'MadaniArabic-Bold', fontWeight: 400, fontStyle: 'normal', fontSize: '24px', leadingTrim: 'cap-height', lineHeight: '100%', letterSpacing: '0%' }}>Quick Links</h4>
           <ul className="text-gray-400 text-sm space-y-2 leading-relaxed" style={{ fontFamily: 'MadaniArabic-Medium', fontWeight: 400, fontStyle: 'normal', fontSize: '14px', leadingTrim: 'cap-height', lineHeight: '24px', letterSpacing: '0%' }}>
-            <li><a href="#" className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors">Farmers Sign Up</a></li>
-            <li><a href="#" className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors">Buyers Sign Up</a></li>
-            <li><a href="#" className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors">How It Works</a></li>
-            <li><a href="#" className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors">About Us</a></li>
-            <li><a href="#" className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors">Contact Us</a></li>
+            <li><Link to="/farmers-signup" className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors">Farmers Sign Up</Link></li>
+            <li><Link to="/buyer-signup" className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors">Buyers Sign Up</Link></li>
+            <li><button className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors text-left bg-transparent border-none p-0 cursor-pointer">How It Works</button></li>
+            <li><button className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors text-left bg-transparent border-none p-0 cursor-pointer">About Us</button></li>
+            <li><button className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors text-left bg-transparent border-none p-0 cursor-pointer">Contact Us</button></li>
           </ul>
         </div>
 
@@ -142,41 +147,41 @@ const Footer = () => {
             </button>
           </form>
           <div className="flex space-x-4 mt-8 justify-center md:justify-start">
-            <a href="#" aria-label="Facebook" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors">
+            <button aria-label="Facebook" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors border-none cursor-pointer">
               <img 
                 src="/facebook-fill 2.svg" 
                 alt="Facebook" 
                 className="w-5 h-5"
               />
-            </a>
-            <a href="#" aria-label="X" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors">
+            </button>
+            <button aria-label="X" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors border-none cursor-pointer">
               <img 
                 src="/X-icon.svg" 
                 alt="X (Twitter)" 
                 className="w-5 h-5"
               />
-            </a>
-            <a href="#" aria-label="LinkedIn" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors">
+            </button>
+            <button aria-label="LinkedIn" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors border-none cursor-pointer">
               <img 
                 src="/linkedin-icon.svg" 
                 alt="LinkedIn" 
                 className="w-5 h-5"
               />
-            </a>
-            <a href="#" aria-label="Instagram" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors">
+            </button>
+            <button aria-label="Instagram" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors border-none cursor-pointer">
               <img 
                 src="/Instagram-icon.svg" 
                 alt="Instagram" 
                 className="w-5 h-5"
               />
-            </a>
-            <a href="#" aria-label="YouTube" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors">
+            </button>
+            <button aria-label="YouTube" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors border-none cursor-pointer">
               <img 
                 src="/Youtube-icon.svg" 
                 alt="YouTube" 
                 className="w-5 h-5"
               />
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -184,9 +189,9 @@ const Footer = () => {
       {/* Bottom Footer Section */}
       <div className="container mx-auto px-4 mt-8 pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center text-center md:text-left">
         <ul className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 text-gray-400 text-sm">
-          <li><a href="#" className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors">Privacy Policy</a></li>
-          <li><a href="#" className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors">Terms of Use</a></li>
-          <li><a href="#" className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors">Disclaimer</a></li>
+          <li><button className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors bg-transparent border-none p-0 cursor-pointer">Privacy Policy</button></li>
+          <li><button className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors bg-transparent border-none p-0 cursor-pointer">Terms of Use</button></li>
+          <li><button className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors bg-transparent border-none p-0 cursor-pointer">Disclaimer</button></li>
         </ul>
         <div className="mt-4 md:mt-0 text-gray-400 text-sm">
           Copyright 2025 © agrilink | All rights reserved

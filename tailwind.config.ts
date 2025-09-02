@@ -62,7 +62,19 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				'brand-colors': {
+					'SproutGreen': 'hsl(var(--brand-colors-SproutGreen))',
+					'SteamWhite': 'hsl(var(--brand-colors-SteamWhite))',
+					'RootBlack': 'hsl(var(--brand-colors-RootBlack))',
+					'HarvestMist': 'hsl(var(--brand-colors-HarvestMist))',
+					'SoilBlush': 'hsl(var(--brand-colors-SoilBlush))'
 				}
+			},
+			fontFamily: {
+				'madani': ['MadaniArabic-Regular', 'sans-serif'],
+				'madani-bold': ['MadaniArabic-Bold', 'sans-serif'],
+				'madani-medium': ['MadaniArabic-Medium', 'sans-serif']
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
