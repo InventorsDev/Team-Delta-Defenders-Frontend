@@ -166,7 +166,7 @@ const ForgotPasswordStep2: React.FC = () => {
               <form onSubmit={handleSubmit}>
                 {/* PIN Input */}
                 <div className="space-y-1">
-                  <label className="block text-brand-colors-RootBlack text-sm font-madani-medium">
+                  <label htmlFor="pin-0" className="block text-brand-colors-RootBlack text-sm font-madani-medium">
                     Verification Code
                   </label>
                   <div className="flex gap-3 justify-center">
