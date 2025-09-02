@@ -12,7 +12,7 @@ const ForgotPassword: React.FC = () => {
   useEffect(() => {
     if (contact) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      const phoneRegex = /^[\+]?[0-9\-\(\)\s]{10,15}$/;
+      const phoneRegex = /^[+]?[0-9\-() \s]{10,15}$/;
       
       if (emailRegex.test(contact)) {
         setContactType('email');
