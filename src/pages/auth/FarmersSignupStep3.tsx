@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SignupStep3: React.FC = () => {
   const [countdown, setCountdown] = useState(5);
   const [showFallbackLink, setShowFallbackLink] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (countdown > 0) {
@@ -12,12 +13,14 @@ const SignupStep3: React.FC = () => {
       }, 1000);
       return () => clearTimeout(timer);
     } else {
-      setShowFallbackLink(true);
+      // Auto-redirect to farmer dashboard after countdown
+      navigate('/farmer-dashboard');
     }
-  }, [countdown]);
+  }, [countdown, navigate]);
 
   const handleContinue = () => {
-    console.log('Continue clicked');
+    // Redirect to farmer dashboard when continue button is clicked
+    navigate('/farmer-dashboard');
   };
 
   return (
@@ -144,7 +147,7 @@ const SignupStep3: React.FC = () => {
                       fontWeight: 400, 
                       wordWrap: 'break-word'
                     }}>
-                      Not automatically redirected?&nbsp;
+                      Redirecting to your dashboard...
                     </span>
                   </>
                 )}
