@@ -161,6 +161,8 @@ const MyListings: React.FC<MyListingsProps> = ({
   const [selectedListing, setSelectedListing] = useState<Listing | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editFormData, setEditFormData] = useState<Listing | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -220,6 +222,33 @@ const MyListings: React.FC<MyListingsProps> = ({
   const handleSelectListing = (listing: Listing) => {
     setSelectedListing(listing);
     setCurrentImageIndex(0);
+    setIsEditMode(false);
+    setEditFormData(null);
+  };
+
+  // Handle edit button click
+  const handleEditListing = () => {
+    if (selectedListing) {
+      setEditFormData({ ...selectedListing });
+      setIsEditMode(true);
+    }
+  };
+
+  // Handle form input changes
+  const handleFormChange = (field: keyof Listing, value: string) => {
+    if (editFormData) {
+      setEditFormData({ ...editFormData, [field]: value });
+    }
+  };
+
+  // Handle save changes
+  const handleSaveChanges = () => {
+    // Here you would typically save to backend
+    console.log('Saving changes:', editFormData);
+    setIsEditMode(false);
+    if (editFormData) {
+      setSelectedListing(editFormData);
+    }
   };
 
   return (
@@ -284,35 +313,41 @@ const MyListings: React.FC<MyListingsProps> = ({
           ))}
         </div>
         
-        {/* Detail View - Isolated Component */}
+        {/* Detail/Edit View - Isolated Component */}
         {selectedListing && (
-          <div className="sticky w-[514px] h-[724px] top-[20px] bg-brand-colors-SteamWhite rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] z-30 flex flex-col">
+          <div className="sticky w-[514px] h-[724px] top-[20px] bg-brand-colors-SteamWhite rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] z-30 flex flex-col overflow-hidden">
             {/* Header with Close Button */}
             <div className="relative h-16 flex-shrink-0">
               <button 
-                onClick={() => setSelectedListing(null)}
+                onClick={() => {
+                  setSelectedListing(null);
+                  setIsEditMode(false);
+                  setEditFormData(null);
+                }}
                 className="p-2.5 right-[20px] top-[20px] absolute bg-brand-colors-SteamWhite rounded-3xl shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors z-10"
               >
-                <img 
-                  src="/design/assets/icons folder/close icon.svg" 
-                  alt="Close" 
-                  className="w-6 h-6"
-                />
+                <div className="w-6 h-6 relative overflow-hidden">
+                  <div className="w-3 h-3 left-[6px] top-[6px] absolute outline outline-2 outline-offset-[-1px] outline-brand-colors-RootBlack"></div>
+                  <div className="w-3 h-3 left-[6px] top-[6px] absolute outline outline-2 outline-offset-[-1px] outline-brand-colors-RootBlack"></div>
+                </div>
               </button>
             </div>
 
-            {/* Scrollable Content Area */}
-            <div className="flex-1 px-5 overflow-hidden">
-              <div 
-                ref={scrollContainerRef}
-                onScroll={handleScroll}
-                className="h-full overflow-y-auto pr-2"
-                style={{ 
-                  scrollbarWidth: 'none', 
-                  msOverflowStyle: 'none'
-                }}
-              >
-                <div className="pb-8">
+            {/* Conditional Content */}
+            {!isEditMode ? (
+              /* Detail View */
+              <>
+              <div className="flex-1 px-5 overflow-hidden">
+                <div 
+                  ref={scrollContainerRef}
+                  onScroll={handleScroll}
+                  className="h-full overflow-y-auto pr-2"
+                  style={{ 
+                    scrollbarWidth: 'none', 
+                    msOverflowStyle: 'none'
+                  }}
+                >
+                  <div className="pb-8">
                   {/* Main Image with Navigation */}
                   <div className="relative mb-6">
                     <img className="w-full h-72 rounded-[10px] object-cover" src={selectedListing.images[currentImageIndex]} alt={selectedListing.title} />
@@ -413,7 +448,7 @@ const MyListings: React.FC<MyListingsProps> = ({
                   </div>
                   
                   {/* Description */}
-                  <div className="mb-8">
+                  <div className="mb-4">
                     <h3 className="text-base font-['MadaniArabic-Medium'] text-brand-colors-RootBlack mb-2">
                       Description:
                     </h3>
@@ -421,41 +456,172 @@ const MyListings: React.FC<MyListingsProps> = ({
                       {selectedListing.description}
                     </p>
                   </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            {/* Fixed Action Buttons at Bottom */}
-            <div className="h-20 flex-shrink-0 flex items-center justify-center px-5">
-              <div className="bg-white/20 rounded-full p-2.5 flex items-center gap-1.5">
-                <button className="px-6 py-3 bg-brand-colors-SproutGreen rounded-full flex items-center justify-center hover:bg-opacity-90 transition-colors min-w-[192px]">
-                  <span className="text-base font-['MadaniArabic-Bold'] text-brand-colors-SteamWhite">
-                    Edit
-                  </span>
-                </button>
-                <button 
-                  onClick={() => onDeleteListing(selectedListing.id)}
-                  className="p-2.5 bg-brand-colors-SteamWhite rounded-3xl shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex items-center justify-center hover:bg-red-50 transition-colors group"
-                >
-                  <img 
-                    src="/delete icon.svg" 
-                    alt="Delete" 
-                    className="w-5 h-5 group-hover:opacity-80"
-                    style={{ filter: 'invert(36%) sepia(69%) saturate(2083%) hue-rotate(338deg) brightness(97%) contrast(106%)' }}
-                  />
-                </button>
+              
+              {/* Fixed Action Buttons at Bottom */}
+              <div className="h-20 flex-shrink-0 flex items-center justify-center px-5">
+                <div className="bg-white/20 rounded-full p-2.5 flex items-center gap-1.5">
+                  <button 
+                    onClick={handleEditListing}
+                    className="px-6 py-3 bg-brand-colors-SproutGreen rounded-full flex items-center justify-center hover:bg-opacity-90 transition-colors min-w-[192px]">
+                    <span className="text-base font-['MadaniArabic-Bold'] text-brand-colors-SteamWhite">
+                      Edit
+                    </span>
+                  </button>
+                  <button 
+                    onClick={() => onDeleteListing(selectedListing.id)}
+                    className="p-2.5 bg-brand-colors-SteamWhite rounded-3xl shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex items-center justify-center hover:bg-red-50 transition-colors group"
+                  >
+                    <img 
+                      src="/delete icon.svg" 
+                      alt="Delete" 
+                      className="w-5 h-5 group-hover:opacity-80"
+                      style={{ filter: 'invert(36%) sepia(69%) saturate(2083%) hue-rotate(338deg) brightness(97%) contrast(106%)' }}
+                    />
+                  </button>
+                </div>
               </div>
-            </div>
-            
-            {/* Custom Scroll Indicator */}
-            <div className="w-[5px] h-[500px] right-[10px] top-[100px] absolute bg-gray-200 rounded-full z-10">
-              <div 
-                className="w-[5px] h-14 bg-brand-colors-SproutGreen rounded-full transition-all duration-150"
-                style={{
-                  transform: `translateY(${scrollPosition * (500 - 56)}px)`
-                }}
-              ></div>
-            </div>
+              
+              {/* Custom Scroll Indicator */}
+              <div className="w-[5px] h-[500px] right-[10px] top-[100px] absolute bg-gray-200 rounded-full z-10">
+                <div 
+                  className="w-[5px] h-14 bg-brand-colors-SproutGreen rounded-full transition-all duration-150"
+                  style={{
+                    transform: `translateY(${scrollPosition * (500 - 56)}px)`
+                  }}
+                ></div>
+              </div>
+              </>
+            ) : (
+              /* Edit View */
+              <div className="flex-1 overflow-hidden relative">
+                <div className="w-[474px] h-full left-[20px] top-[40px] absolute overflow-y-auto">
+                  {/* Upload Images Section */}
+                  <div className="w-[474px] mb-5">
+                    <div className="mb-5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Upload Image:</div>
+                    <div className="h-56 flex flex-wrap gap-4 content-start">
+                      {selectedListing.images.slice(0, 5).map((img, index) => (
+                        <div key={index} className="w-24 h-24 relative overflow-hidden">
+                          <img className="w-24 h-24 rounded-[10px] object-cover" src={img} alt={`Upload ${index + 1}`} />
+                          <div className="w-6 h-6 absolute top-[5px] right-[5px] bg-brand-colors-SteamWhite rounded-full shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex justify-center items-center">
+                            <div className="w-4 h-4 relative overflow-hidden">
+                              <div className="w-2.5 h-2.5 absolute left-[3.38px] top-[2.55px] bg-black/25"></div>
+                              <div className="w-2 h-2 absolute left-[3.38px] top-[4.14px] bg-brand-colors-RootBlack"></div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Produce Name */}
+                  <div className="w-[474px] mb-5 flex flex-col gap-3">
+                    <div className="px-2.5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Produce Name:</div>
+                    <input
+                      type="text"
+                      value={editFormData?.title || ''}
+                      onChange={(e) => handleFormChange('title', e.target.value)}
+                      className="h-12 px-6 py-3 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Regular']"
+                    />
+                  </div>
+
+                  {/* Choose Category */}
+                  <div className="w-[474px] mb-5 flex flex-col gap-3">
+                    <div className="px-2.5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Choose category:</div>
+                    <div className="h-12 px-6 py-3 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 flex justify-between items-center overflow-hidden">
+                      <input
+                        type="text"
+                        value={editFormData?.category || ''}
+                        onChange={(e) => handleFormChange('category', e.target.value)}
+                        className="flex-1 bg-transparent text-brand-colors-RootBlack text-base font-['MadaniArabic-Regular'] outline-none"
+                      />
+                      <div className="w-6 h-6 relative overflow-hidden">
+                        <div className="w-3 h-1.5 absolute left-[6px] top-[9px] outline outline-2 outline-offset-[-1px] outline-brand-colors-RootBlack"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Price per unit */}
+                  <div className="w-[474px] mb-5 flex flex-col gap-3">
+                    <div className="px-2.5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Price per unit:</div>
+                    <input
+                      type="text"
+                      value={editFormData?.price || ''}
+                      onChange={(e) => handleFormChange('price', e.target.value)}
+                      className="h-12 px-6 py-3 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Regular']"
+                    />
+                  </div>
+
+                  {/* Produce Description */}
+                  <div className="w-[474px] mb-5 flex flex-col gap-3">
+                    <div className="px-2.5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Produce Description:</div>
+                    <textarea
+                      value={editFormData?.description || ''}
+                      onChange={(e) => handleFormChange('description', e.target.value)}
+                      className="h-20 px-6 py-3 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Regular'] resize-none"
+                    />
+                  </div>
+
+                  {/* Select Address */}
+                  <div className="w-[474px] mb-20 flex flex-col gap-5">
+                    <div className="px-2.5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Select address:</div>
+                    <div className="px-6 py-4 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 flex flex-col gap-5 relative">
+                      <div className="flex items-center gap-1">
+                        <div className="w-6 h-6 relative overflow-hidden">
+                          <div className="w-4 h-3.5 absolute left-[4px] top-[7.50px] bg-brand-colors-RootBlack"></div>
+                          <div className="w-3.5 h-4 absolute left-[4.50px] top-[2px] opacity-30 bg-brand-colors-RootBlack"></div>
+                        </div>
+                        <input
+                          type="text"
+                          value={editFormData?.location || ''}
+                          onChange={(e) => handleFormChange('location', e.target.value)}
+                          className="flex-1 bg-transparent text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium'] outline-none"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-3.5">
+                        <div className="text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Farm Address:</div>
+                        <input
+                          type="text"
+                          value={editFormData?.farmAddress || ''}
+                          onChange={(e) => handleFormChange('farmAddress', e.target.value)}
+                          className="bg-transparent text-brand-colors-rootgrey text-base font-['MadaniArabic-Medium'] outline-none"
+                        />
+                      </div>
+                      <div className="absolute right-[16px] top-[16px]">
+                        <div className="w-6 h-6 relative overflow-hidden">
+                          <div className="w-3 h-1.5 absolute left-[6px] top-[9px] outline outline-2 outline-offset-[-1px] outline-brand-colors-RootBlack"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Fixed Action Buttons at Bottom */}
+                <div className="absolute bottom-0 left-0 right-0 h-20 flex items-center justify-center px-5">
+                  <div className="bg-white/20 rounded-full p-2.5 flex items-center gap-1.5">
+                    <button 
+                      onClick={handleSaveChanges}
+                      className="w-48 min-w-40 min-h-10 px-6 py-3 bg-brand-colors-SproutGreen rounded-[30px] flex justify-center items-center">
+                      <span className="text-brand-colors-SteamWhite text-base font-['MadaniArabic-Bold']">Save</span>
+                    </button>
+                    <button 
+                      onClick={() => onDeleteListing(selectedListing.id)}
+                      className="p-2.5 bg-brand-colors-SteamWhite rounded-3xl shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex items-center justify-center hover:bg-red-50 transition-colors group"
+                    >
+                      <div className="w-6 h-6 relative overflow-hidden">
+                        <div className="w-2 h-2.5 absolute left-[8px] top-[9px] opacity-30 bg-brand-colors-pepper-red"></div>
+                        <div className="w-3.5 h-4 absolute left-[5px] top-[3px] bg-brand-colors-pepper-red"></div>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Custom Scroll Indicator */}
+                <div className="w-[5px] h-14 absolute right-[10px] top-[64px] bg-brand-colors-SproutGreen rounded-full"></div>
+              </div>
+            )}
           </div>
         )}
       </div>
