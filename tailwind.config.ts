@@ -68,13 +68,16 @@ export default {
 					'SteamWhite': 'hsl(var(--brand-colors-SteamWhite))',
 					'RootBlack': 'hsl(var(--brand-colors-RootBlack))',
 					'HarvestMist': 'hsl(var(--brand-colors-HarvestMist))',
-					'SoilBlush': 'hsl(var(--brand-colors-SoilBlush))'
+					'SoilBlush': 'hsl(var(--brand-colors-SoilBlush))',
+					'rootgrey': 'hsl(var(--brand-colors-rootgrey))',
+					'pepper-red': 'hsl(var(--brand-colors-pepper-red))'
 				}
 			},
 			fontFamily: {
 				'madani': ['MadaniArabic-Regular', 'sans-serif'],
 				'madani-bold': ['MadaniArabic-Bold', 'sans-serif'],
-				'madani-medium': ['MadaniArabic-Medium', 'sans-serif']
+				'madani-medium': ['MadaniArabic-Medium', 'sans-serif'],
+				'madani-light': ['MadaniArabic-Light', 'sans-serif']
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

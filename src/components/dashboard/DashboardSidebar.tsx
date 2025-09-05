@@ -9,10 +9,7 @@ interface DashboardSidebarProps {
 
 const AgrilinkLogo = () => (
   <div className="flex items-center gap-2">
-    <img src="/agrilink-logo.png" alt="Agrilink Logo" className="h-12" />
-    <span className="text-brand-colors-RootBlack text-2xl font-bold font-['Madani_Arabic_DEMO'] leading-[32px]">
-      agrilink
-    </span>
+    <img src="/Agrilink-logo-dark.svg" alt="Agrilink Logo" className="h-12" />
   </div>
 );
 
@@ -23,7 +20,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
   const navigationItems = [
     {
       id: 'dashboard' as const,
-      icon: LayoutDashboard,
+      icon: 'dashboard.svg',
       label: 'Dashboard'
     },
     {
@@ -51,8 +48,13 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
   return (
     <div className="w-96 h-full bg-brand-colors-HarvestMist rounded-tl-[20px] rounded-bl-[20px] p-6 flex flex-col">
       {/* Logo */}
-      <div className="mb-12">
+      <div className="mb-12 relative">
         <AgrilinkLogo />
+        <div className="w-40 h-40 absolute -top-2 right-0 overflow-hidden">
+          <img src="/lsicon_leaf-outline.png" alt="Leaf outline" className="w-32 h-24 right-[2px] top-[2px] absolute object-contain" style={{
+            filter: 'invert(47%) sepia(94%) saturate(568%) hue-rotate(81deg) brightness(94%) contrast(88%)'
+          }} />
+        </div>
       </div>
 
       {/* Navigation */}
@@ -73,7 +75,11 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
                 }
               `}
             >
-              <Icon className="h-6 w-6" />
+              {typeof Icon === 'string' ? (
+                <img src={`/${Icon}`} alt={item.label} className="h-6 w-6" />
+              ) : (
+                <Icon className="h-6 w-6" />
+              )}
               <span 
                 className="text-xl font-medium"
                 style={{ fontFamily: 'MadaniArabic-Medium' }}
@@ -102,8 +108,12 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
       {/* Bottom Promotional Card */}
       <div className="mt-8">
         <div className="bg-white rounded-2xl shadow-lg p-6 text-center">
-          <div className="w-32 h-32 mx-auto mb-4 bg-gray-200 rounded-xl flex items-center justify-center">
-            <Package className="h-16 w-16 text-gray-500" />
+          <div className="w-32 h-32 mx-auto mb-4 rounded-xl overflow-hidden">
+            <img 
+              src="/farmers-dashoard-sidebar .png" 
+              alt="Fresh Produce" 
+              className="w-full h-full object-cover"
+            />
           </div>
           <h3 
             className="text-xl font-bold mb-2 text-brand-colors-RootBlack"
