@@ -31,7 +31,7 @@ const listingsData: Listing[] = [
     category: "Vegetables",
     farmAddress: "Plot 15, Igbogbo Road, OJo, Lagos State, Nigeria",
     averageMarketPrice: "₦36,000",
-    images: ["/listing-1.png", "/listing-2.png", "/listing-3.png", "/listing-4.png"]
+    images: ["/listing-1.png", "/listing-2.png", "/listing-3.png", "/listing-4.png", "/listing-5.png"]
   },
   {
     id: 2,
@@ -44,7 +44,7 @@ const listingsData: Listing[] = [
     category: "Vegetables",
     farmAddress: "Plot 15, Igbogbo Road, OJo, Lagos State, Nigeria",
     averageMarketPrice: "₦52,000",
-    images: ["/listing-2.png", "/listing-3.png", "/listing-4.png", "/listing-5.png"]
+    images: ["/listing-2.png", "/listing-3.png", "/listing-4.png", "/listing-5.png", "/listing-6.png"]
   },
   {
     id: 3,
@@ -57,7 +57,7 @@ const listingsData: Listing[] = [
     category: "Vegetables",
     farmAddress: "Plot 15, Igbogbo Road, OJo, Lagos State, Nigeria",
     averageMarketPrice: "₦51,000",
-    images: ["/listing-3.png", "/listing-4.png", "/listing-5.png", "/listing-6.png"]
+    images: ["/listing-3.png", "/listing-4.png", "/listing-5.png", "/listing-6.png", "/listing-7.png"]
   },
   {
     id: 4,
@@ -70,7 +70,7 @@ const listingsData: Listing[] = [
     category: "Tubers",
     farmAddress: "Plot 15, Igbogbo Road, OJo, Lagos State, Nigeria",
     averageMarketPrice: "₦21,000",
-    images: ["/listing-4.png", "/listing-5.png", "/listing-6.png", "/listing-7.png"]
+    images: ["/listing-4.png", "/listing-5.png", "/listing-6.png", "/listing-7.png", "/listing-8.png"]
   },
   {
     id: 5,
@@ -83,7 +83,7 @@ const listingsData: Listing[] = [
     category: "Vegetables",
     farmAddress: "Plot 15, Igbogbo Road, OJo, Lagos State, Nigeria",
     averageMarketPrice: "₦31,000",
-    images: ["/listing-5.png", "/listing-6.png", "/listing-7.png", "/listing-8.png"]
+    images: ["/listing-5.png", "/listing-6.png", "/listing-7.png", "/listing-8.png", "/listing-9.png"]
   },
   {
     id: 6,
@@ -96,7 +96,7 @@ const listingsData: Listing[] = [
     category: "Fruits",
     farmAddress: "Plot 15, Igbogbo Road, OJo, Lagos State, Nigeria",
     averageMarketPrice: "₦36,000",
-    images: ["/listing-6.png", "/listing-7.png", "/listing-8.png", "/listing-9.png"]
+    images: ["/listing-6.png", "/listing-7.png", "/listing-8.png", "/listing-9.png", "/listing-10.png"]
   },
   {
     id: 7,
@@ -109,7 +109,7 @@ const listingsData: Listing[] = [
     category: "Grains",
     farmAddress: "Plot 15, Igbogbo Road, OJo, Lagos State, Nigeria",
     averageMarketPrice: "₦56,000",
-    images: ["/listing-7.png", "/listing-8.png", "/listing-9.png", "/listing-10.png"]
+    images: ["/listing-7.png", "/listing-8.png", "/listing-9.png", "/listing-10.png", "/listing-1.png"]
   },
   {
     id: 8,
@@ -122,7 +122,7 @@ const listingsData: Listing[] = [
     category: "Vegetables",
     farmAddress: "Plot 15, Igbogbo Road, OJo, Lagos State, Nigeria",
     averageMarketPrice: "₦22,000",
-    images: ["/listing-8.png", "/listing-9.png", "/listing-10.png", "/listing-1.png"]
+    images: ["/listing-8.png", "/listing-9.png", "/listing-10.png", "/listing-1.png", "/listing-2.png"]
   },
   {
     id: 9,
@@ -135,7 +135,7 @@ const listingsData: Listing[] = [
     category: "Grains",
     farmAddress: "Plot 15, Igbogbo Road, OJo, Lagos State, Nigeria",
     averageMarketPrice: "₦56,000",
-    images: ["/listing-9.png", "/listing-10.png", "/listing-1.png", "/listing-2.png"]
+    images: ["/listing-9.png", "/listing-10.png", "/listing-1.png", "/listing-2.png", "/listing-3.png"]
   },
   {
     id: 10,
@@ -148,7 +148,7 @@ const listingsData: Listing[] = [
     category: "Vegetables",
     farmAddress: "Plot 15, Igbogbo Road, OJo, Lagos State, Nigeria",
     averageMarketPrice: "₦36,000",
-    images: ["/listing-10.png", "/listing-1.png", "/listing-2.png", "/listing-3.png"]
+    images: ["/listing-10.png", "/listing-1.png", "/listing-2.png", "/listing-3.png", "/listing-4.png"]
   }
 ];
 
@@ -161,10 +161,18 @@ const MyListings: React.FC<MyListingsProps> = ({
   const [selectedListing, setSelectedListing] = useState<Listing | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [editScrollPosition, setEditScrollPosition] = useState(0);
+  const [addScrollPosition, setAddScrollPosition] = useState(0);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isAddMode, setIsAddMode] = useState(false);
   const [editFormData, setEditFormData] = useState<Listing | null>(null);
+  const [addFormData, setAddFormData] = useState<Listing | null>(null);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [listingToDelete, setListingToDelete] = useState<Listing | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const editScrollContainerRef = useRef<HTMLDivElement>(null);
+  const addScrollContainerRef = useRef<HTMLDivElement>(null);
 
   const sortOptions = [
     "Latest Listing",
@@ -201,6 +209,26 @@ const MyListings: React.FC<MyListingsProps> = ({
     }
   };
 
+  // Handle scroll position for edit view custom scrollbar
+  const handleEditScroll = () => {
+    if (editScrollContainerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = editScrollContainerRef.current;
+      const maxScroll = scrollHeight - clientHeight;
+      const scrollPercentage = maxScroll > 0 ? scrollTop / maxScroll : 0;
+      setEditScrollPosition(scrollPercentage);
+    }
+  };
+
+  // Handle scroll position for add view custom scrollbar
+  const handleAddScroll = () => {
+    if (addScrollContainerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = addScrollContainerRef.current;
+      const maxScroll = scrollHeight - clientHeight;
+      const scrollPercentage = maxScroll > 0 ? scrollTop / maxScroll : 0;
+      setAddScrollPosition(scrollPercentage);
+    }
+  };
+
   // Handle image navigation
   const handlePreviousImage = () => {
     if (selectedListing) {
@@ -223,7 +251,9 @@ const MyListings: React.FC<MyListingsProps> = ({
     setSelectedListing(listing);
     setCurrentImageIndex(0);
     setIsEditMode(false);
+    setIsAddMode(false);
     setEditFormData(null);
+    setAddFormData(null);
   };
 
   // Handle edit button click
@@ -241,6 +271,34 @@ const MyListings: React.FC<MyListingsProps> = ({
     }
   };
 
+  // Handle add form input changes
+  const handleAddFormChange = (field: keyof Listing, value: string) => {
+    if (addFormData) {
+      setAddFormData({ ...addFormData, [field]: value });
+    }
+  };
+
+  // Handle add new listing button click
+  const handleAddNewListing = () => {
+    const newListingTemplate = {
+      id: 0,
+      title: '',
+      description: '',
+      price: '',
+      unit: 'Per Unit',
+      location: '',
+      image: '',
+      category: '',
+      farmAddress: '',
+      averageMarketPrice: '',
+      images: []
+    };
+    setAddFormData(newListingTemplate);
+    setIsAddMode(true);
+    setSelectedListing(null);
+    setIsEditMode(false);
+  };
+
   // Handle save changes
   const handleSaveChanges = () => {
     // Here you would typically save to backend
@@ -251,11 +309,52 @@ const MyListings: React.FC<MyListingsProps> = ({
     }
   };
 
+  // Handle save new listing
+  const handleSaveNewListing = () => {
+    // Here you would typically save to backend
+    console.log('Saving new listing:', addFormData);
+    setIsAddMode(false);
+    setAddFormData(null);
+    // You could add the new listing to the listings data here
+  };
+
+  // Handle delete popup
+  const handleDeleteClick = (listing: Listing, event: React.MouseEvent) => {
+    event.stopPropagation();
+    setListingToDelete(listing);
+    setShowDeletePopup(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (listingToDelete) {
+      onDeleteListing(listingToDelete.id);
+      setShowDeletePopup(false);
+      setListingToDelete(null);
+      // Close detail view if deleting the currently selected listing
+      if (selectedListing?.id === listingToDelete.id) {
+        setSelectedListing(null);
+        setIsEditMode(false);
+        setEditFormData(null);
+      }
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeletePopup(false);
+    setListingToDelete(null);
+  };
+
   return (
     <div className="w-[1129px] h-[980px] relative bg-brand-colors-SteamWhite rounded-[20px] overflow-hidden">
       {/* Listings Grid */}
-      <div className="h-[764px] px-2.5 pb-2.5 left-[30px] top-[226px] absolute flex justify-start items-start gap-2.5 overflow-y-auto">
-        <div className={`${selectedListing ? 'w-[528px] grid grid-cols-2 gap-5' : 'w-[1048px] flex flex-wrap gap-5'} transition-all duration-300`}>
+      <div 
+        className="h-[764px] px-2.5 pb-2.5 left-[30px] top-[226px] absolute flex justify-start items-start gap-2.5 overflow-y-auto"
+        style={{ 
+          scrollbarWidth: 'none', 
+          msOverflowStyle: 'none',
+        }}
+      >
+        <div className={`${(selectedListing || isAddMode) ? 'w-[528px] grid grid-cols-2 gap-5' : 'w-[1048px] flex flex-wrap gap-5'} transition-all duration-300`}>
           {listingsData.map((listing) => (
             <div 
               key={listing.id} 
@@ -296,10 +395,7 @@ const MyListings: React.FC<MyListingsProps> = ({
             
               {/* Delete Icon */}
               <button 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onDeleteListing(listing.id);
-                }}
+                onClick={(e) => handleDeleteClick(listing, e)}
                 className="p-2.5 left-[188px] top-[15px] absolute bg-brand-colors-SteamWhite rounded-3xl shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex items-center hover:bg-red-50 transition-colors group"
               >
                 <img 
@@ -313,28 +409,33 @@ const MyListings: React.FC<MyListingsProps> = ({
           ))}
         </div>
         
-        {/* Detail/Edit View - Isolated Component */}
-        {selectedListing && (
+        {/* Detail/Edit/Add View - Isolated Component */}
+        {(selectedListing || isAddMode) && (
           <div className="sticky w-[514px] h-[724px] top-[20px] bg-brand-colors-SteamWhite rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] z-30 flex flex-col overflow-hidden">
-            {/* Header with Close Button */}
-            <div className="relative h-16 flex-shrink-0">
-              <button 
-                onClick={() => {
-                  setSelectedListing(null);
-                  setIsEditMode(false);
-                  setEditFormData(null);
-                }}
-                className="p-2.5 right-[20px] top-[20px] absolute bg-brand-colors-SteamWhite rounded-3xl shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors z-10"
-              >
-                <div className="w-6 h-6 relative overflow-hidden">
-                  <div className="w-3 h-3 left-[6px] top-[6px] absolute outline outline-2 outline-offset-[-1px] outline-brand-colors-RootBlack"></div>
-                  <div className="w-3 h-3 left-[6px] top-[6px] absolute outline outline-2 outline-offset-[-1px] outline-brand-colors-RootBlack"></div>
-                </div>
-              </button>
+            {/* Header with Upload Image Text for Edit/Add Mode */}
+            <div className="relative h-16 flex-shrink-0 flex items-center justify-between px-5">
+              {(isEditMode || isAddMode) && (
+                <div className="text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Upload Image:</div>
+              )}
+              {isAddMode && (
+                <button 
+                  onClick={() => {
+                    setIsAddMode(false);
+                    setAddFormData(null);
+                  }}
+                  className="p-2.5 bg-brand-colors-SteamWhite rounded-3xl shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors"
+                >
+                  <img 
+                    src="/close icon.svg" 
+                    alt="Close" 
+                    className="w-5 h-5"
+                  />
+                </button>
+              )}
             </div>
 
             {/* Conditional Content */}
-            {!isEditMode ? (
+            {!isEditMode && !isAddMode && selectedListing ? (
               /* Detail View */
               <>
               <div className="flex-1 px-5 overflow-hidden">
@@ -352,7 +453,7 @@ const MyListings: React.FC<MyListingsProps> = ({
                   <div className="relative mb-6">
                     <img className="w-full h-72 rounded-[10px] object-cover" src={selectedListing.images[currentImageIndex]} alt={selectedListing.title} />
                     
-                    {/* Navigation Arrows */}
+                    {/* Navigation Arrows and Close Button */}
                     <div className="absolute inset-0 flex justify-between items-center px-2.5 pointer-events-none">
                       <button 
                         onClick={handlePreviousImage}
@@ -375,6 +476,24 @@ const MyListings: React.FC<MyListingsProps> = ({
                         />
                       </button>
                     </div>
+                    
+                    {/* Close Button */}
+                    <button 
+                      onClick={() => {
+                        setSelectedListing(null);
+                        setIsEditMode(false);
+                        setIsAddMode(false);
+                        setEditFormData(null);
+                        setAddFormData(null);
+                      }}
+                      className="absolute top-2.5 right-2.5 w-10 h-10 bg-white/70 rounded-full flex justify-center items-center pointer-events-auto cursor-pointer hover:bg-white/90 transition-colors z-10"
+                    >
+                      <img 
+                        src="/close icon.svg" 
+                        alt="Close" 
+                        className="w-5 h-5"
+                      />
+                    </button>
                   </div>
                   
                   {/* Thumbnail Images */}
@@ -428,10 +547,7 @@ const MyListings: React.FC<MyListingsProps> = ({
                   
                   {/* Location */}
                   <div className="flex items-center gap-2 mb-6">
-                    <div className="w-6 h-6 relative">
-                      <div className="w-4 h-3.5 left-[4px] top-[7.50px] absolute bg-brand-colors-RootBlack"></div>
-                      <div className="w-3.5 h-4 left-[4.50px] top-[2px] absolute opacity-30 bg-brand-colors-RootBlack"></div>
-                    </div>
+                    <img className="w-6 h-6" src="/location-icon.svg" alt="Location" />
                     <span className="text-base font-['MadaniArabic-Medium'] text-brand-colors-RootBlack">
                       {selectedListing.location}
                     </span>
@@ -471,7 +587,7 @@ const MyListings: React.FC<MyListingsProps> = ({
                     </span>
                   </button>
                   <button 
-                    onClick={() => onDeleteListing(selectedListing.id)}
+                    onClick={(e) => handleDeleteClick(selectedListing, e)}
                     className="p-2.5 bg-brand-colors-SteamWhite rounded-3xl shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex items-center justify-center hover:bg-red-50 transition-colors group"
                   >
                     <img 
@@ -494,22 +610,26 @@ const MyListings: React.FC<MyListingsProps> = ({
                 ></div>
               </div>
               </>
-            ) : (
+            ) : isEditMode && selectedListing ? (
               /* Edit View */
               <div className="flex-1 overflow-hidden relative">
-                <div className="w-[474px] h-full left-[20px] top-[40px] absolute overflow-y-auto">
+                <div 
+                  ref={editScrollContainerRef}
+                  onScroll={handleEditScroll}
+                  className="w-[474px] h-full left-[20px] top-[10px] absolute overflow-y-auto pr-2"
+                  style={{ 
+                    scrollbarWidth: 'none', 
+                    msOverflowStyle: 'none'
+                  }}
+                >
                   {/* Upload Images Section */}
                   <div className="w-[474px] mb-5">
-                    <div className="mb-5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Upload Image:</div>
                     <div className="h-56 flex flex-wrap gap-4 content-start">
                       {selectedListing.images.slice(0, 5).map((img, index) => (
                         <div key={index} className="w-24 h-24 relative overflow-hidden">
                           <img className="w-24 h-24 rounded-[10px] object-cover" src={img} alt={`Upload ${index + 1}`} />
                           <div className="w-6 h-6 absolute top-[5px] right-[5px] bg-brand-colors-SteamWhite rounded-full shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex justify-center items-center">
-                            <div className="w-4 h-4 relative overflow-hidden">
-                              <div className="w-2.5 h-2.5 absolute left-[3.38px] top-[2.55px] bg-black/25"></div>
-                              <div className="w-2 h-2 absolute left-[3.38px] top-[4.14px] bg-brand-colors-RootBlack"></div>
-                            </div>
+                            <img src="/edit icon.svg" alt="Edit" className="w-4 h-4" />
                           </div>
                         </div>
                       ))}
@@ -530,15 +650,27 @@ const MyListings: React.FC<MyListingsProps> = ({
                   {/* Choose Category */}
                   <div className="w-[474px] mb-5 flex flex-col gap-3">
                     <div className="px-2.5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Choose category:</div>
-                    <div className="h-12 px-6 py-3 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 flex justify-between items-center overflow-hidden">
-                      <input
-                        type="text"
+                    <div className="relative">
+                      <select
                         value={editFormData?.category || ''}
                         onChange={(e) => handleFormChange('category', e.target.value)}
-                        className="flex-1 bg-transparent text-brand-colors-RootBlack text-base font-['MadaniArabic-Regular'] outline-none"
-                      />
-                      <div className="w-6 h-6 relative overflow-hidden">
-                        <div className="w-3 h-1.5 absolute left-[6px] top-[9px] outline outline-2 outline-offset-[-1px] outline-brand-colors-RootBlack"></div>
+                        className="w-full h-12 px-6 py-3 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Regular'] appearance-none cursor-pointer"
+                      >
+                        <option value="">Select a category</option>
+                        <option value="Vegetables">Vegetables</option>
+                        <option value="Fruits">Fruits</option>
+                        <option value="Grains">Grains</option>
+                        <option value="Tubers">Tubers</option>
+                        <option value="Legumes">Legumes</option>
+                        <option value="Spices">Spices</option>
+                        <option value="Leafy Greens">Leafy Greens</option>
+                      </select>
+                      <div className="absolute right-6 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                        <img 
+                          src="/chevron-down-2.svg" 
+                          alt="Dropdown" 
+                          className="w-4 h-4"
+                        />
                       </div>
                     </div>
                   </div>
@@ -569,10 +701,7 @@ const MyListings: React.FC<MyListingsProps> = ({
                     <div className="px-2.5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Select address:</div>
                     <div className="px-6 py-4 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 flex flex-col gap-5 relative">
                       <div className="flex items-center gap-1">
-                        <div className="w-6 h-6 relative overflow-hidden">
-                          <div className="w-4 h-3.5 absolute left-[4px] top-[7.50px] bg-brand-colors-RootBlack"></div>
-                          <div className="w-3.5 h-4 absolute left-[4.50px] top-[2px] opacity-30 bg-brand-colors-RootBlack"></div>
-                        </div>
+                        <img className="w-6 h-6" src="/location-icon.svg" alt="Location" />
                         <input
                           type="text"
                           value={editFormData?.location || ''}
@@ -602,26 +731,245 @@ const MyListings: React.FC<MyListingsProps> = ({
                 <div className="absolute bottom-0 left-0 right-0 h-20 flex items-center justify-center px-5">
                   <div className="bg-white/20 rounded-full p-2.5 flex items-center gap-1.5">
                     <button 
-                      onClick={handleSaveChanges}
+                      onClick={handleSaveNewListing}
                       className="w-48 min-w-40 min-h-10 px-6 py-3 bg-brand-colors-SproutGreen rounded-[30px] flex justify-center items-center">
                       <span className="text-brand-colors-SteamWhite text-base font-['MadaniArabic-Bold']">Save</span>
                     </button>
                     <button 
-                      onClick={() => onDeleteListing(selectedListing.id)}
+                      onClick={() => {
+                        setIsAddMode(false);
+                        setAddFormData(null);
+                      }}
                       className="p-2.5 bg-brand-colors-SteamWhite rounded-3xl shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex items-center justify-center hover:bg-red-50 transition-colors group"
                     >
-                      <div className="w-6 h-6 relative overflow-hidden">
-                        <div className="w-2 h-2.5 absolute left-[8px] top-[9px] opacity-30 bg-brand-colors-pepper-red"></div>
-                        <div className="w-3.5 h-4 absolute left-[5px] top-[3px] bg-brand-colors-pepper-red"></div>
-                      </div>
+                      <img 
+                        src="/delete icon.svg" 
+                        alt="Delete" 
+                        className="w-5 h-5 group-hover:opacity-80"
+                        style={{ filter: 'invert(36%) sepia(69%) saturate(2083%) hue-rotate(338deg) brightness(97%) contrast(106%)' }}
+                      />
                     </button>
                   </div>
                 </div>
 
                 {/* Custom Scroll Indicator */}
-                <div className="w-[5px] h-14 absolute right-[10px] top-[64px] bg-brand-colors-SproutGreen rounded-full"></div>
+                <div className="w-[5px] h-[500px] right-[10px] top-[100px] absolute bg-gray-200 rounded-full z-10">
+                  <div 
+                    className="w-[5px] h-14 bg-brand-colors-SproutGreen rounded-full transition-all duration-150"
+                    style={{
+                      transform: `translateY(${addScrollPosition * (500 - 56)}px)`
+                    }}
+                  ></div>
+                </div>
               </div>
-            )}
+            ) : isAddMode ? (
+              /* Add New Listing View - Same layout as Edit View */
+              <div className="flex-1 overflow-hidden relative">
+                <div 
+                  ref={addScrollContainerRef}
+                  onScroll={handleAddScroll}
+                  className="w-[474px] h-full left-[20px] top-[10px] absolute overflow-y-auto pr-2"
+                  style={{ 
+                    scrollbarWidth: 'none', 
+                    msOverflowStyle: 'none'
+                  }}
+                >
+                  {/* Upload Images Section */}
+                  <div className="w-[474px] mb-5">
+                    <div className="h-56 flex flex-wrap gap-4 content-start">
+                      {[...Array(5)].map((_, index) => (
+                        <div 
+                          key={index}
+                          data-property-1="upload" 
+                          style={{
+                            width: 96, 
+                            height: 95, 
+                            position: 'relative', 
+                            overflow: 'hidden', 
+                            borderRadius: 10, 
+                            outline: '2px var(--brand-colors-RootBlack, #182605) solid', 
+                            outlineOffset: '-2px',
+                            cursor: 'pointer'
+                          }}
+                          onClick={() => {
+                            const input = document.createElement('input');
+                            input.type = 'file';
+                            input.accept = 'image/*';
+                            input.onchange = (e) => {
+                              const file = (e.target as HTMLInputElement).files?.[0];
+                              if (file) {
+                                const reader = new FileReader();
+                                reader.onload = () => {
+                                  // Handle image upload logic here
+                                  console.log('Image uploaded:', reader.result);
+                                };
+                                reader.readAsDataURL(file);
+                              }
+                            };
+                            input.click();
+                          }}
+                        >
+                          <img 
+                            style={{
+                              width: 96, 
+                              height: 95, 
+                              left: 0, 
+                              top: 0, 
+                              position: 'absolute', 
+                              opacity: 0.20, 
+                              background: 'hsla(0, 0%, 87%, 1)', 
+                              borderRadius: 10
+                            }} 
+                            src="/image icon.svg" 
+                            alt="Upload placeholder"
+                          />
+                          <div style={{
+                            left: 36, 
+                            top: 36, 
+                            position: 'absolute', 
+                            justifyContent: 'center', 
+                            alignItems: 'center', 
+                            gap: 10, 
+                            display: 'inline-flex'
+                          }}>
+                            <img 
+                              src="/lucide_plus.svg" 
+                              alt="Add image"
+                              style={{width: 24, height: 24}}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Produce Name */}
+                  <div className="w-[474px] mb-5 flex flex-col gap-3">
+                    <div className="px-2.5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Produce Name:</div>
+                    <input
+                      type="text"
+                      value={addFormData?.title || ''}
+                      onChange={(e) => handleAddFormChange('title', e.target.value)}
+                      className="h-12 px-6 py-3 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Regular']"
+                    />
+                  </div>
+
+                  {/* Choose Category */}
+                  <div className="w-[474px] mb-5 flex flex-col gap-3">
+                    <div className="px-2.5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Choose category:</div>
+                    <div className="relative">
+                      <select
+                        value={addFormData?.category || ''}
+                        onChange={(e) => handleAddFormChange('category', e.target.value)}
+                        className="w-full h-12 px-6 py-3 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Regular'] appearance-none cursor-pointer"
+                      >
+                        <option value="">Select a category</option>
+                        <option value="Vegetables">Vegetables</option>
+                        <option value="Fruits">Fruits</option>
+                        <option value="Grains">Grains</option>
+                        <option value="Tubers">Tubers</option>
+                        <option value="Legumes">Legumes</option>
+                        <option value="Spices">Spices</option>
+                        <option value="Leafy Greens">Leafy Greens</option>
+                      </select>
+                      <div className="absolute right-6 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                        <img 
+                          src="/chevron-down-2.svg" 
+                          alt="Dropdown" 
+                          className="w-4 h-4"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Price per unit */}
+                  <div className="w-[474px] mb-5 flex flex-col gap-3">
+                    <div className="px-2.5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Price per unit:</div>
+                    <input
+                      type="text"
+                      value={addFormData?.price || ''}
+                      onChange={(e) => handleAddFormChange('price', e.target.value)}
+                      className="h-12 px-6 py-3 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Regular']"
+                    />
+                  </div>
+
+                  {/* Produce Description */}
+                  <div className="w-[474px] mb-5 flex flex-col gap-3">
+                    <div className="px-2.5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Produce Description:</div>
+                    <textarea
+                      value={addFormData?.description || ''}
+                      onChange={(e) => handleAddFormChange('description', e.target.value)}
+                      className="h-20 px-6 py-3 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Regular'] resize-none"
+                    />
+                  </div>
+
+                  {/* Select Address */}
+                  <div className="w-[474px] mb-20 flex flex-col gap-5">
+                    <div className="px-2.5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Select address:</div>
+                    <div className="px-6 py-4 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 flex flex-col gap-5 relative">
+                      <div className="flex items-center gap-1">
+                        <img className="w-6 h-6" src="/location-icon.svg" alt="Location" />
+                        <input
+                          type="text"
+                          value={addFormData?.location || ''}
+                          onChange={(e) => handleAddFormChange('location', e.target.value)}
+                          className="flex-1 bg-transparent text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium'] outline-none"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-3.5">
+                        <div className="text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Farm Address:</div>
+                        <input
+                          type="text"
+                          value={addFormData?.farmAddress || ''}
+                          onChange={(e) => handleAddFormChange('farmAddress', e.target.value)}
+                          className="bg-transparent text-brand-colors-rootgrey text-base font-['MadaniArabic-Medium'] outline-none"
+                        />
+                      </div>
+                      <div className="absolute right-[16px] top-[16px]">
+                        <div className="w-6 h-6 relative overflow-hidden">
+                          <div className="w-3 h-1.5 absolute left-[6px] top-[9px] outline outline-2 outline-offset-[-1px] outline-brand-colors-RootBlack"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Fixed Action Buttons at Bottom */}
+                <div className="absolute bottom-0 left-0 right-0 h-20 flex items-center justify-center px-5">
+                  <div className="bg-white/20 rounded-full p-2.5 flex items-center gap-1.5">
+                    <button 
+                      onClick={handleSaveNewListing}
+                      className="w-48 min-w-40 min-h-10 px-6 py-3 bg-brand-colors-SproutGreen rounded-[30px] flex justify-center items-center">
+                      <span className="text-brand-colors-SteamWhite text-base font-['MadaniArabic-Bold']">Save</span>
+                    </button>
+                    <button 
+                      onClick={() => {
+                        setIsAddMode(false);
+                        setAddFormData(null);
+                      }}
+                      className="p-2.5 bg-brand-colors-SteamWhite rounded-3xl shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex items-center justify-center hover:bg-red-50 transition-colors group"
+                    >
+                      <img 
+                        src="/delete icon.svg" 
+                        alt="Delete" 
+                        className="w-5 h-5 group-hover:opacity-80"
+                        style={{ filter: 'invert(36%) sepia(69%) saturate(2083%) hue-rotate(338deg) brightness(97%) contrast(106%)' }}
+                      />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Custom Scroll Indicator */}
+                <div className="w-[5px] h-[500px] right-[10px] top-[100px] absolute bg-gray-200 rounded-full z-10">
+                  <div 
+                    className="w-[5px] h-14 bg-brand-colors-SproutGreen rounded-full transition-all duration-150"
+                    style={{
+                      transform: `translateY(${addScrollPosition * (500 - 56)}px)`
+                    }}
+                  ></div>
+                </div>
+              </div>
+            ) : null}
           </div>
         )}
       </div>
@@ -702,7 +1050,7 @@ const MyListings: React.FC<MyListingsProps> = ({
             
             {/* Add New Listing Button */}
             <button 
-              onClick={onCreateListing}
+              onClick={handleAddNewListing}
               className="h-14 min-w-48 px-6 py-3 bg-brand-colors-SproutGreen rounded-[30px] flex justify-center items-center hover:bg-opacity-90 transition-colors"
             >
               <div className="text-brand-colors-SteamWhite text-base font-madani-bold">
@@ -712,6 +1060,68 @@ const MyListings: React.FC<MyListingsProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Delete Popup Overlay */}
+      {showDeletePopup && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+          onClick={handleCancelDelete}
+        >
+          <div 
+            className="w-[699px] h-[613px] relative bg-white overflow-hidden rounded-[20px]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="w-[531px] left-[84px] top-[100px] absolute flex flex-col justify-start items-center gap-[25px]">
+              <div className="self-stretch flex flex-col justify-start items-center gap-3">
+                <div className="w-[200px] h-[200px]">
+                  <img 
+                    style={{width: '100%', height: '100%'}}
+                    src="/delete-popup.png"
+                    alt="Delete confirmation"
+                  />
+                </div>
+                <div className="self-stretch flex flex-col justify-start items-center gap-5">
+                  <div className="text-center text-brand-colors-RootBlack text-[26px] font-['MadaniArabic-Bold'] leading-[40px]">
+                    Delete this product?
+                  </div>
+                  <div className="self-stretch text-center text-brand-colors-rootgrey text-lg font-['MadaniArabic-Medium'] leading-[30px] px-4">
+                    Once deleted, this product will be removed from your listings and buyers will no longer see it. This action cannot be undone.
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-start items-center gap-4 mt-4">
+                <button 
+                  onClick={handleCancelDelete}
+                  className="h-[60px] min-w-[200px] px-6 py-3 bg-brand-colors-HarvestMist rounded-[30px] flex justify-center items-center gap-2.5 border-none cursor-pointer hover:opacity-90 transition-opacity"
+                >
+                  <div className="text-brand-colors-RootBlack text-base font-['MadaniArabic-Bold']">
+                    Cancel
+                  </div>
+                </button>
+                <button 
+                  onClick={handleConfirmDelete}
+                  className="h-[60px] min-w-[200px] px-6 py-3 bg-brand-colors-pepper-red rounded-[30px] flex justify-center items-center gap-2.5 border-none cursor-pointer hover:opacity-90 transition-opacity"
+                >
+                  <div className="text-white text-base font-['MadaniArabic-Bold']">
+                    Yes, Delete
+                  </div>
+                </button>
+              </div>
+            </div>
+            <button 
+              onClick={handleCancelDelete}
+              className="w-[50px] h-[50px] left-[620px] top-[30px] absolute bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.15)] rounded-full flex justify-center items-center gap-2.5 border-none cursor-pointer hover:bg-gray-50 transition-colors"
+            >
+              <img 
+                src="/close icon.svg" 
+                alt="Close" 
+                className="w-6 h-6"
+                style={{ filter: 'invert(36%) sepia(69%) saturate(2083%) hue-rotate(338deg) brightness(97%) contrast(106%)' }}
+              />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

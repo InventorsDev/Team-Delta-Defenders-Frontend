@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Package, MessageCircle, BarChart3, TrendingUp } from 'lucide-react';
+import { Plus, Package, BarChart3, TrendingUp } from 'lucide-react';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import CreateListingModal from '@/components/dashboard/CreateListingModal';
 import MyListings from '@/components/dashboard/MyListings';
+import Chats from '@/components/dashboard/Chats';
 
 // Mock data for demonstration
 const mockListings = [
@@ -597,13 +598,7 @@ const FarmerDashboard: React.FC = () => {
             onCreateListing={() => setIsCreateListingOpen(true)}
           />
         )}
-        {activeView === 'chats' && (
-          <div className="text-center py-20 px-10">
-            <MessageCircle className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-            <h2 className="text-2xl font-semibold text-gray-600">Messages</h2>
-            <p className="text-gray-500">Chat functionality coming soon</p>
-          </div>
-        )}
+        {activeView === 'chats' && <Chats />}
         {activeView === 'settings' && (
           <div className="text-center py-20 px-10">
             <h2 className="text-2xl font-semibold text-gray-600">Settings</h2>

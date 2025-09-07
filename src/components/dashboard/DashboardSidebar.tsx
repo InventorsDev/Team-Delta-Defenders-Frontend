@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, Package, MessageCircle, Settings, LogOut } from 'lucide-react';
+import { LayoutDashboard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface DashboardSidebarProps {
@@ -25,17 +25,17 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
     },
     {
       id: 'listings' as const,
-      icon: Package,
+      icon: 'listing.svg',
       label: 'My Listings'
     },
     {
       id: 'chats' as const,
-      icon: MessageCircle,
+      icon: 'chat icon.svg',
       label: 'Chats'
     },
     {
       id: 'settings' as const,
-      icon: Settings,
+      icon: 'settings icon.svg',
       label: 'Settings'
     }
   ];
@@ -46,7 +46,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
   };
 
   return (
-    <div className="w-96 h-full bg-brand-colors-HarvestMist rounded-tl-[20px] rounded-bl-[20px] p-6 flex flex-col">
+    <div className="w-96 h-screen bg-brand-colors-HarvestMist rounded-tl-[20px] rounded-bl-[20px] p-6 flex flex-col">
       {/* Logo */}
       <div className="mb-12 relative">
         <AgrilinkLogo />
@@ -95,7 +95,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
           onClick={handleLogout}
           className="w-full px-5 py-4 rounded-2xl flex items-center gap-3 text-brand-colors-RootBlack hover:bg-red-100 transition-all mt-4"
         >
-          <LogOut className="h-6 w-6" />
+          <img src="/logout icon.svg" alt="Logout" className="h-6 w-6" />
           <span 
             className="text-xl font-medium"
             style={{ fontFamily: 'MadaniArabic-Medium' }}
