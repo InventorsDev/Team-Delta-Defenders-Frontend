@@ -46,7 +46,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
   };
 
   return (
-    <div className="w-96 h-screen bg-brand-colors-HarvestMist rounded-tl-[20px] rounded-bl-[20px] p-6 flex flex-col">
+    <div className="w-80 h-screen bg-brand-colors-HarvestMist rounded-tl-[20px] rounded-bl-[20px] p-4 pb-8 flex flex-col">
       {/* Logo */}
       <div className="mb-12 relative">
         <AgrilinkLogo />
@@ -68,7 +68,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
               key={item.id}
               onClick={() => setActiveView(item.id)}
               className={`
-                w-full px-5 py-4 rounded-2xl flex items-center gap-3 transition-all
+                w-full px-4 py-3 rounded-xl flex items-center gap-3 transition-all
                 ${isActive 
                   ? 'bg-brand-colors-SproutGreen/30 text-brand-colors-RootBlack' 
                   : 'text-brand-colors-RootBlack hover:bg-brand-colors-SproutGreen/10'
@@ -81,7 +81,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
                 <Icon className="h-6 w-6" />
               )}
               <span 
-                className="text-xl font-medium"
+                className="text-lg font-medium"
                 style={{ fontFamily: 'MadaniArabic-Medium' }}
               >
                 {item.label}
@@ -93,11 +93,11 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
         {/* Logout */}
         <button
           onClick={handleLogout}
-          className="w-full px-5 py-4 rounded-2xl flex items-center gap-3 text-brand-colors-RootBlack hover:bg-red-100 transition-all mt-4"
+          className="w-full px-4 py-3 rounded-xl flex items-center gap-3 text-brand-colors-RootBlack hover:bg-red-100 transition-all mt-4"
         >
           <img src="/logout icon.svg" alt="Logout" className="h-6 w-6" />
           <span 
-            className="text-xl font-medium"
+            className="text-lg font-medium"
             style={{ fontFamily: 'MadaniArabic-Medium' }}
           >
             Logout
@@ -106,29 +106,29 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
       </nav>
 
       {/* Bottom Promotional Card */}
-      <div className="mt-8">
-        <div className="bg-white rounded-2xl shadow-lg p-6 text-center">
-          <div className="w-32 h-32 mx-auto mb-4 rounded-xl overflow-hidden">
+      <div className="mt-4">
+        <div className="bg-white rounded-xl shadow-md p-4 text-center w-64 h-64 mx-auto flex flex-col justify-between">
+          <div className="w-24 h-24 mx-auto mb-3 rounded-lg overflow-hidden">
             <img 
               src="/farmers-dashoard-sidebar .png" 
               alt="Fresh Produce" 
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
           </div>
           <h3 
-            className="text-xl font-bold mb-2 text-brand-colors-RootBlack"
+            className="text-sm font-bold mb-2 text-brand-colors-RootBlack"
             style={{ fontFamily: 'MadaniArabic-Bold' }}
           >
             Need to Buy Fresh Produce Too?
           </h3>
           <p 
-            className="text-sm text-gray-600 mb-4"
+            className="text-xs text-gray-600 mb-3"
             style={{ fontFamily: 'MadaniArabic-Regular' }}
           >
-            Switch to the Buyers Marketplace and shop directly from trusted farmers.
+            Switch to the Buyers Marketplace
           </p>
           <Button
-            className="w-full bg-brand-colors-SproutGreen hover:bg-brand-colors-SproutGreen/90 text-white"
+            className="w-full text-xs py-2 bg-brand-colors-SproutGreen hover:bg-brand-colors-SproutGreen/90 text-white"
             style={{ fontFamily: 'MadaniArabic-Bold' }}
           >
             Go to Marketplace

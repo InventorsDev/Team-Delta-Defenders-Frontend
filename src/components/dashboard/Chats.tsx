@@ -27,10 +27,9 @@ const ChatDetailView: React.FC<{ chat: ChatData; onClose: () => void }> = ({ cha
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-      <div className="bg-white rounded-[20px] shadow-2xl w-[574px] h-[814px] relative overflow-hidden">
+    <div className="w-full h-full bg-white rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex flex-col overflow-hidden">
         {/* Header */}
-        <div className="w-full px-5 py-5 bg-white bg-opacity-80 flex justify-between items-center border-b border-gray-100">
+        <div className="w-full px-5 py-5 bg-white bg-opacity-80 flex justify-between items-center border-b border-gray-100 flex-shrink-0">
           <div className="flex items-center gap-3">
             <img 
               className="w-10 h-10 rounded-full" 
@@ -63,7 +62,7 @@ const ChatDetailView: React.FC<{ chat: ChatData; onClose: () => void }> = ({ cha
         </div>
 
         {/* Messages Container */}
-        <div className="flex-1 px-5 py-4 overflow-y-auto max-h-[650px] space-y-4">
+        <div className="flex-1 px-5 py-4 overflow-y-auto space-y-4">
           {/* User Message - Left */}
           <div className="flex justify-start">
             <div className="max-w-sm px-4 py-3 bg-[#D3AB9E] text-white rounded-t-3xl rounded-br-3xl">
@@ -154,46 +153,40 @@ const ChatDetailView: React.FC<{ chat: ChatData; onClose: () => void }> = ({ cha
         </div>
 
         {/* Message Input Toolbar */}
-        <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-5 rounded-b-[20px]">
-          <div className="flex items-center gap-3">
-            {/* Emoji Button */}
-            <button className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center text-lg transition-colors">
-              😊
-            </button>
-
-            {/* Text Input */}
-            <div className="flex-1 border border-gray-200 rounded-full px-4 py-2.5 bg-gray-50">
-              <input
-                type="text"
-                value={messageInput}
-                onChange={(e) => setMessageInput(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Type your message..."
-                className="w-full bg-transparent outline-none text-base font-medium font-['MadaniArabic-Medium'] text-brand-colors-RootBlack placeholder-gray-400"
-              />
+        <div className="w-full h-16 p-5 bg-brand-colors-SteamWhite rounded-bl-[20px] rounded-br-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] inline-flex justify-between items-center flex-shrink-0">
+          <div className="flex justify-start items-center gap-3">
+            <div className="flex justify-start items-center gap-2.5">
+              <div className="w-6 h-6 relative overflow-hidden">
+                <img src="/design/assets/icons folder/emoji icon.svg" alt="Emoji" className="w-6 h-6" />
+              </div>
             </div>
-
-            {/* Action Buttons */}
-            <button className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors">
-              <img src="/files icon.svg" alt="Files" className="w-5 h-5" />
-            </button>
-
-            <button className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors">
-              <img src="/mic-icon.svg" alt="Microphone" className="w-5 h-5" />
-            </button>
-
-            {/* Send Button - Only shows when there's text */}
-            {messageInput.trim() && (
-              <button 
-                onClick={handleSendMessage}
-                className="w-10 h-10 bg-[#84C62C] hover:bg-[#75B025] rounded-full flex items-center justify-center text-white text-lg transition-colors"
-              >
-                ➤
-              </button>
-            )}
+            <input
+              type="text"
+              value={messageInput}
+              onChange={(e) => setMessageInput(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Type you message..."
+              className="bg-transparent outline-none border-none justify-start text-brand-colors-rootgrey text-base font-normal font-['MadaniArabic-Medium'] placeholder-brand-colors-rootgrey flex-1"
+            />
+          </div>
+          <div className="flex justify-start items-center gap-3">
+            <div className="flex justify-start items-center gap-2.5">
+              <div className="w-6 h-6 relative overflow-hidden">
+                <img src="/mic-icon.svg" alt="Microphone" className="w-6 h-6" />
+              </div>
+            </div>
+            <div className="flex justify-start items-center gap-2.5">
+              <div className="w-6 h-6 relative overflow-hidden">
+                <img src="/files icon.svg" alt="Files" className="w-6 h-6" />
+              </div>
+            </div>
+            <div className="flex justify-start items-center gap-2.5">
+              <div className="w-6 h-6 relative overflow-hidden">
+                <img src="/image icon.svg" alt="Image" className="w-6 h-6" />
+              </div>
+            </div>
           </div>
         </div>
-      </div>
     </div>
   );
 };
@@ -247,76 +240,88 @@ const Chats: React.FC = () => {
           }
         `}
       </style>
-    <div style={{width: '100%', height: '100%', position: 'relative', background: 'var(--brand-colors-SteamWhite, white)', overflow: 'hidden', borderRadius: 20}}>
-      <div style={{width: 1129, paddingLeft: 40, paddingRight: 40, paddingTop: 30, paddingBottom: 30, left: 0, top: 0, position: 'absolute', background: 'rgba(255, 255, 255, 0.80)', justifyContent: 'space-between', alignItems: 'flex-start', display: 'inline-flex'}}>
-        <div style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 16, display: 'inline-flex'}}>
-          <div style={{alignSelf: 'stretch', textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 16, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', wordWrap: 'break-word'}}>Respond to recent chats</div>
-          <div style={{width: 331, textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 24, fontFamily: 'MadaniArabic-Bold', fontWeight: '400', wordWrap: 'break-word'}}>Your Inbox</div>
-        </div>
-        <div style={{justifyContent: 'flex-start', alignItems: 'center', gap: 16, display: 'flex'}}>
-          <div style={{width: 40, height: 40, padding: 3, background: 'var(--brand-colors-SteamWhite, white)', boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.15)', borderRadius: 20, justifyContent: 'center', alignItems: 'center', gap: 10, display: 'flex'}}>
-            <img style={{width: 24, height: 24}} src="/design/assets/icons folder/notification icon.svg" alt="Notifications" />
+      <div className="w-full h-screen bg-white rounded-[20px] flex flex-col overflow-hidden">
+        {/* Header */}
+        <div className="w-full px-10 py-7 bg-white/80 flex justify-between items-center flex-shrink-0">
+          <div className="flex flex-col gap-4">
+            <div className="text-brand-colors-RootBlack text-base font-madani-medium">Respond to recent chats</div>
+            <div className="text-brand-colors-RootBlack text-2xl font-madani-bold">Your Inbox</div>
           </div>
-          <img style={{width: 40, height: 40, borderRadius: 9999}} src="/design/assets/dashboard & marketplace assets/profile image.png" alt="Profile" />
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 p-[3px] bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.15)] rounded-[20px] flex justify-center items-center">
+              <img className="w-6 h-6" src="/design/assets/icons folder/notification icon.svg" alt="Notifications" />
+            </div>
+            <img className="w-10 h-10 rounded-full" src="/design/assets/dashboard & marketplace assets/profile image.png" alt="Profile" />
+          </div>
         </div>
-      </div>
-      <div style={{width: 455, height: 814, left: 40, top: 126, position: 'absolute', background: 'var(--brand-colors-SteamWhite, white)', boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.08)', borderRadius: 20}}>
-        <div style={{width: 455, height: 78, paddingLeft: 20, paddingRight: 20, paddingTop: 10, paddingBottom: 10, left: 0, top: 0, position: 'absolute', background: 'rgba(255, 255, 255, 0.80)', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 10, display: 'inline-flex'}}>
-          <div data-property-1="Default" style={{width: '100%', height: '100%', padding: 12, background: 'rgba(0, 0, 0, 0.05)', borderRadius: 30, outline: '1px rgba(0, 0, 0, 0.05) solid', outlineOffset: '-1px', justifyContent: 'flex-start', alignItems: 'center', gap: 8, display: 'inline-flex'}}>
-            <div style={{width: 24, height: 24, position: 'relative'}}>
-              <div style={{width: 24, height: 24, left: 0, top: 0, position: 'absolute', overflow: 'hidden'}}>
-                <div style={{width: 0.84, height: 0.67, left: 12.08, top: 23.14, position: 'absolute'}} />
-                <div style={{width: 19.11, height: 19.11, left: 2, top: 2, position: 'absolute', background: 'var(--brand-colors-RootBlack, #182605)'}} />
+
+        {/* Main Content */}
+        <div className="flex-1 flex gap-5 p-10 pt-0 overflow-hidden">
+          {/* Chat List */}
+          <div className="w-[455px] bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col overflow-hidden">
+            {/* Search */}
+            <div className="px-5 py-2.5 bg-white/80 flex-shrink-0">
+              <div className="w-full p-3 bg-black/5 rounded-[30px] flex items-center gap-2">
+                <div className="w-6 h-6">
+                  <svg className="w-full h-full" viewBox="0 0 24 24" fill="none">
+                    <circle cx="11" cy="11" r="8" stroke="#8B9281" strokeWidth="2"/>
+                    <path d="m21 21-4.35-4.35" stroke="#8B9281" strokeWidth="2"/>
+                  </svg>
+                </div>
+                <div className="text-brand-colors-rootgrey text-xl font-madani-medium">Search</div>
               </div>
             </div>
-            <div style={{textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: 'var(--brand-colors-rootgrey, #8B9281)', fontSize: 20, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', lineHeight: 37, wordWrap: 'break-word'}}>Search</div>
+
+            {/* Chat Items */}
+            <div className="flex-1 px-5 py-2.5 overflow-y-auto custom-scroll">
+              <div className="space-y-5">
+                {chatData.map((chat) => (
+                  <div 
+                    key={chat.id}
+                    className="p-3 bg-white rounded-[20px] flex items-start gap-3 cursor-pointer hover:bg-gray-50 transition-colors"
+                    onClick={() => handleChatClick(chat)}
+                  >
+                    <img className="w-10 h-10 rounded-full" src={chat.avatar} alt={chat.name} />
+                    <div className="flex-1 min-w-0">
+                      <div className={`text-base font-madani-medium truncate ${chat.unread ? 'text-black font-semibold' : 'text-brand-colors-RootBlack'}`}>
+                        {chat.name}
+                      </div>
+                      <div className={`text-xs font-madani-light truncate ${chat.unread ? 'text-black' : 'text-brand-colors-rootgrey'}`}>
+                        {chat.lastMessage}
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-end gap-2">
+                      <div className="text-xs font-madani-light text-brand-colors-RootBlack">{chat.time}</div>
+                      {chat.unread && (
+                        <div className="w-5 h-5 bg-brand-colors-SproutGreen rounded-full flex items-center justify-center">
+                          <div className="text-white text-xs font-madani-medium">1</div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-        <div style={{width: 415, height: 696, left: 20, top: 98, position: 'absolute', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 20, display: 'inline-flex', overflowY: 'auto', paddingRight: 10}} className="custom-scroll">
-          {chatData.map((chat) => (
-            <div 
-              key={chat.id}
-              data-property-1={chat.unread ? "unread" : "read"}
-              style={{alignSelf: 'stretch', paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, background: 'var(--brand-colors-SteamWhite, white)', borderRadius: 20, justifyContent: 'flex-start', alignItems: 'flex-start', gap: 12, display: 'inline-flex', cursor: 'pointer'}}
-              onClick={() => handleChatClick(chat)}
-            >
-              <div style={{flex: '1 1 0', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 12, display: 'flex'}}>
-                <img style={{width: 40, height: 40, borderRadius: 9999}} src={chat.avatar} alt={chat.name} />
-                <div style={{flex: '1 1 0', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 12, display: 'inline-flex'}}>
-                  <div style={{alignSelf: 'stretch', textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: chat.unread ? '#000000' : 'var(--brand-colors-RootBlack, #182605)', fontSize: 16, fontFamily: 'MadaniArabic-Medium', fontWeight: chat.unread ? '600' : '400', wordWrap: 'break-word'}}>{chat.name}</div>
-                  <div style={{alignSelf: 'stretch', textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: chat.unread ? '#000000' : 'var(--brand-colors-rootgrey, #8B9281)', fontSize: 12, fontFamily: 'MadaniArabic-Light', fontWeight: chat.unread ? '500' : '400', wordWrap: 'break-word'}}>{chat.lastMessage}</div>
+
+          {/* Chat Detail / Empty State */}
+          <div className="flex-1">
+            {selectedChat ? (
+              <ChatDetailView chat={selectedChat} onClose={handleCloseDetail} />
+            ) : (
+              <div className="w-full h-full bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex items-center justify-center">
+                <div className="flex flex-col items-center gap-6">
+                  <img className="w-[200px] h-[200px]" src="/empty-state-messages.png" alt="Empty state" />
+                  <div className="text-center">
+                    <div className="text-brand-colors-RootBlack text-[32px] font-madani-bold leading-[50px] mb-6">Your Messages</div>
+                    <div className="text-brand-colors-rootgrey text-xl font-madani-medium">Click on a chat to open here.</div>
+                  </div>
                 </div>
               </div>
-              <div style={{alignSelf: 'stretch', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-end', display: 'inline-flex'}}>
-                <div style={{textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 12, fontFamily: 'MadaniArabic-Light', fontWeight: '400', wordWrap: 'break-word'}}>{chat.time}</div>
-                {chat.unread && (
-                  <div style={{minWidth: 20, minHeight: 20, padding: '4px 6px', background: '#84C62C', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                    <div style={{color: 'white', fontSize: 12, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', lineHeight: 1}}>1</div>
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
-          
-        </div>
-      </div>
-      <div style={{width: 574, height: 814, left: 515, top: 126, position: 'absolute'}}>
-        <div style={{width: '100%', height: '100%', background: 'var(--brand-colors-SteamWhite, white)', boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.08)', borderRadius: 20}}>
-          <div style={{width: 287, left: 143, top: 197, position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12}}>
-            <img style={{width: 200, height: 200}} src="/empty-state-messages.png" />
-            <div style={{width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24}}>
-              <div style={{width: '100%', textAlign: 'center', color: '#182605', fontSize: 32, fontFamily: 'MadaniArabic-Bold', fontWeight: '400', lineHeight: '50px'}}>Your Messages</div>
-              <div style={{width: '100%', textAlign: 'center', color: '#8B9281', fontSize: 20, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', lineHeight: '37px'}}>Click on a chat to open here.</div>
-            </div>
+            )}
           </div>
         </div>
       </div>
-
-      {/* Chat Detail Modal */}
-      {selectedChat && (
-        <ChatDetailView chat={selectedChat} onClose={handleCloseDetail} />
-      )}
-    </div>
     </>
   );
 };

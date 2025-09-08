@@ -580,7 +580,7 @@ const FarmerDashboard: React.FC = () => {
   );
 
   return (
-    <div className="flex w-full h-screen bg-gray-50">
+    <div className="flex w-full h-screen bg-gray-50 p-0 m-0">
       {/* Sidebar */}
       <DashboardSidebar 
         activeView={activeView} 
@@ -588,7 +588,7 @@ const FarmerDashboard: React.FC = () => {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 bg-white rounded-tr-3xl rounded-br-3xl overflow-y-auto">
+      <div className="flex-1 bg-white rounded-tr-3xl rounded-br-3xl overflow-y-auto h-full">
         {activeView === 'dashboard' && renderDashboardContent()}
         {activeView === 'listings' && (
           <MyListings 
