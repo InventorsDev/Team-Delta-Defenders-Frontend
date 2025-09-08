@@ -7,6 +7,7 @@ import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import CreateListingModal from '@/components/dashboard/CreateListingModal';
 import MyListings from '@/components/dashboard/MyListings';
 import Chats from '@/components/dashboard/Chats';
+import Settings from '@/components/dashboard/Settings';
 
 // Mock data for demonstration
 const mockListings = [
@@ -599,12 +600,7 @@ const FarmerDashboard: React.FC = () => {
           />
         )}
         {activeView === 'chats' && <Chats />}
-        {activeView === 'settings' && (
-          <div className="text-center py-20 px-10">
-            <h2 className="text-2xl font-semibold text-gray-600">Settings</h2>
-            <p className="text-gray-500">Settings panel coming soon</p>
-          </div>
-        )}
+        {activeView === 'settings' && <Settings />}
       </div>
 
       {/* Create Listing Modal */}
