@@ -1,0 +1,7 @@
+# Ignore placeholder links
+^#$
+^javascript:void\(0\)$
+
+# Ignore specific paths
+/privacy-policy
+/terms
