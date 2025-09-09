@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const CTASection = () => {
   return (
@@ -20,13 +21,15 @@ const CTASection = () => {
             {/* Logo and Brand */}
             <div className="flex items-center justify-center mb-6 sm:mb-8">
               <div className="mr-2 sm:mr-3 flex items-center">
-                <span className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center overflow-hidden">
-                  <img
-                    src="/agrilink-logo.png"
-                    alt="Agrilink Logo"
-                    className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
-                  />
-                </span>
+                <Link to="/" className="cursor-pointer">
+                  <span className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center overflow-hidden">
+                    <img
+                      src="/agrilink-logo.png"
+                      alt="Agrilink Logo"
+                      className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
+                    />
+                  </span>
+                </Link>
               </div>
               <span className="text-2xl sm:text-3xl font-bold text-white ml-2">agrilink</span>
             </div>

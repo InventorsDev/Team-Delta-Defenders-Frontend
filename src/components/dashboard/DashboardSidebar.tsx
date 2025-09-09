@@ -1,6 +1,7 @@
 import React from 'react';
 import { LayoutDashboard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 interface DashboardSidebarProps {
   activeView: 'dashboard' | 'listings' | 'chats' | 'settings';
@@ -9,7 +10,9 @@ interface DashboardSidebarProps {
 
 const AgrilinkLogo = () => (
   <div className="flex items-center gap-2">
-    <img src="/Agrilink-logo-dark.svg" alt="Agrilink Logo" className="h-12" />
+    <Link to="/" className="cursor-pointer">
+      <img src="/Agrilink-logo-dark.svg" alt="Agrilink Logo" className="h-12" />
+    </Link>
   </div>
 );
 
@@ -127,12 +130,14 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
           >
             Switch to the Buyers Marketplace
           </p>
-          <Button
-            className="w-full text-xs py-2 bg-brand-colors-SproutGreen hover:bg-brand-colors-SproutGreen/90 text-white"
-            style={{ fontFamily: 'MadaniArabic-Bold' }}
-          >
-            Go to Marketplace
-          </Button>
+          <Link to="/marketplace">
+            <Button
+              className="w-full text-xs py-2 bg-brand-colors-SproutGreen hover:bg-brand-colors-SproutGreen/90 text-white"
+              style={{ fontFamily: 'MadaniArabic-Bold' }}
+            >
+              Go to Marketplace
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

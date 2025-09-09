@@ -376,7 +376,7 @@ const MyListings: React.FC<MyListingsProps> = ({
             </div>
             
             {/* Price */}
-            <div className="left-[10px] top-[202px] absolute inline-flex justify-start items-end gap-1">
+            <div className="left-[10px] top-[202px] absolute inline-flex justify-start items-baseline gap-1">
               <div className="justify-start text-brand-colors-RootBlack text-xl font-madani-medium leading-9">
                 {listing.price}
               </div>

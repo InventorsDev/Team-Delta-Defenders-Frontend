@@ -1,4 +1,6 @@
 
+import { Link } from 'react-router-dom';
+
 const ProcessCard = ({ title, description, number, isWide = false }) => {
   return (
     <div 
@@ -14,11 +16,13 @@ const ProcessCard = ({ title, description, number, isWide = false }) => {
     >
       {/* Background logo image */}
       <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 w-12 h-12 md:w-16 md:h-16 opacity-30 z-0">
-        <img 
-          src="/agrilink-logo-steps-card.png" 
-          alt="Agrilink Logo Background" 
-          className="w-full h-full object-contain"
-        />
+        <Link to="/" className="cursor-pointer">
+          <img 
+            src="/agrilink-logo-steps-card.png" 
+            alt="Agrilink Logo Background" 
+            className="w-full h-full object-contain"
+          />
+        </Link>
       </div>
       
       <span 

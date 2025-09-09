@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const FeatureCard = ({ title, description, number }) => {
   return (
     <div 
@@ -25,16 +27,18 @@ const FeatureCard = ({ title, description, number }) => {
           borderRadius: '50%'
         }}
       >
-        <img 
-          src="/agrilink-logo-features-card.png" 
-          alt="Agrilink Logo Background" 
-          className="w-full h-full object-contain"
-          onError={(e) => {
-            console.log('Image failed to load:', e.target.src);
-            e.target.style.backgroundColor = 'red';
-          }}
-          onLoad={() => console.log('Image loaded successfully')}
-        />
+        <Link to="/" className="cursor-pointer w-full h-full">
+          <img 
+            src="/agrilink-logo-features-card.png" 
+            alt="Agrilink Logo Background" 
+            className="w-full h-full object-contain"
+            onError={(e) => {
+              console.log('Image failed to load:', e.target.src);
+              e.target.style.backgroundColor = 'red';
+            }}
+            onLoad={() => console.log('Image loaded successfully')}
+          />
+        </Link>
       </div>
       
       <span 

@@ -17,6 +17,7 @@ import BuyerSignup from "./pages/auth/BuyerSignup";
 import BuyerSignupStep2 from "./pages/auth/BuyerSignupStep2";
 import BuyerSignupStep3 from "./pages/auth/BuyerSignupStep3";
 import FarmerDashboard from "./pages/dashboard/FarmerDashboard";
+import BuyersMarketplace from "./pages/marketplace/BuyersMarketplace";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ const App = () => (
           <Route path="/buyer-signup-step2" element={<BuyerSignupStep2 />} />
           <Route path="/buyer-signup-step3" element={<BuyerSignupStep3 />} />
           <Route path="/farmer-dashboard" element={<FarmerDashboard />} />
+          <Route path="/marketplace" element={<BuyersMarketplace />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
