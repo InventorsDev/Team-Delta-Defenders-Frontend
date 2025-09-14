@@ -48,6 +48,7 @@ const FarmerDashboard: React.FC = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isNotificationMenuOpen, setIsNotificationMenuOpen] = useState(false);
   const [listings, setListings] = useState(mockListings);
+  const [shouldTriggerAddListing, setShouldTriggerAddListing] = useState(false);
   const notificationRef = useRef<HTMLDivElement>(null);
 
   const handleCreateListing = (newListing: any) => {
@@ -342,9 +343,16 @@ const FarmerDashboard: React.FC = () => {
           <img className="w-52 h-48 left-[58px] top-0 absolute" src="/stats-card-2.png" />
         </div>
         <div className="w-52 left-[30px] top-[67px] absolute justify-start text-brand-colors-RootBlack text-base font-madani-medium">Add your fresh produce and start reaching buyers today.</div>
-        <div data-property-1="Default" className="w-48 h-14 min-w-48 px-6 py-3 left-[14px] top-[153px] absolute bg-brand-colors-SproutGreen rounded-[30px] inline-flex justify-center items-center gap-2.5">
+        <button 
+          onClick={() => {
+            setActiveView('listings');
+            setShouldTriggerAddListing(true);
+          }}
+          data-property-1="Default" 
+          className="w-48 h-14 min-w-48 px-6 py-3 left-[14px] top-[153px] absolute bg-brand-colors-SproutGreen rounded-[30px] inline-flex justify-center items-center gap-2.5 hover:bg-opacity-90 transition-colors cursor-pointer"
+        >
           <div className="justify-start text-brand-colors-SteamWhite text-base font-normal font-['MadaniArabic-Bold']">Add New Product</div>
-        </div>
+        </button>
       </div>
 
       {/* Third Stats Card - Today's Tip */}
@@ -568,11 +576,21 @@ const FarmerDashboard: React.FC = () => {
           </div>
           <div className="w-80 left-[10px] top-[70px] absolute justify-start text-brand-colors-RootBlack text-sm font-normal font-['Montserrat'] leading-tight">"I found the freshest tomatoes I've ever bought through AgriLink. Your farm's produce was top quality, and it arrived just as promised. Thank you for making it so easy to buy directly from you, I'll definitely order again!"</div>
           <div className="left-[10px] top-[200px] absolute inline-flex justify-start items-center gap-1.5">
-            <img src="/star.svg" alt="Star" className="w-6 h-6" />
-            <img src="/star.svg" alt="Star" className="w-6 h-6" />
-            <img src="/star.svg" alt="Star" className="w-6 h-6" />
-            <img src="/star.svg" alt="Star" className="w-6 h-6" />
-            <img src="/star.svg" alt="Star" className="w-6 h-6" />
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFC107" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+            </svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFC107" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+            </svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFC107" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+            </svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFC107" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+            </svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFC107" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+            </svg>
           </div>
         </div>
       </div>
@@ -597,6 +615,8 @@ const FarmerDashboard: React.FC = () => {
             onDeleteListing={handleDeleteListing}
             onEditListing={handleEditListing}
             onCreateListing={() => setIsCreateListingOpen(true)}
+            shouldTriggerAdd={shouldTriggerAddListing}
+            onAddTriggered={() => setShouldTriggerAddListing(false)}
           />
         )}
         {activeView === 'chats' && <Chats />}

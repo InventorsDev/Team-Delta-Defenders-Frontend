@@ -1,8 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
+import DeleteListingModal from './DeleteListingModal';
+import EditListingView from './EditListingView';
+import AddListingView from './AddListingView';
 
 interface MyListingsProps {
   onDeleteListing: (id: number) => void;
   onCreateListing: () => void;
+  shouldTriggerAdd?: boolean;
+  onAddTriggered?: () => void;
 }
 
 interface Listing {
@@ -154,7 +159,9 @@ const listingsData: Listing[] = [
 
 const MyListings: React.FC<MyListingsProps> = ({
   onDeleteListing,
-  onCreateListing
+  onCreateListing,
+  shouldTriggerAdd,
+  onAddTriggered
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedSort, setSelectedSort] = useState("Latest Listing");
@@ -198,6 +205,14 @@ const MyListings: React.FC<MyListingsProps> = ({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isDropdownOpen]);
+
+  // Handle trigger add listing from FarmerDashboard
+  useEffect(() => {
+    if (shouldTriggerAdd && onAddTriggered) {
+      handleAddNewListing();
+      onAddTriggered();
+    }
+  }, [shouldTriggerAdd, onAddTriggered]);
 
   // Handle scroll position for custom scrollbar
   const handleScroll = () => {
@@ -612,363 +627,32 @@ const MyListings: React.FC<MyListingsProps> = ({
               </>
             ) : isEditMode && selectedListing ? (
               /* Edit View */
-              <div className="flex-1 overflow-hidden relative">
-                <div 
-                  ref={editScrollContainerRef}
-                  onScroll={handleEditScroll}
-                  className="w-[474px] h-full left-[20px] top-[10px] absolute overflow-y-auto pr-2"
-                  style={{ 
-                    scrollbarWidth: 'none', 
-                    msOverflowStyle: 'none'
-                  }}
-                >
-                  {/* Upload Images Section */}
-                  <div className="w-[474px] mb-5">
-                    <div className="h-56 flex flex-wrap gap-4 content-start">
-                      {selectedListing.images.slice(0, 5).map((img, index) => (
-                        <div key={index} className="w-24 h-24 relative overflow-hidden">
-                          <img className="w-24 h-24 rounded-[10px] object-cover" src={img} alt={`Upload ${index + 1}`} />
-                          <div className="w-6 h-6 absolute top-[5px] right-[5px] bg-brand-colors-SteamWhite rounded-full shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex justify-center items-center">
-                            <img src="/edit icon.svg" alt="Edit" className="w-4 h-4" />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Produce Name */}
-                  <div className="w-[474px] mb-5 flex flex-col gap-3">
-                    <div className="px-2.5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Produce Name:</div>
-                    <input
-                      type="text"
-                      value={editFormData?.title || ''}
-                      onChange={(e) => handleFormChange('title', e.target.value)}
-                      className="h-12 px-6 py-3 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Regular']"
-                    />
-                  </div>
-
-                  {/* Choose Category */}
-                  <div className="w-[474px] mb-5 flex flex-col gap-3">
-                    <div className="px-2.5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Choose category:</div>
-                    <div className="relative">
-                      <select
-                        value={editFormData?.category || ''}
-                        onChange={(e) => handleFormChange('category', e.target.value)}
-                        className="w-full h-12 px-6 py-3 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Regular'] appearance-none cursor-pointer"
-                      >
-                        <option value="">Select a category</option>
-                        <option value="Vegetables">Vegetables</option>
-                        <option value="Fruits">Fruits</option>
-                        <option value="Grains">Grains</option>
-                        <option value="Tubers">Tubers</option>
-                        <option value="Legumes">Legumes</option>
-                        <option value="Spices">Spices</option>
-                        <option value="Leafy Greens">Leafy Greens</option>
-                      </select>
-                      <div className="absolute right-6 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                        <img 
-                          src="/chevron-down-2.svg" 
-                          alt="Dropdown" 
-                          className="w-4 h-4"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Price per unit */}
-                  <div className="w-[474px] mb-5 flex flex-col gap-3">
-                    <div className="px-2.5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Price per unit:</div>
-                    <input
-                      type="text"
-                      value={editFormData?.price || ''}
-                      onChange={(e) => handleFormChange('price', e.target.value)}
-                      className="h-12 px-6 py-3 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Regular']"
-                    />
-                  </div>
-
-                  {/* Produce Description */}
-                  <div className="w-[474px] mb-5 flex flex-col gap-3">
-                    <div className="px-2.5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Produce Description:</div>
-                    <textarea
-                      value={editFormData?.description || ''}
-                      onChange={(e) => handleFormChange('description', e.target.value)}
-                      className="h-20 px-6 py-3 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Regular'] resize-none"
-                    />
-                  </div>
-
-                  {/* Select Address */}
-                  <div className="w-[474px] mb-20 flex flex-col gap-5">
-                    <div className="px-2.5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Select address:</div>
-                    <div className="px-6 py-4 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 flex flex-col gap-5 relative">
-                      <div className="flex items-center gap-1">
-                        <img className="w-6 h-6" src="/location-icon.svg" alt="Location" />
-                        <input
-                          type="text"
-                          value={editFormData?.location || ''}
-                          onChange={(e) => handleFormChange('location', e.target.value)}
-                          className="flex-1 bg-transparent text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium'] outline-none"
-                        />
-                      </div>
-                      <div className="flex flex-col gap-3.5">
-                        <div className="text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Farm Address:</div>
-                        <input
-                          type="text"
-                          value={editFormData?.farmAddress || ''}
-                          onChange={(e) => handleFormChange('farmAddress', e.target.value)}
-                          className="bg-transparent text-brand-colors-rootgrey text-base font-['MadaniArabic-Medium'] outline-none"
-                        />
-                      </div>
-                      <div className="absolute right-[16px] top-[16px]">
-                        <div className="w-6 h-6 relative overflow-hidden">
-                          <div className="w-3 h-1.5 absolute left-[6px] top-[9px] outline outline-2 outline-offset-[-1px] outline-brand-colors-RootBlack"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Fixed Action Buttons at Bottom */}
-                <div className="absolute bottom-0 left-0 right-0 h-20 flex items-center justify-center px-5">
-                  <div className="bg-white/20 rounded-full p-2.5 flex items-center gap-1.5">
-                    <button 
-                      onClick={handleSaveNewListing}
-                      className="w-48 min-w-40 min-h-10 px-6 py-3 bg-brand-colors-SproutGreen rounded-[30px] flex justify-center items-center">
-                      <span className="text-brand-colors-SteamWhite text-base font-['MadaniArabic-Bold']">Save</span>
-                    </button>
-                    <button 
-                      onClick={() => {
-                        setIsAddMode(false);
-                        setAddFormData(null);
-                      }}
-                      className="p-2.5 bg-brand-colors-SteamWhite rounded-3xl shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex items-center justify-center hover:bg-red-50 transition-colors group"
-                    >
-                      <img 
-                        src="/delete icon.svg" 
-                        alt="Delete" 
-                        className="w-5 h-5 group-hover:opacity-80"
-                        style={{ filter: 'invert(36%) sepia(69%) saturate(2083%) hue-rotate(338deg) brightness(97%) contrast(106%)' }}
-                      />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Custom Scroll Indicator */}
-                <div className="w-[5px] h-[500px] right-[10px] top-[100px] absolute bg-gray-200 rounded-full z-10">
-                  <div 
-                    className="w-[5px] h-14 bg-brand-colors-SproutGreen rounded-full transition-all duration-150"
-                    style={{
-                      transform: `translateY(${addScrollPosition * (500 - 56)}px)`
-                    }}
-                  ></div>
-                </div>
-              </div>
+              <EditListingView 
+                formData={editFormData}
+                onFormChange={handleFormChange}
+                onSave={handleSaveChanges}
+                onCancel={() => {
+                  setIsEditMode(false);
+                  setEditFormData(null);
+                }}
+                scrollPosition={editScrollPosition}
+                scrollContainerRef={editScrollContainerRef}
+                onScroll={handleEditScroll}
+              />
             ) : isAddMode ? (
-              /* Add New Listing View - Same layout as Edit View */
-              <div className="flex-1 overflow-hidden relative">
-                <div 
-                  ref={addScrollContainerRef}
-                  onScroll={handleAddScroll}
-                  className="w-[474px] h-full left-[20px] top-[10px] absolute overflow-y-auto pr-2"
-                  style={{ 
-                    scrollbarWidth: 'none', 
-                    msOverflowStyle: 'none'
-                  }}
-                >
-                  {/* Upload Images Section */}
-                  <div className="w-[474px] mb-5">
-                    <div className="h-56 flex flex-wrap gap-4 content-start">
-                      {[...Array(5)].map((_, index) => (
-                        <div 
-                          key={index}
-                          data-property-1="upload" 
-                          style={{
-                            width: 96, 
-                            height: 95, 
-                            position: 'relative', 
-                            overflow: 'hidden', 
-                            borderRadius: 10, 
-                            outline: '2px var(--brand-colors-RootBlack, #182605) solid', 
-                            outlineOffset: '-2px',
-                            cursor: 'pointer'
-                          }}
-                          onClick={() => {
-                            const input = document.createElement('input');
-                            input.type = 'file';
-                            input.accept = 'image/*';
-                            input.onchange = (e) => {
-                              const file = (e.target as HTMLInputElement).files?.[0];
-                              if (file) {
-                                const reader = new FileReader();
-                                reader.onload = () => {
-                                  // Handle image upload logic here
-                                  console.log('Image uploaded:', reader.result);
-                                };
-                                reader.readAsDataURL(file);
-                              }
-                            };
-                            input.click();
-                          }}
-                        >
-                          <img 
-                            style={{
-                              width: 96, 
-                              height: 95, 
-                              left: 0, 
-                              top: 0, 
-                              position: 'absolute', 
-                              opacity: 0.20, 
-                              background: 'hsla(0, 0%, 87%, 1)', 
-                              borderRadius: 10
-                            }} 
-                            src="/image icon.svg" 
-                            alt="Upload placeholder"
-                          />
-                          <div style={{
-                            left: 36, 
-                            top: 36, 
-                            position: 'absolute', 
-                            justifyContent: 'center', 
-                            alignItems: 'center', 
-                            gap: 10, 
-                            display: 'inline-flex'
-                          }}>
-                            <img 
-                              src="/lucide_plus.svg" 
-                              alt="Add image"
-                              style={{width: 24, height: 24}}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Produce Name */}
-                  <div className="w-[474px] mb-5 flex flex-col gap-3">
-                    <div className="px-2.5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Produce Name:</div>
-                    <input
-                      type="text"
-                      value={addFormData?.title || ''}
-                      onChange={(e) => handleAddFormChange('title', e.target.value)}
-                      className="h-12 px-6 py-3 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Regular']"
-                    />
-                  </div>
-
-                  {/* Choose Category */}
-                  <div className="w-[474px] mb-5 flex flex-col gap-3">
-                    <div className="px-2.5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Choose category:</div>
-                    <div className="relative">
-                      <select
-                        value={addFormData?.category || ''}
-                        onChange={(e) => handleAddFormChange('category', e.target.value)}
-                        className="w-full h-12 px-6 py-3 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Regular'] appearance-none cursor-pointer"
-                      >
-                        <option value="">Select a category</option>
-                        <option value="Vegetables">Vegetables</option>
-                        <option value="Fruits">Fruits</option>
-                        <option value="Grains">Grains</option>
-                        <option value="Tubers">Tubers</option>
-                        <option value="Legumes">Legumes</option>
-                        <option value="Spices">Spices</option>
-                        <option value="Leafy Greens">Leafy Greens</option>
-                      </select>
-                      <div className="absolute right-6 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                        <img 
-                          src="/chevron-down-2.svg" 
-                          alt="Dropdown" 
-                          className="w-4 h-4"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Price per unit */}
-                  <div className="w-[474px] mb-5 flex flex-col gap-3">
-                    <div className="px-2.5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Price per unit:</div>
-                    <input
-                      type="text"
-                      value={addFormData?.price || ''}
-                      onChange={(e) => handleAddFormChange('price', e.target.value)}
-                      className="h-12 px-6 py-3 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Regular']"
-                    />
-                  </div>
-
-                  {/* Produce Description */}
-                  <div className="w-[474px] mb-5 flex flex-col gap-3">
-                    <div className="px-2.5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Produce Description:</div>
-                    <textarea
-                      value={addFormData?.description || ''}
-                      onChange={(e) => handleAddFormChange('description', e.target.value)}
-                      className="h-20 px-6 py-3 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Regular'] resize-none"
-                    />
-                  </div>
-
-                  {/* Select Address */}
-                  <div className="w-[474px] mb-20 flex flex-col gap-5">
-                    <div className="px-2.5 text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Select address:</div>
-                    <div className="px-6 py-4 bg-black/5 rounded-[30px] outline outline-2 outline-offset-[-2px] outline-black/5 flex flex-col gap-5 relative">
-                      <div className="flex items-center gap-1">
-                        <img className="w-6 h-6" src="/location-icon.svg" alt="Location" />
-                        <input
-                          type="text"
-                          value={addFormData?.location || ''}
-                          onChange={(e) => handleAddFormChange('location', e.target.value)}
-                          className="flex-1 bg-transparent text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium'] outline-none"
-                        />
-                      </div>
-                      <div className="flex flex-col gap-3.5">
-                        <div className="text-brand-colors-RootBlack text-base font-['MadaniArabic-Medium']">Farm Address:</div>
-                        <input
-                          type="text"
-                          value={addFormData?.farmAddress || ''}
-                          onChange={(e) => handleAddFormChange('farmAddress', e.target.value)}
-                          className="bg-transparent text-brand-colors-rootgrey text-base font-['MadaniArabic-Medium'] outline-none"
-                        />
-                      </div>
-                      <div className="absolute right-[16px] top-[16px]">
-                        <div className="w-6 h-6 relative overflow-hidden">
-                          <div className="w-3 h-1.5 absolute left-[6px] top-[9px] outline outline-2 outline-offset-[-1px] outline-brand-colors-RootBlack"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Fixed Action Buttons at Bottom */}
-                <div className="absolute bottom-0 left-0 right-0 h-20 flex items-center justify-center px-5">
-                  <div className="bg-white/20 rounded-full p-2.5 flex items-center gap-1.5">
-                    <button 
-                      onClick={handleSaveNewListing}
-                      className="w-48 min-w-40 min-h-10 px-6 py-3 bg-brand-colors-SproutGreen rounded-[30px] flex justify-center items-center">
-                      <span className="text-brand-colors-SteamWhite text-base font-['MadaniArabic-Bold']">Save</span>
-                    </button>
-                    <button 
-                      onClick={() => {
-                        setIsAddMode(false);
-                        setAddFormData(null);
-                      }}
-                      className="p-2.5 bg-brand-colors-SteamWhite rounded-3xl shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex items-center justify-center hover:bg-red-50 transition-colors group"
-                    >
-                      <img 
-                        src="/delete icon.svg" 
-                        alt="Delete" 
-                        className="w-5 h-5 group-hover:opacity-80"
-                        style={{ filter: 'invert(36%) sepia(69%) saturate(2083%) hue-rotate(338deg) brightness(97%) contrast(106%)' }}
-                      />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Custom Scroll Indicator */}
-                <div className="w-[5px] h-[500px] right-[10px] top-[100px] absolute bg-gray-200 rounded-full z-10">
-                  <div 
-                    className="w-[5px] h-14 bg-brand-colors-SproutGreen rounded-full transition-all duration-150"
-                    style={{
-                      transform: `translateY(${addScrollPosition * (500 - 56)}px)`
-                    }}
-                  ></div>
-                </div>
-              </div>
+              /* Add New Listing View */
+              <AddListingView 
+                formData={addFormData}
+                onFormChange={handleAddFormChange}
+                onSave={handleSaveNewListing}
+                onCancel={() => {
+                  setIsAddMode(false);
+                  setAddFormData(null);
+                }}
+                scrollPosition={addScrollPosition}
+                scrollContainerRef={addScrollContainerRef}
+                onScroll={handleAddScroll}
+              />
             ) : null}
           </div>
         )}
@@ -1061,69 +745,15 @@ const MyListings: React.FC<MyListingsProps> = ({
         </div>
       </div>
 
-      {/* Delete Popup Overlay */}
-      {showDeletePopup && (
-        <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
-          onClick={handleCancelDelete}
-        >
-          <div 
-            className="w-[699px] h-[613px] relative bg-white overflow-hidden rounded-[20px]"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="w-[531px] left-[84px] top-[100px] absolute flex flex-col justify-start items-center gap-[25px]">
-              <div className="self-stretch flex flex-col justify-start items-center gap-3">
-                <div className="w-[200px] h-[200px]">
-                  <img 
-                    style={{width: '100%', height: '100%'}}
-                    src="/delete-popup.png"
-                    alt="Delete confirmation"
-                  />
-                </div>
-                <div className="self-stretch flex flex-col justify-start items-center gap-5">
-                  <div className="text-center text-brand-colors-RootBlack text-[26px] font-['MadaniArabic-Bold'] leading-[40px]">
-                    Delete this product?
-                  </div>
-                  <div className="self-stretch text-center text-brand-colors-rootgrey text-lg font-['MadaniArabic-Medium'] leading-[30px] px-4">
-                    Once deleted, this product will be removed from your listings and buyers will no longer see it. This action cannot be undone.
-                  </div>
-                </div>
-              </div>
-              <div className="flex justify-start items-center gap-4 mt-4">
-                <button 
-                  onClick={handleCancelDelete}
-                  className="h-[60px] min-w-[200px] px-6 py-3 bg-brand-colors-HarvestMist rounded-[30px] flex justify-center items-center gap-2.5 border-none cursor-pointer hover:opacity-90 transition-opacity"
-                >
-                  <div className="text-brand-colors-RootBlack text-base font-['MadaniArabic-Bold']">
-                    Cancel
-                  </div>
-                </button>
-                <button 
-                  onClick={handleConfirmDelete}
-                  className="h-[60px] min-w-[200px] px-6 py-3 bg-brand-colors-pepper-red rounded-[30px] flex justify-center items-center gap-2.5 border-none cursor-pointer hover:opacity-90 transition-opacity"
-                >
-                  <div className="text-white text-base font-['MadaniArabic-Bold']">
-                    Yes, Delete
-                  </div>
-                </button>
-              </div>
-            </div>
-            <button 
-              onClick={handleCancelDelete}
-              className="w-[50px] h-[50px] left-[620px] top-[30px] absolute bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.15)] rounded-full flex justify-center items-center gap-2.5 border-none cursor-pointer hover:bg-gray-50 transition-colors"
-            >
-              <img 
-                src="/close icon.svg" 
-                alt="Close" 
-                className="w-6 h-6"
-                style={{ filter: 'invert(36%) sepia(69%) saturate(2083%) hue-rotate(338deg) brightness(97%) contrast(106%)' }}
-              />
-            </button>
-          </div>
-        </div>
-      )}
+      {/* Delete Listing Modal */}
+      <DeleteListingModal 
+        isOpen={showDeletePopup}
+        onClose={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+        productName={selectedListing?.title}
+      />
     </div>
-  );
+  ); 
 };
 
 export default MyListings;
