@@ -617,13 +617,13 @@ const BuyersMarketplace = () => {
               )}
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
               {displayProducts.map((product, index) => (
                 <div 
                   key={index} 
                   data-property-1="buyers card" 
                   onClick={() => handleProductClick(product)}
-                  style={{width: '217px', height: '340px', position: 'relative', background: 'var(--brand-colors-SteamWhite, white)', boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.08)', overflow: 'hidden', borderRadius: 20, cursor: 'pointer', transition: 'transform 0.2s ease, box-shadow 0.2s ease'}}
+                  style={{width: '100%', maxWidth: '217px', height: '340px', position: 'relative', background: 'var(--brand-colors-SteamWhite, white)', boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.08)', overflow: 'hidden', borderRadius: 20, cursor: 'pointer', transition: 'transform 0.2s ease, box-shadow 0.2s ease', margin: '0 auto'}}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-2px)';
                     e.currentTarget.style.boxShadow = '0px 8px 40px 8px rgba(0, 0, 0, 0.12)';

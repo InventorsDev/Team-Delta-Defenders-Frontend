@@ -68,7 +68,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
           opacity: 1
         }}
       >
-        <img src="/design/assets/icons folder/search icon.svg" alt="Search" style={{width: 24, height: 24}} />
+        <img src="/search icon.svg" alt="Search" style={{width: 24, height: 24}} />
         <input
           type="text"
           placeholder={placeholder}
