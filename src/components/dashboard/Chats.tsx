@@ -157,7 +157,7 @@ const ChatDetailView: React.FC<{ chat: ChatData; onClose: () => void }> = ({ cha
           <div className="flex justify-start items-center gap-3">
             <div className="flex justify-start items-center gap-2.5">
               <div className="w-6 h-6 relative overflow-hidden">
-                <img src="/design/assets/icons folder/emoji icon.svg" alt="Emoji" className="w-6 h-6" />
+                <img src="/emoji-icon.svg" alt="Emoji" className="w-6 h-6" />
               </div>
             </div>
             <input
@@ -191,7 +191,11 @@ const ChatDetailView: React.FC<{ chat: ChatData; onClose: () => void }> = ({ cha
   );
 };
 
-const Chats: React.FC = () => {
+interface ChatsProps {
+  showHeader?: boolean;
+}
+
+const Chats: React.FC<ChatsProps> = ({ showHeader = true }) => {
   const [selectedChat, setSelectedChat] = useState<ChatData | null>(null);
 
   const chatData: ChatData[] = [
@@ -240,19 +244,21 @@ const Chats: React.FC = () => {
           }
         `}
       </style>
-      <div className="w-full h-screen bg-white rounded-[20px] flex flex-col overflow-hidden">
+      <div className="w-full h-full bg-white rounded-[20px] flex flex-col overflow-hidden">
         {/* Header */}
         <div className="w-full px-10 py-7 bg-white/80 flex justify-between items-center flex-shrink-0">
           <div className="flex flex-col gap-4">
             <div className="text-brand-colors-RootBlack text-base font-madani-medium">Respond to recent chats</div>
             <div className="text-brand-colors-RootBlack text-2xl font-madani-bold">Your Inbox</div>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 p-[3px] bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.15)] rounded-[20px] flex justify-center items-center">
-              <img className="w-6 h-6" src="/design/assets/icons folder/notification icon.svg" alt="Notifications" />
+          {showHeader && (
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-10 p-[3px] bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.15)] rounded-[20px] flex justify-center items-center">
+                <img className="w-6 h-6" src="/notification-icon.svg" alt="Notifications" />
+              </div>
+              <img className="w-10 h-10 rounded-full object-cover" src="/profile image.png" alt="Profile" />
             </div>
-            <img className="w-10 h-10 rounded-full" src="/design/assets/dashboard & marketplace assets/profile image.png" alt="Profile" />
-          </div>
+          )}
         </div>
 
         {/* Main Content */}

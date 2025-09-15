@@ -217,11 +217,11 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             </div>
 
             {/* Testimonials Section */}
-            <div style={{width: '100%', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 30, display: 'flex', marginTop: 40}}>
+            <div style={{width: '100%', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 30, display:  'flex', marginTop: 40}}>
               <div style={{alignSelf: 'stretch', justifyContent: 'space-between', alignItems: 'center', display: 'inline-flex'}}>
-                <div style={{textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 24, fontFamily: 'MadaniArabic-Bold', fontWeight: '400', wordWrap: 'break-word'}}>Testimonials</div>
+                <div style={{color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 24, fontFamily: 'MadaniArabic-Bold', fontWeight: '400', wordWrap: 'break-word'}}>Testimonials</div>
                 <div data-property-1="Default" style={{justifyContent: 'flex-start', alignItems: 'center', gap: 4, display: 'flex', cursor: 'pointer'}}>
-                  <div style={{textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 16, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', wordWrap: 'break-word'}}>View All</div>
+                  <div style={{color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 16, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', wordWrap: 'break-word'}}>View All</div>
                   <div data-property-1="right" style={{justifyContent: 'flex-start', alignItems: 'center', gap: 10, display: 'flex', position: 'relative'}}>
                     <div style={{width: 6, height: 12, outline: '2px var(--brand-colors-RootBlack, #182605) solid', outlineOffset: '-1px'}} />
                   </div>
@@ -238,11 +238,11 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
                   <div style={{justifyContent: 'flex-start', alignItems: 'center', gap: 12, display: 'inline-flex'}}>
                     <img style={{width: 40, height: 40, borderRadius: 9999}} src="/profile image.png" alt={testimonial.name} />
                     <div style={{flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8, display: 'inline-flex'}}>
-                      <div style={{alignSelf: 'stretch', textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 16, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', wordWrap: 'break-word'}}>{testimonial.name}</div>
-                      <div style={{alignSelf: 'stretch', textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: 'var(--brand-colors-rootgrey, #8B9281)', fontSize: 12, fontFamily: 'MadaniArabic-Light', fontWeight: '400', wordWrap: 'break-word'}}>{testimonial.role}</div>
+                      <div style={{alignSelf: 'stretch', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 16, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', wordWrap: 'break-word'}}>{testimonial.name}</div>
+                      <div style={{alignSelf: 'stretch', color: 'var(--brand-colors-rootgrey, #8B9281)', fontSize: 12, fontFamily: 'MadaniArabic-Light', fontWeight: '400', wordWrap: 'break-word'}}>{testimonial.role}</div>
                     </div>
                   </div>
-                  <div style={{alignSelf: 'stretch', textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 14, fontFamily: 'Montserrat', fontStyle: 'italic', fontWeight: '400', lineHeight: '20px', wordWrap: 'break-word'}}>"I found the freshest tomatoes I've ever bought through AgriLink. Your farm's produce was top quality, and it arrived just as promised. Thank you for making it so easy to buy directly from you, I'll definitely order again!"</div>
+                  <div style={{alignSelf: 'stretch', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 14, fontFamily: 'Montserrat', fontStyle: 'italic', fontWeight: '400', lineHeight: '20px', wordWrap: 'break-word'}}>"I found the freshest tomatoes I've ever bought through AgriLink. Your farm's produce was top quality, and it arrived just as promised. Thank you for making it so easy to buy directly from you, I'll definitely order again!"</div>
                   <div style={{justifyContent: 'flex-start', alignItems: 'center', gap: 6, display: 'inline-flex'}}>
                     {[1, 2, 3, 4, 5].map((star) => (
                       <svg key={star} width="24" height="24" viewBox="0 0 24 24" fill="#FFC107" xmlns="http://www.w3.org/2000/svg">

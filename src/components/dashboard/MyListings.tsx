@@ -627,31 +627,22 @@ const MyListings: React.FC<MyListingsProps> = ({
               </>
             ) : isEditMode && selectedListing ? (
               /* Edit View */
-              <EditListingView 
-                formData={editFormData}
-                onFormChange={handleFormChange}
+              <EditListingView
+                listing={selectedListing}
                 onSave={handleSaveChanges}
                 onCancel={() => {
                   setIsEditMode(false);
                   setEditFormData(null);
                 }}
-                scrollPosition={editScrollPosition}
-                scrollContainerRef={editScrollContainerRef}
-                onScroll={handleEditScroll}
               />
             ) : isAddMode ? (
               /* Add New Listing View */
-              <AddListingView 
-                formData={addFormData}
-                onFormChange={handleAddFormChange}
+              <AddListingView
                 onSave={handleSaveNewListing}
                 onCancel={() => {
                   setIsAddMode(false);
                   setAddFormData(null);
                 }}
-                scrollPosition={addScrollPosition}
-                scrollContainerRef={addScrollContainerRef}
-                onScroll={handleAddScroll}
               />
             ) : null}
           </div>
@@ -671,9 +662,9 @@ const MyListings: React.FC<MyListingsProps> = ({
           </div>
           <div className="flex items-center gap-4">
             <button className="w-10 h-10 p-[3px] bg-brand-colors-SteamWhite rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.15)] flex justify-center items-center hover:bg-gray-50 transition-colors">
-              <img className="w-6 h-6" src="/design/assets/icons folder/notification icon.svg" alt="Notifications" />
+              <img className="w-6 h-6" src="/notification-icon.svg" alt="Notifications" />
             </button>
-            <img className="w-10 h-10 rounded-full" src="/design/assets/dashboard & marketplace assets/profile image.png" alt="Profile" />
+            <img className="w-10 h-10 rounded-full object-cover" src="/profile image.png" alt="Profile" />
           </div>
         </div>
         
@@ -681,7 +672,7 @@ const MyListings: React.FC<MyListingsProps> = ({
         <div className="w-[1052px] inline-flex justify-between items-center">
           {/* Search Bar */}
           <div className="w-96 p-3 bg-black/5 rounded-[30px] outline outline-1 outline-offset-[-1px] outline-black/5 flex items-center gap-2">
-            <img className="w-6 h-6" src="/design/assets/icons folder/search icon.svg" alt="Search" />
+            <img className="w-6 h-6" src="/search-icon.svg" alt="Search" />
             <div className="text-brand-colors-rootgrey text-xl font-madani-medium leading-9">
               Search
             </div>

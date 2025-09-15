@@ -77,8 +77,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
           onKeyPress={handleKeyPress}
           style={{
             flex: '1 1 0',
-            textBoxTrim: 'trim-both',
-            textBoxEdge: 'cap alphabetic',
             color: 'var(--brand-colors-rootgrey, #8B9281)',
             fontSize: 20,
             fontFamily: 'MadaniArabic-Medium',
@@ -115,12 +113,10 @@ const SearchBar: React.FC<SearchBarProps> = ({
       >
         <div 
           style={{
-            textBoxTrim: 'trim-both', 
-            textBoxEdge: 'cap alphabetic', 
-            color: '#ffffff', 
-            fontSize: 16, 
-            fontFamily: 'MadaniArabic-Bold', 
-            fontWeight: '400', 
+            color: '#ffffff',
+            fontSize: 16,
+            fontFamily: 'MadaniArabic-Bold',
+            fontWeight: '400',
             wordWrap: 'break-word'
           }}
         >

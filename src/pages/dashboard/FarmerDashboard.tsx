@@ -1,10 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Plus, Package, BarChart3, TrendingUp } from 'lucide-react';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
-import CreateListingModal from '@/components/dashboard/CreateListingModal';
 import MyListings from '@/components/dashboard/MyListings';
 import Chats from '@/components/dashboard/Chats';
 import Settings from '@/components/dashboard/Settings';
@@ -14,7 +9,7 @@ const mockListings = [
   {
     id: 1,
     produceType: 'Tomato',
-    quantity: '50 bags',
+    quantity: '50 bags', 
     harvestDate: '2024-01-15',
     price: '₦5,000 per bag',
     status: 'Active',
@@ -44,22 +39,12 @@ type ActiveView = 'dashboard' | 'listings' | 'chats' | 'settings';
 
 const FarmerDashboard: React.FC = () => {
   const [activeView, setActiveView] = useState<ActiveView>('dashboard');
-  const [isCreateListingOpen, setIsCreateListingOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isNotificationMenuOpen, setIsNotificationMenuOpen] = useState(false);
   const [listings, setListings] = useState(mockListings);
   const [shouldTriggerAddListing, setShouldTriggerAddListing] = useState(false);
   const notificationRef = useRef<HTMLDivElement>(null);
 
-  const handleCreateListing = (newListing: any) => {
-    const listing = {
-      id: Date.now(),
-      ...newListing,
-      status: 'Active'
-    };
-    setListings([listing, ...listings]);
-    setIsCreateListingOpen(false);
-  };
 
   const handleDeleteListing = (id: number) => {
     setListings(listings.filter(listing => listing.id !== id));
@@ -110,7 +95,7 @@ const FarmerDashboard: React.FC = () => {
               className="w-10 h-10 p-[3px] bg-brand-colors-SteamWhite rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.15)] flex justify-center items-center gap-2.5 hover:bg-gray-50 transition-colors"
             >
               <div className="flex justify-start items-center gap-2.5">
-                <img className="w-6 h-6" src="/design/assets/icons folder/notification icon.svg" alt="Notifications" />
+                <img className="w-6 h-6" src="/notification-icon.svg" alt="Notifications" />
               </div>
             </button>
 
@@ -314,7 +299,7 @@ const FarmerDashboard: React.FC = () => {
               </div>
             )}
           </div>
-          <img className="w-10 h-10 rounded-full" src="/design/assets/dashboard & marketplace assets/profile image.png" alt="Profile" />
+          <img className="w-10 h-10 rounded-full object-cover" src="/profile image.png" alt="Profile" />
         </div>
       </div>
 
@@ -610,11 +595,9 @@ const FarmerDashboard: React.FC = () => {
       <div className="flex-1 bg-white rounded-tr-3xl rounded-br-3xl overflow-y-auto h-full">
         {activeView === 'dashboard' && renderDashboardContent()}
         {activeView === 'listings' && (
-          <MyListings 
-            listings={listings}
+          <MyListings
             onDeleteListing={handleDeleteListing}
-            onEditListing={handleEditListing}
-            onCreateListing={() => setIsCreateListingOpen(true)}
+            onCreateListing={() => {}}
             shouldTriggerAdd={shouldTriggerAddListing}
             onAddTriggered={() => setShouldTriggerAddListing(false)}
           />
@@ -623,12 +606,6 @@ const FarmerDashboard: React.FC = () => {
         {activeView === 'settings' && <Settings />}
       </div>
 
-      {/* Create Listing Modal */}
-      <CreateListingModal 
-        isOpen={isCreateListingOpen}
-        onClose={() => setIsCreateListingOpen(false)}
-        onSubmit={handleCreateListing}
-      />
     </div>
   );
 };

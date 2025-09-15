@@ -13,9 +13,9 @@ const Footer = () => {
   return (
     <footer className="text-white py-16" style={{ background: 'hsl(var(--brand-colors-RootBlack, 86 78% 8%))' }}>
       {/* Main Footer Content */}
-      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-6 gap-8">
+      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-5 gap-12">
         {/* Categories Section */}
-        <div className="md:col-span-2 text-center md:text-left">
+        <div className="md:col-span-1 text-center md:text-left">
           <h4 className="font-bold text-lg mb-6" style={{ fontFamily: 'MadaniArabic-Bold', fontWeight: 400, fontStyle: 'normal', fontSize: '24px', leadingTrim: 'cap-height', lineHeight: '100%', letterSpacing: '0%' }}>Categories</h4>
           <ul className="text-gray-400 text-sm space-y-2 leading-relaxed" style={{ fontFamily: 'MadaniArabic-Medium', fontWeight: 400, fontStyle: 'normal', fontSize: '14px', leadingTrim: 'cap-height', lineHeight: '24px', letterSpacing: '0%' }}>
             <li><button className="hover:text-[hsl(var(--brand-colors-SoilBlush))] transition-colors text-left bg-transparent border-none p-0 cursor-pointer">Grains</button></li>
@@ -72,7 +72,8 @@ const Footer = () => {
         <div className="md:col-span-2 text-center md:text-left">
           <h4 className="font-bold text-lg mb-6" style={{ fontFamily: 'MadaniArabic-Bold', fontWeight: 400, fontStyle: 'normal', fontSize: '24px', leadingTrim: 'cap-height', lineHeight: '100%', letterSpacing: '0%' }}>Stay Connected</h4>
           <p className="text-gray-400 text-sm mb-4" style={{ fontFamily: 'MadaniArabic-Medium', fontWeight: 400, fontStyle: 'normal', fontSize: '14px', leadingTrim: 'cap-height', lineHeight: '24px', letterSpacing: '0%' }}>
-            Subscribe to get updates when new features or farmer listings go live.
+            Subscribe to get updates when new features or<br />
+            farmer listings go live.
           </p>
           <form className="flex flex-col items-center md:items-start" onSubmit={handleSubscribe}>
             <input
@@ -82,7 +83,7 @@ const Footer = () => {
               placeholder="Your email"
               className="text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[hsl(var(--brand-colors-SproutGreen))]"
               style={{
-                width: '280px',
+                width: '240px',
                 height: '50px',
                 opacity: 1,
                 borderRadius: '25px',
@@ -101,7 +102,7 @@ const Footer = () => {
               type="submit"
               className="mt-4 bg-[hsl(var(--brand-colors-SproutGreen))] text-white font-bold hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] transition-colors"
               style={{
-                width: '280px',
+                width: '240px',
                 height: '50px',
                 minWidth: '200px',
                 opacity: 1,
@@ -119,37 +120,37 @@ const Footer = () => {
           </form>
           <div className="flex space-x-4 mt-8 justify-center md:justify-start">
             <button aria-label="Facebook" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors border-none cursor-pointer">
-              <img 
-                src="/facebook-fill 2.svg" 
-                alt="Facebook" 
+              <img
+                src="/facebook-fill 2.svg"
+                alt="Facebook"
                 className="w-5 h-5"
               />
             </button>
             <button aria-label="X" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors border-none cursor-pointer">
-              <img 
-                src="/X-icon.svg" 
-                alt="X (Twitter)" 
+              <img
+                src="/X-icon.svg"
+                alt="X (Twitter)"
                 className="w-5 h-5"
               />
             </button>
             <button aria-label="LinkedIn" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors border-none cursor-pointer">
-              <img 
-                src="/linkedin-icon.svg" 
-                alt="LinkedIn" 
+              <img
+                src="/linkedin-icon.svg"
+                alt="LinkedIn"
                 className="w-5 h-5"
               />
             </button>
             <button aria-label="Instagram" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors border-none cursor-pointer">
-              <img 
-                src="/Instagram-icon.svg" 
-                alt="Instagram" 
+              <img
+                src="/Instagram-icon.svg"
+                alt="Instagram"
                 className="w-5 h-5"
               />
             </button>
             <button aria-label="YouTube" className="w-10 h-10 bg-gray-700 hover:bg-[hsl(var(--brand-colors-SoilBlush))] active:bg-[hsl(var(--brand-colors-SoilBlush))] rounded-full flex items-center justify-center text-white transition-colors border-none cursor-pointer">
-              <img 
-                src="/Youtube-icon.svg" 
-                alt="YouTube" 
+              <img
+                src="/Youtube-icon.svg"
+                alt="YouTube"
                 className="w-5 h-5"
               />
             </button>
