@@ -111,7 +111,7 @@ const SignupStep3: React.FC = () => {
               {/* Content Section - Close to icon */}
               <div className="space-y-3">
               
-              <div style={{width: '100%', textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', textAlign: 'center'}}>
+              <div style={{width: '100%', textAlign: 'center'}}>
                 {!showFallbackLink ? (
                   <>
                     <span style={{

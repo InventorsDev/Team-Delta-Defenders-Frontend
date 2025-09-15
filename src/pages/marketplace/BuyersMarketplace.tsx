@@ -2,7 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import SearchBar from '../../components/SearchBar';
 import Footer from '../../components/marketplace/Footer';
-import ProductDetailView from '../../components/marketplace/ProductDetailView';  
+import ProductDetailView from '../../components/marketplace/ProductDetailView';
+import NotificationDropdown from '../../components/ui/NotificationDropdown';
+import Chats from '../../components/dashboard/Chats';
+import Settings from '../../components/dashboard/Settings';  
 
 interface Product {
   name: string;
@@ -13,13 +16,21 @@ interface Product {
   image: string;
 }
 
+type ActiveView = 'marketplace' | 'chats' | 'settings';
+
 const BuyersMarketplace = () => {
+  const [activeView, setActiveView] = React.useState<ActiveView>('marketplace');
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState<Product | null>(null);
   const [isDetailViewOpen, setIsDetailViewOpen] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState('');
   const [isSearchActive, setIsSearchActive] = React.useState(false);
   const [filteredProducts, setFilteredProducts] = React.useState<Product[]>([]);
+  const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
+  const [selectedLocation, setSelectedLocation] = React.useState('All');
+  const [isLocationDropdownOpen, setIsLocationDropdownOpen] = React.useState(false);
+  const [minPrice, setMinPrice] = React.useState<string>('');
+  const [maxPrice, setMaxPrice] = React.useState<string>('');
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -31,6 +42,25 @@ const BuyersMarketplace = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close location dropdown when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest('[data-property-1="open"], [data-property-1="closed"]')) {
+        setIsLocationDropdownOpen(false);
+      }
+    };
+
+    if (isLocationDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isLocationDropdownOpen]);
+
+
   const handleProductClick = (product: Product) => {
     setSelectedProduct(product);
     setIsDetailViewOpen(true);
@@ -41,15 +71,84 @@ const BuyersMarketplace = () => {
     setSelectedProduct(null);
   };
 
+  const locationOptions = [
+    'All',
+    'Lagos',
+    'Kano',
+    'Ogun',
+    'Anambra',
+    'Benue',
+    'Niger',
+    'Kaduna',
+    'Plateau',
+    'Enugu',
+    'Rivers',
+    'Kogi',
+    'Delta',
+    'Imo',
+    'Kwara',
+    'Borno',
+    'Other States'
+  ];
+
+  // Function to categorize products based on their names
+  const categorizeProduct = (productName: string): string => {
+    const name = productName.toLowerCase();
+    if (name.includes('rice') || name.includes('maize') || name.includes('garri')) {
+      return 'Grains';
+    } else if (name.includes('groundnut') || name.includes('soybean') || name.includes('cashew')) {
+      return 'Legumes & Nuts';
+    } else if (name.includes('tomato') || name.includes('pepper') || name.includes('onion') ||
+               name.includes('okra') || name.includes('cucumber') || name.includes('garden egg') ||
+               name.includes('ugu')) {
+      return 'Vegetables';
+    } else if (name.includes('plantain') || name.includes('banana') || name.includes('pineapple') ||
+               name.includes('watermelon')) {
+      return 'Fruits';
+    } else if (name.includes('yam') || name.includes('cassava') || name.includes('sweet potato')) {
+      return 'Root crops';
+    } else if (name.includes('oil') || name.includes('garri')) {
+      return 'Processed goods';
+    } else if (name.includes('ginger') || name.includes('garlic')) {
+      return 'Spices & Condiments';
+    }
+    return 'Vegetables';
+  };
+
+  const handleCategoryToggle = (categoryName: string) => {
+    setSelectedCategories(prev => {
+      if (prev.includes(categoryName)) {
+        return prev.filter(cat => cat !== categoryName);
+      } else {
+        return [...prev, categoryName];
+      }
+    });
+  };
+
   const handleSearch = (query: string) => {
     setSearchTerm(query);
     if (query.trim()) {
       setIsSearchActive(true);
-      const filtered = products.filter(product =>
+      let filtered = products.filter(product =>
         product.name.toLowerCase().includes(query.toLowerCase()) ||
         product.description.toLowerCase().includes(query.toLowerCase()) ||
         product.location.toLowerCase().includes(query.toLowerCase())
       );
+
+      // Apply category filters if any are selected
+      if (selectedCategories.length > 0) {
+        filtered = filtered.filter(product =>
+          selectedCategories.includes(categorizeProduct(product.name))
+        );
+      }
+
+      // Apply location filter if a specific location is selected
+      if (selectedLocation !== 'All') {
+        filtered = filtered.filter(product =>
+          product.location.toLowerCase().includes(selectedLocation.toLowerCase())
+        );
+      }
+
       setFilteredProducts(filtered);
     } else {
       setIsSearchActive(false);
@@ -57,7 +156,19 @@ const BuyersMarketplace = () => {
     }
   };
 
-  const displayProducts = isSearchActive ? filteredProducts : products;
+  // Update filtered products when categories change
+  React.useEffect(() => {
+    if (isSearchActive && searchTerm.trim()) {
+      handleSearch(searchTerm);
+    }
+  }, [selectedCategories]);
+
+  // Update filtered products when location changes
+  React.useEffect(() => {
+    if (isSearchActive && searchTerm.trim()) {
+      handleSearch(searchTerm);
+    }
+  }, [selectedLocation]);
 
   const categories = [
     { icon: '/grains.png', name: 'Grains' },
@@ -264,6 +375,25 @@ const BuyersMarketplace = () => {
     }
   ];
 
+  const getDisplayProducts = () => {
+    let products_to_display = products;
+
+    if (isSearchActive && searchTerm.trim()) {
+      products_to_display = filteredProducts;
+    } else if (selectedCategories.length > 0 || selectedLocation !== 'All') {
+      // Show products from selected categories and/or location even without search
+      products_to_display = products.filter(product => {
+        let matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(categorizeProduct(product.name));
+        let matchesLocation = selectedLocation === 'All' || product.location.toLowerCase().includes(selectedLocation.toLowerCase());
+        return matchesCategory && matchesLocation;
+      });
+    }
+
+    return products_to_display;
+  };
+
+  const displayProducts = getDisplayProducts();
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
@@ -288,29 +418,40 @@ const BuyersMarketplace = () => {
                 <div className="text-base font-['MadaniArabic-Bold']" style={{color: 'white'}}>Sell Your Product</div>
               </div>
             </Link>
-            <Link to="/marketplace">
-              <div className="w-10 h-10 p-1 rounded-full flex justify-center items-center cursor-pointer" style={{background: '#182605', boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.15)'}}>
-                <img src="/market place icon.svg" alt="Marketplace" className="w-6 h-6" />
-              </div>
-            </Link>
-            <Link to="/chat">
-              <div className="w-10 h-10 p-1 rounded-full flex justify-center items-center cursor-pointer" style={{background: 'white', boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.15)'}}>
-                <img src="/chat icon.svg" alt="Chat" className="w-6 h-6" />
-              </div>
-            </Link>
-            <Link to="/notifications">
-              <div className="w-10 h-10 p-1 rounded-full flex justify-center items-center cursor-pointer" style={{background: 'white', boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.15)'}}>
-                <img src="/notification-icon.svg" alt="Notifications" className="w-6 h-6" />
-              </div>
-            </Link>
-            <Link to="/profile">
-              <img className="w-10 h-10 rounded-full cursor-pointer" src="/profile image.png" alt="Profile" />
-            </Link>
+            <button
+              onClick={() => setActiveView('marketplace')}
+              className={`w-10 h-10 p-1 rounded-full flex justify-center items-center cursor-pointer ${activeView === 'marketplace' ? 'ring-2 ring-brand-colors-SproutGreen' : ''}`}
+              style={{background: activeView === 'marketplace' ? '#84C62C' : '#182605', boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.15)'}}
+            >
+              <img src="/market place icon.svg" alt="Marketplace" className="w-6 h-6" />
+            </button>
+            <button
+              onClick={() => setActiveView('chats')}
+              className={`w-10 h-10 p-1 rounded-full flex justify-center items-center cursor-pointer ${activeView === 'chats' ? 'ring-2 ring-brand-colors-SproutGreen' : ''}`}
+              style={{background: activeView === 'chats' ? '#84C62C' : 'white', boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.15)'}}
+            >
+              <img src="/chat icon.svg" alt="Chat" className="w-6 h-6" style={{filter: activeView === 'chats' ? 'brightness(0) invert(1)' : 'none'}} />
+            </button>
+            <NotificationDropdown
+              buttonClassName="!bg-white"
+              onMarkAllAsRead={() => console.log('Mark all as read - marketplace')}
+              onOpenNotifications={() => console.log('Open notifications - marketplace')}
+              onNotificationClick={(notification) => console.log('Notification clicked - marketplace:', notification)}
+            />
+            <button
+              onClick={() => setActiveView('settings')}
+              className={`cursor-pointer ${activeView === 'settings' ? 'ring-2 ring-brand-colors-SproutGreen rounded-full' : ''}`}
+            >
+              <img className="w-10 h-10 rounded-full" src="/profile image.png" alt="Profile" />
+            </button>
           </div>
         </div>
       </div>
-      
-      {/* Hero Section */}
+
+      {/* Marketplace View */}
+      {activeView === 'marketplace' && (
+        <>
+          {/* Hero Section */}
       <div className={`${isSearchActive ? 'py-8' : 'py-16'} relative overflow-hidden ${isScrolled ? 'mt-20' : 'mt-8'} transition-all duration-500`}>
         <div className="absolute top-0 bottom-0 left-8 right-8 lg:left-24 lg:right-24" style={{backgroundImage: 'url(/marketplace-hero.png)', backgroundSize: 'cover', backgroundPosition: 'center', borderRadius: '10px'}}></div>
         <div className="absolute top-0 bottom-0 left-8 right-8 lg:left-24 lg:right-24" style={{backgroundColor: 'hsla(114, 88%, 94%, 0.6)', borderRadius: '10px'}}></div>
@@ -320,8 +461,8 @@ const BuyersMarketplace = () => {
             <div className="flex flex-col gap-8">
               {!isSearchActive && (
                 <div className="flex flex-col gap-6">
-                  <h1 style={{width: '100%', textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 60, fontFamily: 'MadaniArabic-Bold', fontWeight: '400', lineHeight: '72px', wordWrap: 'break-word'}}>Find Fresh Produce Near You</h1>
-                  <p style={{width: '100%', height: '100%', textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 20, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', lineHeight: '37px', wordWrap: 'break-word'}}>Search thousands of farm-fresh listings directly from Nigerian farmers.</p>
+                  <h1 style={{width: '100%', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 60, fontFamily: 'MadaniArabic-Bold', fontWeight: '400', lineHeight: '72px', wordWrap: 'break-word'}}>Find Fresh Produce Near You</h1>
+                  <p style={{width: '100%', height: '100%', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 20, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', lineHeight: '37px', wordWrap: 'break-word'}}>Search thousands of farm-fresh listings directly from Nigerian farmers.</p>
                 </div>
               )}
               <SearchBar 
@@ -361,7 +502,7 @@ const BuyersMarketplace = () => {
                         {category.icon}
                       </div>
                     )}
-                    <div style={{textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 20, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', lineHeight: '37px', wordWrap: 'break-word'}}>{category.name}</div>
+                    <div style={{color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 20, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', lineHeight: '37px', wordWrap: 'break-word'}}>{category.name}</div>
                   </div>
                 ))}
               </div>
@@ -371,7 +512,17 @@ const BuyersMarketplace = () => {
                 {/* Filter Header */}
                 <div style={{alignSelf: 'stretch', paddingLeft: 20, paddingRight: 20, justifyContent: 'space-between', alignItems: 'center', display: 'inline-flex'}}>
                   <div style={{color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 20, fontFamily: 'MadaniArabic-Bold', fontWeight: '400', lineHeight: '37px'}}>Filters</div>
-                  <button style={{color: 'var(--brand-colors-SproutGreen, #84C62C)', fontSize: 14, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', background: 'none', border: 'none', cursor: 'pointer'}}>Clear All</button>
+                  <button
+                    onClick={() => {
+                      setSelectedCategories([]);
+                      setSelectedLocation('All');
+                      setMinPrice('');
+                      setMaxPrice('');
+                    }}
+                    style={{color: 'var(--brand-colors-SproutGreen, #84C62C)', fontSize: 14, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', background: 'none', border: 'none', cursor: 'pointer'}}
+                  >
+                    Clear All
+                  </button>
                 </div>
 
                 {/* Crop Types Filter */}
@@ -379,7 +530,12 @@ const BuyersMarketplace = () => {
                   <div style={{color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 16, fontFamily: 'MadaniArabic-Medium', fontWeight: '400'}}>Crop Type</div>
                   {categories.slice(0, 4).map((category, index) => (
                     <div key={index} style={{justifyContent: 'flex-start', alignItems: 'center', gap: 8, display: 'inline-flex'}}>
-                      <input type="checkbox" style={{width: 16, height: 16}} />
+                      <input
+                        type="checkbox"
+                        style={{width: 16, height: 16}}
+                        checked={selectedCategories.includes(category.name)}
+                        onChange={() => handleCategoryToggle(category.name)}
+                      />
                       <div style={{color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 14, fontFamily: 'MadaniArabic-Medium', fontWeight: '400'}}>{category.name}</div>
                     </div>
                   ))}
@@ -389,9 +545,21 @@ const BuyersMarketplace = () => {
                 <div style={{alignSelf: 'stretch', paddingLeft: 20, paddingRight: 20, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 12, display: 'flex'}}>
                   <div style={{color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 16, fontFamily: 'MadaniArabic-Medium', fontWeight: '400'}}>Price Range</div>
                   <div style={{alignSelf: 'stretch', justifyContent: 'space-between', alignItems: 'center', gap: 8, display: 'inline-flex'}}>
-                    <input type="number" placeholder="Min" style={{flex: 1, padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: '8px', fontSize: '14px'}} />
+                    <input
+                      type="number"
+                      placeholder="Min"
+                      value={minPrice}
+                      onChange={(e) => setMinPrice(e.target.value)}
+                      style={{flex: 1, padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: '8px', fontSize: '14px'}}
+                    />
                     <div style={{color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 14}}>-</div>
-                    <input type="number" placeholder="Max" style={{flex: 1, padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: '8px', fontSize: '14px'}} />
+                    <input
+                      type="number"
+                      placeholder="Max"
+                      value={maxPrice}
+                      onChange={(e) => setMaxPrice(e.target.value)}
+                      style={{flex: 1, padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: '8px', fontSize: '14px'}}
+                    />
                   </div>
                 </div>
 
@@ -416,13 +584,16 @@ const BuyersMarketplace = () => {
                 {/* Location Filter */}
                 <div style={{alignSelf: 'stretch', paddingLeft: 20, paddingRight: 20, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 12, display: 'flex'}}>
                   <div style={{color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 16, fontFamily: 'MadaniArabic-Medium', fontWeight: '400'}}>Location</div>
-                  <select style={{alignSelf: 'stretch', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: '8px', fontSize: '14px', background: 'white'}}>
-                    <option>All Locations</option>
-                    <option>Lagos</option>
-                    <option>Kano</option>
-                    <option>Ogun</option>
-                    <option>Anambra</option>
-                    <option>Other States</option>
+                  <select
+                    value={selectedLocation}
+                    onChange={(e) => setSelectedLocation(e.target.value)}
+                    style={{alignSelf: 'stretch', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: '8px', fontSize: '14px', background: 'white'}}
+                  >
+                    {locationOptions.map((location) => (
+                      <option key={location} value={location}>
+                        {location === 'All' ? 'All Locations' : location}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -432,8 +603,8 @@ const BuyersMarketplace = () => {
           {/* Product Grid */}
           <div className="flex-1">
             <div className="flex justify-between items-center mb-8">
-              <div style={{textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 32, fontFamily: 'MadaniArabic-Bold', fontWeight: '400', lineHeight: '50px', wordWrap: 'break-word'}}>
-                {isSearchActive ? `Search Results for "${searchTerm}" (${filteredProducts.length})` : 'Hot in the Market'}
+              <div style={{color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 32, fontFamily: 'MadaniArabic-Bold', fontWeight: '400', lineHeight: '50px', wordWrap: 'break-word'}}>
+                {isSearchActive ? `Search Results for "${searchTerm}" (${displayProducts.length})` : 'Hot in the Market'}
               </div>
               {isSearchActive && (
                 <select style={{padding: '8px 16px', border: '1px solid #E5E5E5', borderRadius: '8px', fontSize: '14px', background: 'white'}}>
@@ -465,10 +636,10 @@ const BuyersMarketplace = () => {
                   <div style={{width: 197, height: 140, left: 10, top: 10, position: 'absolute', overflow: 'hidden', borderRadius: 10, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 10, display: 'inline-flex'}}>
                     <img style={{width: '100%', height: '100%', borderRadius: 10, objectFit: 'cover'}} src={product.image} alt={product.name} />
                   </div>
-                  <div style={{width: 197, left: 10, top: 170, position: 'absolute', textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: 'var(--brand-colors-rootgrey, #8B9281)', fontSize: 16, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', wordWrap: 'break-word', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical'}}>{product.name}</div>
+                  <div style={{width: 197, left: 10, top: 170, position: 'absolute', color: 'var(--brand-colors-rootgrey, #8B9281)', fontSize: 16, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', wordWrap: 'break-word', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical'}}>{product.name}</div>
                   <div style={{left: 10, top: 202, position: 'absolute', justifyContent: 'flex-start', alignItems: 'baseline', gap: 4, display: 'inline-flex'}}>
-                    <div style={{textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 20, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', lineHeight: '37px', wordWrap: 'break-word'}}>{product.price}</div>
-                    <div style={{textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 12, fontFamily: 'MadaniArabic-Light', fontWeight: '400', wordWrap: 'break-word'}}>Per Unit</div>
+                    <div style={{color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 20, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', lineHeight: '37px', wordWrap: 'break-word'}}>{product.price}</div>
+                    <div style={{color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 12, fontFamily: 'MadaniArabic-Light', fontWeight: '400', wordWrap: 'break-word'}}>Per Unit</div>
                   </div>
                   <div style={{width: 143, left: 10, top: 308, position: 'absolute', justifyContent: 'flex-start', alignItems: 'center', gap: 4, display: 'inline-flex'}}>
                     <div style={{justifyContent: 'flex-start', alignItems: 'center', gap: 10, display: 'flex'}}>
@@ -477,11 +648,11 @@ const BuyersMarketplace = () => {
                         <div style={{width: 15, height: 16.76, left: 4.50, top: 2, position: 'absolute', opacity: 0.30, background: 'var(--brand-colors-RootBlack, #182605)'}} />
                       </div>
                     </div>
-                    <div style={{flex: '1 1 0', textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 12, fontFamily: 'MadaniArabic-Light', fontWeight: '400', wordWrap: 'break-word'}}>{product.location}</div>
+                    <div style={{flex: '1 1 0', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 12, fontFamily: 'MadaniArabic-Light', fontWeight: '400', wordWrap: 'break-word'}}>{product.location}</div>
                   </div>
-                  <div style={{width: 197, height: 51, left: 10, top: 237, position: 'absolute', textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 12, fontFamily: 'MadaniArabic-Light', fontWeight: '400', wordWrap: 'break-word', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical'}}>{product.description}</div>
+                  <div style={{width: 197, height: 51, left: 10, top: 237, position: 'absolute', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 12, fontFamily: 'MadaniArabic-Light', fontWeight: '400', wordWrap: 'break-word', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical'}}>{product.description}</div>
                   <div style={{left: 161, top: 310, position: 'absolute', justifyContent: 'flex-start', alignItems: 'center', gap: 4, display: 'inline-flex'}}>
-                    <div style={{textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 16, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', wordWrap: 'break-word'}}>{product.rating}</div>
+                    <div style={{color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 16, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', wordWrap: 'break-word'}}>{product.rating}</div>
                     <div style={{justifyContent: 'center', alignItems: 'center', gap: 8.33, display: 'flex'}}>
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="#FFC107" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
@@ -495,15 +666,44 @@ const BuyersMarketplace = () => {
         </div>
       </div>
 
-      {/* Footer */}
-      <Footer />
-      
+          {/* Footer */}
+          <Footer />
+        </>
+      )}
+
+      {/* Chats View */}
+      {activeView === 'chats' && (
+        <div className="flex-1 bg-white overflow-hidden">
+          <Chats showHeader={false} />
+        </div>
+      )}
+
+      {/* Settings View */}
+      {activeView === 'settings' && (
+        <div className="flex-1 bg-white overflow-y-auto h-full">
+          <Settings
+            context="marketplace"
+            headerTitle="Manage Your Account"
+            headerSubtitle="Buyer Settings"
+            showHeader={false}
+            showBusinessName={false}
+            placeholders={{
+              fullName: "Enter your full name",
+              phoneNumber: "Enter your phone number",
+              email: "Enter your email address"
+            }}
+          />
+        </div>
+      )}
+
       {/* Product Detail View */}
-      <ProductDetailView 
-        product={selectedProduct}
-        isOpen={isDetailViewOpen}
-        onClose={handleCloseDetailView}
-      />
+      {activeView === 'marketplace' && (
+        <ProductDetailView
+          product={selectedProduct}
+          isOpen={isDetailViewOpen}
+          onClose={handleCloseDetailView}
+        />
+      )}
     </div>
   );
 };
