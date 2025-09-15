@@ -89,8 +89,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
           }}
         />
       </div>
-      <div 
-        data-property-1="Default" 
+      <button
+        data-property-1="Default"
         onClick={handleSearch}
         style={{
           height: 60, 
@@ -108,21 +108,15 @@ const SearchBar: React.FC<SearchBarProps> = ({
           display: 'flex',
           cursor: 'pointer',
           opacity: 1,
-          border: 'none'
+          border: 'none',
+          color: '#ffffff',
+          fontSize: 16,
+          fontFamily: 'MadaniArabic-Bold',
+          fontWeight: '400'
         }}
       >
-        <div 
-          style={{
-            color: '#ffffff',
-            fontSize: 16,
-            fontFamily: 'MadaniArabic-Bold',
-            fontWeight: '400',
-            wordWrap: 'break-word'
-          }}
-        >
-          Search
-        </div>
-      </div>
+        Search
+      </button>
     </div>
   );
 };
