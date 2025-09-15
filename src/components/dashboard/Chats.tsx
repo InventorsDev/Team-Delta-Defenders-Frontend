@@ -157,7 +157,7 @@ const ChatDetailView: React.FC<{ chat: ChatData; onClose: () => void }> = ({ cha
           <div className="flex justify-start items-center gap-3">
             <div className="flex justify-start items-center gap-2.5">
               <div className="w-6 h-6 relative overflow-hidden">
-                <img src="/emoji-icon.svg" alt="Emoji" className="w-6 h-6" />
+                <img src="/emoji icon.svg" alt="Emoji" className="w-6 h-6" />
               </div>
             </div>
             <input

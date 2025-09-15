@@ -672,7 +672,7 @@ const MyListings: React.FC<MyListingsProps> = ({
         <div className="w-[1052px] inline-flex justify-between items-center">
           {/* Search Bar */}
           <div className="w-96 p-3 bg-black/5 rounded-[30px] outline outline-1 outline-offset-[-1px] outline-black/5 flex items-center gap-2">
-            <img className="w-6 h-6" src="/search-icon.svg" alt="Search" />
+            <img className="w-6 h-6" src="/search icon.svg" alt="Search" />
             <div className="text-brand-colors-rootgrey text-xl font-madani-medium leading-9">
               Search
             </div>

@@ -383,8 +383,8 @@ const BuyersMarketplace = () => {
     } else if (selectedCategories.length > 0 || selectedLocation !== 'All') {
       // Show products from selected categories and/or location even without search
       products_to_display = products.filter(product => {
-        let matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(categorizeProduct(product.name));
-        let matchesLocation = selectedLocation === 'All' || product.location.toLowerCase().includes(selectedLocation.toLowerCase());
+        const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(categorizeProduct(product.name));
+        const matchesLocation = selectedLocation === 'All' || product.location.toLowerCase().includes(selectedLocation.toLowerCase());
         return matchesCategory && matchesLocation;
       });
     }
@@ -617,13 +617,13 @@ const BuyersMarketplace = () => {
               )}
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
               {displayProducts.map((product, index) => (
-                <div 
-                  key={index} 
-                  data-property-1="buyers card" 
+                <button
+                  key={index}
+                  data-property-1="buyers card"
                   onClick={() => handleProductClick(product)}
-                  style={{width: '217px', height: '340px', position: 'relative', background: 'var(--brand-colors-SteamWhite, white)', boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.08)', overflow: 'hidden', borderRadius: 20, cursor: 'pointer', transition: 'transform 0.2s ease, box-shadow 0.2s ease'}}
+                  style={{width: '100%', maxWidth: '217px', height: '340px', position: 'relative', background: 'var(--brand-colors-SteamWhite, white)', boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.08)', overflow: 'hidden', borderRadius: 20, cursor: 'pointer', transition: 'transform 0.2s ease, box-shadow 0.2s ease', margin: '0 auto', border: 'none', padding: 0}}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-2px)';
                     e.currentTarget.style.boxShadow = '0px 8px 40px 8px rgba(0, 0, 0, 0.12)';
@@ -659,7 +659,7 @@ const BuyersMarketplace = () => {
                       </svg>
                     </div>
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           </div>
