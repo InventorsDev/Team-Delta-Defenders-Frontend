@@ -58,11 +58,13 @@ const PasswordResetSuccess: React.FC = () => {
             <div className="flex flex-col justify-between p-8 w-full">
               {/* Logo at top */}
               <div>
-                <img 
-                  src="/Agrilink-logo-light.svg" 
-                  alt="Agrilink" 
-                  className="h-10 w-auto"
-                />
+                <Link to="/">
+                  <img 
+                    src="/Agrilink-logo-light.svg" 
+                    alt="Agrilink" 
+                    className="h-10 w-auto"
+                  />
+                </Link>
               </div>
 
               {/* Content at bottom */}
@@ -85,11 +87,13 @@ const PasswordResetSuccess: React.FC = () => {
 
           {/* Mobile Logo */}
           <div className="lg:hidden mb-4">
-            <img 
-              src="/Agrilink-logo-light.svg" 
-              alt="Agrilink" 
-              className="h-8 w-auto mx-auto"
-            />
+            <Link to="/">
+              <img 
+                src="/Agrilink-logo-light.svg" 
+                alt="Agrilink" 
+                className="h-8 w-auto mx-auto"
+              />
+            </Link>
           </div>
 
           {/* Right Side - Success Card */}
@@ -119,7 +123,7 @@ const PasswordResetSuccess: React.FC = () => {
               {/* Content Section - Close to icon */}
               <div className="space-y-3">
               
-              <div style={{width: '100%', textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', textAlign: 'center'}}>
+              <div style={{width: '100%', textAlign: 'center'}}>
                 {!showFallbackLink ? (
                   <>
                     <span style={{

@@ -74,16 +74,18 @@ const Footer = () => {
           
           {/* Footer Logo */}
           <div className="mt-8 flex justify-center md:justify-start">
-            <img
-              src="/Agrilink-logo-light.svg"
-              alt="AgriLink Logo"
-              style={{
-                width: '186.49px',
-                height: '60px',
-                opacity: 1,
-                transform: 'rotate(0deg)'
-              }}
-            />
+            <Link to="/" className="cursor-pointer">
+              <img
+                src="/Agrilink-logo-light.svg"
+                alt="AgriLink Logo"
+                style={{
+                  width: '186.49px',
+                  height: '60px',
+                  opacity: 1,
+                  transform: 'rotate(0deg)'
+                }}
+              />
+            </Link>
           </div>
         </div>
 

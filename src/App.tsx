@@ -1,6 +1,3 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
@@ -16,15 +13,14 @@ import SignupStep3 from "./pages/auth/FarmersSignupStep3";
 import BuyerSignup from "./pages/auth/BuyerSignup";
 import BuyerSignupStep2 from "./pages/auth/BuyerSignupStep2";
 import BuyerSignupStep3 from "./pages/auth/BuyerSignupStep3";
+import FarmerDashboard from "./pages/dashboard/FarmerDashboard";
+import BuyersMarketplace from "./pages/marketplace/BuyersMarketplace";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
+    <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
@@ -41,11 +37,12 @@ const App = () => (
           <Route path="/buyer-signup" element={<BuyerSignup />} />
           <Route path="/buyer-signup-step2" element={<BuyerSignupStep2 />} />
           <Route path="/buyer-signup-step3" element={<BuyerSignupStep3 />} />
+          <Route path="/farmer-dashboard" element={<FarmerDashboard />} />
+          <Route path="/marketplace" element={<BuyersMarketplace />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
-    </TooltipProvider>
   </QueryClientProvider>
 );
 

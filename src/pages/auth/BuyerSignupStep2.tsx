@@ -79,11 +79,13 @@ const BuyerSignupStep2: React.FC = () => {
           <div className="flex flex-col justify-between p-8 w-full">
             {/* Logo at top */}
             <div>
-              <img 
-                src="/Agrilink-logo-light.svg" 
-                alt="Agrilink" 
-                className="h-10 w-auto"
-              />
+              <Link to="/">
+                <img 
+                  src="/Agrilink-logo-light.svg" 
+                  alt="Agrilink" 
+                  className="h-10 w-auto"
+                />
+              </Link>
             </div>
 
             {/* Content at bottom */}
@@ -105,11 +107,13 @@ const BuyerSignupStep2: React.FC = () => {
 
         {/* Mobile Logo */}
         <div className="lg:hidden mb-4">
-          <img 
-            src="/Agrilink-logo-light.svg" 
-            alt="Agrilink" 
-            className="h-8 w-auto mx-auto"
-          />
+          <Link to="/">
+            <img 
+              src="/Agrilink-logo-light.svg" 
+              alt="Agrilink" 
+              className="h-8 w-auto mx-auto"
+            />
+          </Link>
         </div>
 
         {/* Right Side - Form */}

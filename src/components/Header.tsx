@@ -42,11 +42,13 @@ const Header = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <img
-              src="/Agrilink-logo-dark.svg"
-              alt="Agrilink Logo"
-              className="h-10 w-auto object-contain ml-4"
-            />
+            <Link to="/" className="cursor-pointer">
+              <img
+                src="/Agrilink-logo-dark.svg"
+                alt="Agrilink Logo"
+                className="h-10 w-auto object-contain ml-4"
+              />
+            </Link>
           </div>
 
           {/* Desktop Navigation - Centered */}
