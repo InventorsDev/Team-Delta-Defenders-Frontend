@@ -38,4 +38,16 @@ jobs:
           fi
 
       - name: Build project
-        run: npm run build
+        run: |
+          if npm run | grep -q "build"; then
+            npm run build
+          else
+            echo "No build script found, skipping..."
+          fi
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v1.8.0
+        with:
+          args: --verbose --no-progress .
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
