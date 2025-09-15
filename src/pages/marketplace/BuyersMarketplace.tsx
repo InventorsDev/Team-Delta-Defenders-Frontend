@@ -633,10 +633,10 @@ const BuyersMarketplace = () => {
                     e.currentTarget.style.boxShadow = '0px 4px 30px 5px rgba(0, 0, 0, 0.08)';
                   }}
                 >
-                  <div style={{width: 197, height: 140, left: 10, top: 10, position: 'absolute', overflow: 'hidden', borderRadius: 10, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 10, display: 'inline-flex'}}>
+                  <div style={{width: 197, height: 140, left: 10, top: 10, position: 'absolute', overflow: 'hidden', borderRadius: 10}}>
                     <img style={{width: '100%', height: '100%', borderRadius: 10, objectFit: 'cover'}} src={product.image} alt={product.name} />
                   </div>
-                  <div style={{width: 197, left: 10, top: 170, position: 'absolute', color: 'var(--brand-colors-rootgrey, #8B9281)', fontSize: 16, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', wordWrap: 'break-word', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical'}}>{product.name}</div>
+                  <div style={{width: 197, left: 10, top: 170, position: 'absolute', color: 'var(--brand-colors-rootgrey, #8B9281)', fontSize: 16, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', lineHeight: '22px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap'}}>{product.name}</div>
                   <div style={{left: 10, top: 202, position: 'absolute', justifyContent: 'flex-start', alignItems: 'baseline', gap: 4, display: 'inline-flex'}}>
                     <div style={{color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 20, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', lineHeight: '37px', wordWrap: 'break-word'}}>{product.price}</div>
                     <div style={{color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 12, fontFamily: 'MadaniArabic-Light', fontWeight: '400', wordWrap: 'break-word'}}>Per Unit</div>
@@ -648,9 +648,9 @@ const BuyersMarketplace = () => {
                         <div style={{width: 15, height: 16.76, left: 4.50, top: 2, position: 'absolute', opacity: 0.30, background: 'var(--brand-colors-RootBlack, #182605)'}} />
                       </div>
                     </div>
-                    <div style={{flex: '1 1 0', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 12, fontFamily: 'MadaniArabic-Light', fontWeight: '400', wordWrap: 'break-word'}}>{product.location}</div>
+                    <div style={{flex: '1 1 0', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 12, fontFamily: 'MadaniArabic-Light', fontWeight: '400', lineHeight: '16px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap'}}>{product.location}</div>
                   </div>
-                  <div style={{width: 197, height: 51, left: 10, top: 237, position: 'absolute', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 12, fontFamily: 'MadaniArabic-Light', fontWeight: '400', wordWrap: 'break-word', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical'}}>{product.description}</div>
+                  <div style={{width: 197, height: 51, left: 10, top: 237, position: 'absolute', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 12, fontFamily: 'MadaniArabic-Light', fontWeight: '400', lineHeight: '16px', wordWrap: 'break-word', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical'}}>{product.description}</div>
                   <div style={{left: 161, top: 310, position: 'absolute', justifyContent: 'flex-start', alignItems: 'center', gap: 4, display: 'inline-flex'}}>
                     <div style={{color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 16, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', wordWrap: 'break-word'}}>{product.rating}</div>
                     <div style={{justifyContent: 'center', alignItems: 'center', gap: 8.33, display: 'flex'}}>
