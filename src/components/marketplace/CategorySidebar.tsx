@@ -10,7 +10,7 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({ categories }) => {
   return (
     <>
       {/* Desktop Version */}
-      <div className="hidden lg:block sticky top-20 w-full p-4 lg:p-5 bg-white rounded-xl lg:rounded-2xl shadow-lg flex-col gap-3 btn-shadow-lg" style={{height: 'fit-content'}}>
+      <div className="hidden lg:flex sticky top-20 w-full p-4 lg:p-5 bg-white rounded-xl lg:rounded-2xl shadow-lg flex-col gap-3 btn-shadow-lg self-start z-40" style={{height: 'fit-content', maxHeight: 'calc(100vh - 5rem)'}}>
         {categories.map((category, index) => (
           <div
             key={index}
@@ -68,9 +68,9 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({ categories }) => {
           ))}
         </div>
 
-        {/* Last row with single centered item */}
+        {/* Last row with single left-aligned item */}
         {categories.length > 6 && (
-          <div className="flex justify-center">
+          <div className="flex justify-start">
             <div
               data-property-1="Default"
               className="w-[110px] h-[132px] p-2.5 bg-white rounded-[20px] flex-col justify-start items-center gap-4 inline-flex cursor-pointer"
