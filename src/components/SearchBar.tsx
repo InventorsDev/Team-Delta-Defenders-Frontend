@@ -32,90 +32,52 @@ const SearchBar: React.FC<SearchBarProps> = ({
   };
 
   return (
-    <div 
-      data-property-1="Default" 
+    <div
+      data-property-1="Default"
+      className="w-full h-full p-1 sm:p-1.5 bg-white rounded-full flex items-center gap-2 sm:gap-4 border-2 border-white z-10"
       style={{
-        width: '100%', 
-        height: '100%', 
-        padding: 5, 
-        background: '#ffffff', 
+        background: '#ffffff',
         backgroundColor: '#ffffff !important',
-        borderRadius: 99, 
-        outline: '2px #ffffff solid', 
-        outlineOffset: '-2px', 
-        justifyContent: 'flex-start', 
-        alignItems: 'center', 
-        gap: 16, 
-        display: 'inline-flex',
-        opacity: 1,
-        zIndex: 1
+        opacity: 1
       }}
     >
-      <div 
+      <div
+        className="flex-1 px-4 sm:px-6 py-2 sm:py-3 bg-white rounded-full flex items-center gap-2"
         style={{
-          flex: '1 1 0', 
-          paddingLeft: 24, 
-          paddingRight: 24, 
-          paddingTop: 12, 
-          paddingBottom: 12, 
-          background: '#ffffff', 
+          background: '#ffffff',
           backgroundColor: '#ffffff !important',
-          borderRadius: 30, 
-          justifyContent: 'flex-start', 
-          alignItems: 'center', 
-          gap: 8, 
-          display: 'flex',
           opacity: 1
         }}
       >
-        <img src="/search icon.svg" alt="Search" style={{width: 24, height: 24}} />
+        <img src="/search icon.svg" alt="Search" className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" />
         <input
           type="text"
           placeholder={placeholder}
           value={searchQuery}
           onChange={handleInputChange}
           onKeyPress={handleKeyPress}
+          className="flex-1 bg-transparent border-none outline-none text-sm sm:text-base lg:text-lg placeholder:text-sm sm:placeholder:text-base lg:placeholder:text-lg"
           style={{
-            flex: '1 1 0',
             color: 'var(--brand-colors-rootgrey, #8B9281)',
-            fontSize: 20,
             fontFamily: 'MadaniArabic-Medium',
-            fontWeight: '400',
-            lineHeight: '37px',
-            wordWrap: 'break-word',
-            background: 'transparent',
-            border: 'none',
-            outline: 'none'
+            fontWeight: '400'
           }}
         />
       </div>
       <button
         data-property-1="Default"
         onClick={handleSearch}
+        className="h-10 sm:h-12 lg:h-14 xl:h-15 min-w-16 sm:min-w-32 lg:min-w-40 xl:min-w-50 px-3 sm:px-6 py-2 sm:py-3 bg-brand-colors-SproutGreen rounded-full flex items-center justify-center cursor-pointer border-none text-white text-xs sm:text-sm lg:text-base font-bold transition-all hover:bg-brand-colors-SoilBlush"
         style={{
-          height: 60, 
-          minWidth: 200, 
-          paddingLeft: 24, 
-          paddingRight: 24, 
-          paddingTop: 12, 
-          paddingBottom: 12, 
-          background: '#84C62C', 
+          background: '#84C62C',
           backgroundColor: '#84C62C !important',
-          borderRadius: 30, 
-          justifyContent: 'center', 
-          alignItems: 'center', 
-          gap: 10, 
-          display: 'flex',
-          cursor: 'pointer',
-          opacity: 1,
-          border: 'none',
-          color: '#ffffff',
-          fontSize: 16,
           fontFamily: 'MadaniArabic-Bold',
-          fontWeight: '400'
+          fontWeight: '400',
+          opacity: 1
         }}
       >
-        Search
+        <span className="hidden sm:inline">Search</span>
+        <img src="/search icon.svg" alt="Search" className="w-4 h-4 sm:hidden" />
       </button>
     </div>
   );

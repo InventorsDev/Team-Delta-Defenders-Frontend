@@ -192,7 +192,7 @@ const EditListingView: React.FC<EditListingViewProps> = ({
               src="/delete icon.svg" 
               alt="Delete" 
               className="w-5 h-5 group-hover:opacity-80"
-              style={{ filter: 'invert(36%) sepia(69%) saturate(2083%) hue-rotate(338deg) brightness(97%) contrast(106%)' }}
+              style={{ filter: 'invert(23%) sepia(89%) saturate(7495%) hue-rotate(4deg) brightness(101%) contrast(107%)' }}
             />
           </button>
         </div>

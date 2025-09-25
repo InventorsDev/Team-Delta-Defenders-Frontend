@@ -21,10 +21,10 @@ const DeleteListingModal: React.FC<DeleteListingModalProps> = ({
       onClick={onClose}
     >
       <div 
-        className="w-[699px] h-[613px] relative bg-white overflow-hidden rounded-[20px]"
+        className="w-full max-w-[699px] h-[613px] relative bg-white overflow-hidden rounded-[20px]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="w-[531px] left-[84px] top-[100px] absolute flex flex-col justify-start items-center gap-[25px]">
+        <div className="w-full max-w-[531px] left-4 sm:left-[84px] top-[100px] absolute flex flex-col justify-start items-center gap-[25px]">
           <div className="self-stretch flex flex-col justify-start items-center gap-3">
             <div className="w-[200px] h-[200px]">
               <img 
@@ -45,7 +45,7 @@ const DeleteListingModal: React.FC<DeleteListingModalProps> = ({
           <div className="flex justify-start items-center gap-4 mt-4">
             <button 
               onClick={onClose}
-              className="h-[60px] min-w-[200px] px-6 py-3 bg-brand-colors-HarvestMist rounded-[30px] flex justify-center items-center gap-2.5 border-none cursor-pointer hover:opacity-90 transition-opacity"
+              className="h-[60px] min-w-0 sm:min-w-[200px] px-6 py-3 bg-brand-colors-HarvestMist rounded-[30px] flex justify-center items-center gap-2.5 border-none cursor-pointer hover:opacity-90 transition-opacity"
             >
               <div className="text-brand-colors-RootBlack text-base font-['MadaniArabic-Bold']">
                 Cancel
@@ -53,7 +53,7 @@ const DeleteListingModal: React.FC<DeleteListingModalProps> = ({
             </button>
             <button 
               onClick={onConfirm}
-              className="h-[60px] min-w-[200px] px-6 py-3 bg-brand-colors-pepper-red rounded-[30px] flex justify-center items-center gap-2.5 border-none cursor-pointer hover:opacity-90 transition-opacity"
+              className="h-[60px] min-w-0 sm:min-w-[200px] px-6 py-3 bg-brand-colors-pepper-red rounded-[30px] flex justify-center items-center gap-2.5 border-none cursor-pointer hover:opacity-90 transition-opacity"
             >
               <div className="text-white text-base font-['MadaniArabic-Bold']">
                 Yes, Delete

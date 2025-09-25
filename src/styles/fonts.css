@@ -1,0 +1,61 @@
+/* MadaniArabic Font Family Classes */
+.font-madani-light {
+  font-family: 'MadaniArabic-Light';
+}
+
+.font-madani-regular {
+  font-family: 'MadaniArabic-Regular';
+}
+
+.font-madani-medium {
+  font-family: 'MadaniArabic-Medium';
+}
+
+.font-madani-bold {
+  font-family: 'MadaniArabic-Bold';
+}
+
+/* Common Button Styles */
+.btn-shadow {
+  box-shadow: 0px 4px 30px 5px rgba(0, 0, 0, 0.15);
+}
+
+.btn-shadow-lg {
+  box-shadow: 0px 4px 30px 5px rgba(0, 0, 0, 0.08);
+}
+
+/* Mobile Header Background */
+.mobile-header-bg {
+  background: rgba(228, 253, 225, 0.50);
+}
+
+/* Icon Filter Classes */
+.icon-invert {
+  filter: brightness(0) invert(1);
+}
+
+.icon-normal {
+  filter: none;
+}
+
+/* Common Layout Classes */
+.notification-popup {
+  box-shadow: 0px 4px 30px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* Text color combinations for consistency */
+.text-root-black {
+  color: var(--brand-colors-RootBlack, #182605);
+}
+
+.text-root-grey {
+  color: var(--brand-colors-rootgrey, #8B9281);
+}
+
+.text-sprout-green {
+  color: var(--brand-colors-SproutGreen);
+}
+
+.text-steam-white {
+  color: var(--brand-colors-SteamWhite, white);
+}

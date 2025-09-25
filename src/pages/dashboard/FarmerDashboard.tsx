@@ -1,609 +1,536 @@
 import React, { useState, useEffect, useRef } from 'react';
+import '@/styles/fonts.css';
+
+// Components
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import MyListings from '@/components/dashboard/MyListings';
 import Chats from '@/components/dashboard/Chats';
 import Settings from '@/components/dashboard/Settings';
+import ProductCard, { ProductData } from '@/components/dashboard/ProductCard';
+import NotificationItem, { NotificationData } from '@/components/dashboard/NotificationItem';
+import StatsCard from '@/components/dashboard/StatsCard';
+import MobileNotifications from '@/components/dashboard/MobileNotifications';
+import MobileListings from '@/components/dashboard/MobileListings';
+import MobileDashboard from '@/components/dashboard/MobileDashboard';
+import MobileProductDetail from '@/components/dashboard/MobileProductDetail';
+import MobileEditProduct from '@/components/dashboard/MobileEditProduct';
+import MobileAddListing from '@/components/dashboard/MobileAddListing';
 
-// Mock data for demonstration
-const mockListings = [
-  {
-    id: 1,
-    produceType: 'Tomato',
-    quantity: '50 bags', 
-    harvestDate: '2024-01-15',
-    price: '₦5,000 per bag',
-    status: 'Active',
-    image: '/placeholder-tomato.jpg'
-  },
-  {
-    id: 2,
-    produceType: 'Maize',
-    quantity: '100 bags',
-    harvestDate: '2024-02-01',
-    price: '₦8,000 per bag',
-    status: 'Active',
-    image: '/placeholder-maize.jpg'
-  },
-  {
-    id: 3,
-    produceType: 'Yam',
-    quantity: '25 tubers',
-    harvestDate: '2024-01-20',
-    price: '₦500 per tuber',
-    status: 'Sold',
-    image: '/placeholder-yam.jpg'
-  }
-];
+// Data
+import { mockListings } from '@/data/mockProducts';
+import { mobileStatsCards, createDesktopStatsCards } from '@/data/mockStats';
 
-type ActiveView = 'dashboard' | 'listings' | 'chats' | 'settings';
+// Hooks
+import { useNotifications } from '@/hooks/useNotifications';
+import { useFavorites } from '@/hooks/useFavorites';
+import { useListings } from '@/hooks/useListings';
+
+
+type ActiveView = 'dashboard' | 'listings' | 'chats' | 'settings' | 'product-detail' | 'edit-product' | 'add-listing';
 
 const FarmerDashboard: React.FC = () => {
   const [activeView, setActiveView] = useState<ActiveView>('dashboard');
-  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-  const [isNotificationMenuOpen, setIsNotificationMenuOpen] = useState(false);
-  const [listings, setListings] = useState(mockListings);
-  const [shouldTriggerAddListing, setShouldTriggerAddListing] = useState(false);
+  const [uiState, setUiState] = useState({
+    isNotificationOpen: false,
+    isNotificationMenuOpen: false,
+    isMobileMenuOpen: false,
+    showMobileNotifications: false,
+    shouldTriggerAddListing: false
+  });
+  const [selectedProduct, setSelectedProduct] = useState<ProductData | null>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
 
+  // Custom hooks for business logic
+  const { notifications, markAsRead, handleNotificationClick } = useNotifications();
+  const { favoriteProducts, toggleFavorite } = useFavorites();
+  const { listings, activeListings, soldListings, deleteListing, editListing } = useListings();
 
-  const handleDeleteListing = (id: number) => {
-    setListings(listings.filter(listing => listing.id !== id));
+  // Helper functions to update UI state
+  const updateUiState = (updates: Partial<typeof uiState>) => {
+    setUiState(prev => ({ ...prev, ...updates }));
   };
 
-  const handleEditListing = (id: number, updatedListing: any) => {
-    setListings(listings.map(listing => 
-      listing.id === id ? { ...listing, ...updatedListing } : listing
-    ));
+  // Helper function to handle notification click from child components
+  const handleNotificationClickFromChild = () => {
+    setActiveView('dashboard');
+    updateUiState({ isNotificationOpen: true, showMobileNotifications: false });
   };
 
-  const activeListings = listings.filter(listing => listing.status === 'Active');
-  const soldListings = listings.filter(listing => listing.status === 'Sold');
+  // Create desktop stats cards with proper handlers
+  const desktopStatsCards = createDesktopStatsCards(
+    setActiveView,
+    (trigger: boolean) => updateUiState({ shouldTriggerAddListing: trigger })
+  );
 
   // Handle click outside notification popup
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
-        setIsNotificationOpen(false);
-        setIsNotificationMenuOpen(false);
+        updateUiState({
+          isNotificationOpen: false,
+          isNotificationMenuOpen: false
+        });
       }
     };
 
-    if (isNotificationOpen) {
+    if (uiState.isNotificationOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isNotificationOpen]);
+  }, [uiState.isNotificationOpen]);
 
-  const renderDashboardContent = () => (
-    <div className="w-[1129px] h-[1165px] relative bg-brand-colors-SteamWhite rounded-[20px] overflow-hidden">
-      {/* Top Header Section */}
-      <div className="w-[1129px] px-10 py-7 left-0 top-0 absolute bg-white/80 inline-flex justify-between items-start">
-        <div className="inline-flex flex-col justify-start items-start gap-4">
-          <div className="self-stretch justify-start text-brand-colors-RootBlack text-base font-madani-medium">Welcome to your dashboard</div>
-          <div className="inline-flex justify-start items-center gap-3">
-            <div className="justify-start"><span className="text-brand-colors-RootBlack text-2xl font-normal font-['MadaniArabic-Bold']">Good Morning </span><span className="text-brand-colors-SproutGreen text-2xl font-normal font-['MadaniArabic-Bold']">Anosikay Farms</span></div>
-            <img src="/si_sun-fill.svg" alt="Sun" className="w-6 h-6" />
-          </div>
-        </div>
-        <div className="flex justify-start items-center gap-4">
-          <div className="relative" ref={notificationRef}>
-            <button
-              onClick={() => setIsNotificationOpen(!isNotificationOpen)}
-              className="w-10 h-10 p-[3px] bg-brand-colors-SteamWhite rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.15)] flex justify-center items-center gap-2.5 hover:bg-gray-50 transition-colors"
-            >
-              <div className="flex justify-start items-center gap-2.5">
-                <img className="w-6 h-6" src="/notification-icon.svg" alt="Notifications" />
-              </div>
-            </button>
+  // Product card handlers
+  const handleProductClick = (product: ProductData) => {
+    setSelectedProduct(product);
+    setActiveView('product-detail');
+  };
 
-            {/* Notifications Popup */}
-            {isNotificationOpen && (
-              <div className="absolute right-0 mt-2 w-96 h-[664px] bg-brand-colors-SteamWhite rounded-[20px] shadow-lg z-50 flex flex-col">
-                {/* Header - Fixed */}
-                <div className="p-5 flex flex-col gap-4 flex-shrink-0">
-                  <div className="flex justify-between items-center">
-                    <div className="text-brand-colors-RootBlack text-2xl font-normal font-['MadaniArabic-Bold']">Notifications</div>
-                    <div className="flex items-center gap-2">
-                      <div className="relative">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setIsNotificationMenuOpen(!isNotificationMenuOpen);
-                          }}
-                          className="w-8 h-8 flex justify-center items-center gap-2.5 hover:bg-gray-100 hover:bg-opacity-80 p-1.5 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-colors-SproutGreen focus:ring-opacity-50 active:scale-95"
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              setIsNotificationMenuOpen(!isNotificationMenuOpen);
-                            }
-                          }}
-                          aria-label="More notification options"
-                          aria-expanded={isNotificationMenuOpen}
-                          aria-haspopup="true"
-                        >
-                          <img src="/dot menu.svg" alt="Menu" className="w-5 h-5" />
-                        </button>
-                        
-                        {/* Secondary Menu Popup */}
-                        {isNotificationMenuOpen && (
-                          <div className="w-60 h-28 absolute right-0 top-10 bg-brand-colors-SteamWhite rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.15)] overflow-hidden z-20">
-                            <button 
-                              data-property-1="hover" 
-                              className="w-52 p-2.5 left-[16px] top-[16px] absolute bg-brand-colors-HarvestMist rounded-[10px] inline-flex justify-start items-center gap-2.5 hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-brand-colors-SproutGreen focus:ring-opacity-50"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                // Mark all as read functionality
-                                console.log('Mark all as read');
-                                setIsNotificationMenuOpen(false);
-                              }}
-                              onKeyDown={(e) => {
-                                if (e.key === 'Enter' || e.key === ' ') {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  console.log('Mark all as read');
-                                  setIsNotificationMenuOpen(false);
-                                }
-                              }}
-                            >
-                              <div className="justify-start text-brand-colors-RootBlack text-xs font-madani-medium">Mark all as read</div>
-                            </button>
-                            <button 
-                              data-property-1="Default" 
-                              className="w-52 p-2.5 left-[16px] top-[61px] absolute bg-brand-colors-SteamWhite rounded-[10px] inline-flex justify-start items-center gap-2.5 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-brand-colors-SproutGreen focus:ring-opacity-50"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                // Open notifications functionality
-                                console.log('Open notifications');
-                                setIsNotificationMenuOpen(false);
-                              }}
-                              onKeyDown={(e) => {
-                                if (e.key === 'Enter' || e.key === ' ') {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  console.log('Open notifications');
-                                  setIsNotificationMenuOpen(false);
-                                }
-                              }}
-                            >
-                              <div className="justify-start text-brand-colors-RootBlack text-xs font-madani-medium">Open notifications</div>
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                      <button
-                        onClick={() => {
-                          setIsNotificationOpen(false);
-                          setIsNotificationMenuOpen(false);
-                        }}
-                        className="flex justify-start items-center gap-2.5 hover:bg-gray-100 p-1 rounded text-gray-500 hover:text-gray-700"
-                      >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                  <div className="inline-flex gap-3">
-                    <div data-property-1="Default" className="p-2.5 bg-brand-colors-HarvestMist rounded-[20px] flex justify-center items-center gap-2.5">
-                      <div className="text-brand-colors-RootBlack text-base font-madani-medium">All</div>
-                    </div>
-                    <div data-property-1="Variant2" className="p-2.5 rounded-[20px] flex justify-center items-center gap-2.5">
-                      <div className="text-brand-colors-RootBlack text-base font-madani-medium">Unread</div>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Scrollable Content */}
-                <div className="flex-1 overflow-y-auto px-5">
-                  <div className="space-y-2 pb-4">
-                    <div data-property-1="Default" className="w-full p-2.5 bg-brand-colors-SteamWhite rounded-[10px] flex justify-between items-start">
-                      <div className="flex items-start gap-3 flex-1 min-w-0">
-                        <div data-property-1="unread" className="w-10 h-10 relative flex-shrink-0">
-                          <img className="w-10 h-10 rounded-full object-cover" src="/dashboard-chat-1.png" />
-                          <div className="w-5 h-5 left-[24px] top-[20px] absolute bg-brand-colors-SproutGreen rounded-full"></div>
-                        </div>
-                        <div className="flex-1 flex flex-col justify-start items-start gap-1 min-w-0">
-                          <div className="text-brand-colors-RootBlack text-base font-madani-medium">New Buyer Message</div>
-                          <div className="text-brand-colors-rootgrey text-xs font-madani-light">You have a new message from Chinedu — check your chat to respond quickly!</div>
-                        </div>
-                      </div>
-                      <div className="text-brand-colors-RootBlack text-xs font-madani-light whitespace-nowrap ml-2 flex-shrink-0">5 mins</div>
-                    </div>
-                    <div data-property-1="Default" className="w-full p-2.5 bg-brand-colors-SteamWhite rounded-[10px] flex justify-between items-start">
-                      <div className="flex items-start gap-3 flex-1 min-w-0">
-                        <div data-property-1="unread" className="w-10 h-10 relative flex-shrink-0">
-                          <img className="w-10 h-10" src="/notif read.svg" />
-                          <div className="w-5 h-5 left-[24px] top-[20px] absolute bg-brand-colors-SproutGreen rounded-full"></div>
-                        </div>
-                        <div className="flex-1 flex flex-col justify-start items-start gap-1 min-w-0">
-                          <div className="text-brand-colors-RootBlack text-base font-madani-medium">Price Alert</div>
-                          <div className="text-brand-colors-rootgrey text-xs font-madani-light">Maize prices have increased by 8% this week. Consider updating your listing</div>
-                        </div>
-                      </div>
-                      <div className="text-brand-colors-RootBlack text-xs font-madani-light whitespace-nowrap ml-2 flex-shrink-0">3 hrs</div>
-                    </div>
-                    <div data-property-1="Default" className="w-full p-2.5 bg-brand-colors-SteamWhite rounded-[10px] flex justify-between items-start">
-                      <div className="flex items-start gap-3 flex-1 min-w-0">
-                        <div data-property-1="unread" className="w-10 h-10 relative flex-shrink-0">
-                          <img className="w-10 h-10 rounded-full object-cover" src="/dashboard-chat-3.png" />
-                          <div className="w-5 h-5 left-[24px] top-[20px] absolute bg-brand-colors-SproutGreen rounded-full"></div>
-                        </div>
-                        <div className="flex-1 flex flex-col justify-start items-start gap-1 min-w-0">
-                          <div className="text-brand-colors-RootBlack text-base font-madani-medium">Profile Completion Reminder</div>
-                          <div className="text-brand-colors-rootgrey text-xs font-madani-light">Complete your profile to attract more buyers and boost your credibility.</div>
-                        </div>
-                      </div>
-                      <div className="text-brand-colors-RootBlack text-xs font-madani-light whitespace-nowrap ml-2 flex-shrink-0">6 hrs</div>
-                    </div>
-                    <div data-property-1="Default" className="w-full p-2.5 bg-brand-colors-SteamWhite rounded-[10px] flex justify-between items-start">
-                      <div className="flex items-start gap-3 flex-1 min-w-0">
-                        <div data-property-1="unread" className="w-10 h-10 relative flex-shrink-0">
-                          <img className="w-10 h-10" src="/notif read.svg" />
-                          <div className="w-5 h-5 left-[24px] top-[20px] absolute bg-brand-colors-SproutGreen rounded-full"></div>
-                        </div>
-                        <div className="flex-1 flex flex-col justify-start items-start gap-1 min-w-0">
-                          <div className="text-brand-colors-RootBlack text-base font-madani-medium">New Buyer Message</div>
-                          <div className="text-brand-colors-rootgrey text-xs font-madani-light">You have a new message from Chinedu — check your chat to respond quickly!</div>
-                        </div>
-                      </div>
-                      <div className="text-brand-colors-RootBlack text-xs font-madani-light whitespace-nowrap ml-2 flex-shrink-0">16 hrs</div>
-                    </div>
-                    <div data-property-1="Default" className="w-full p-2.5 bg-brand-colors-SteamWhite rounded-[10px] flex justify-between items-start">
-                      <div className="flex items-start gap-3 flex-1 min-w-0">
-                        <div data-property-1="read" className="w-10 h-10 relative flex-shrink-0">
-                          <img className="w-10 h-10 rounded-full object-cover" src="/dashboard-chat-5.png" />
-                        </div>
-                        <div className="flex-1 flex flex-col justify-start items-start gap-1 min-w-0">
-                          <div className="text-brand-colors-RootBlack text-base font-madani-medium">Approved Listing</div>
-                          <div className="text-brand-colors-rootgrey text-xs font-madani-light">Great news! Your listing for 'Fresh Red Tomatoes' has been approved and is now live for buyers</div>
-                        </div>
-                      </div>
-                      <div className="text-brand-colors-RootBlack text-xs font-madani-light whitespace-nowrap ml-2 flex-shrink-0">1 day</div>
-                    </div>
-                    <div data-property-1="Default" className="w-full p-2.5 bg-brand-colors-SteamWhite rounded-[10px] flex justify-between items-start">
-                      <div className="flex items-start gap-3 flex-1 min-w-0">
-                        <div data-property-1="read" className="w-10 h-10 relative flex-shrink-0">
-                          <img className="w-10 h-10" src="/notif read.svg" />
-                        </div>
-                        <div className="flex-1 flex flex-col justify-start items-start gap-1 min-w-0">
-                          <div className="text-brand-colors-RootBlack text-base font-madani-medium">New Review Received</div>
-                          <div className="text-brand-colors-rootgrey text-xs font-madani-light">You've got a new review: 'Excellent quality and fast response!' Check your profile to read more</div>
-                        </div>
-                      </div>
-                      <div className="text-brand-colors-RootBlack text-xs font-madani-light whitespace-nowrap ml-2 flex-shrink-0">2 days</div>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Footer Button - Fixed */}
-                <div className="p-5 pt-0 flex-shrink-0">
-                  <button 
-                    onClick={() => {
-                      // Handle see all notifications functionality
-                      console.log('See all notifications clicked');
-                      setIsNotificationOpen(false);
-                    }}
-                    className="w-full h-[60px] min-w-[200px] px-6 py-3 bg-brand-colors-HarvestMist rounded-[30px] inline-flex justify-center items-center gap-2.5 hover:bg-opacity-80 transition-colors"
-                    style={{
-                      opacity: 1,
-                      transform: 'rotate(0deg)'
-                    }}
-                  >
-                    <div className="text-brand-colors-RootBlack text-base font-madani-bold">See all notifications</div>
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-          <img className="w-10 h-10 rounded-full object-cover" src="/profile image.png" alt="Profile" />
-        </div>
-      </div>
+  const handleBackFromProductDetail = () => {
+    setActiveView('listings');
+    setSelectedProduct(null);
+  };
 
-      {/* First Stats Card - Overview */}
-      <div className="w-64 h-60 left-[40px] top-[132px] absolute bg-brand-colors-RootBlack rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] overflow-hidden">
-        <div className="w-64 h-64 left-[-146px] top-[142px] absolute opacity-10 bg-brand-colors-SteamWhite rounded-full"></div>
-        <div className="w-64 h-64 left-[134px] top-[-159px] absolute opacity-10 bg-brand-colors-SteamWhite rounded-full"></div>
-        <div className="left-[30px] top-[30px] absolute justify-start text-brand-colors-SteamWhite text-xl font-normal font-['MadaniArabic-Bold']">Overview</div>
-        <div className="w-48 left-[30px] top-[88px] absolute inline-flex justify-between items-start">
-          <div className="inline-flex flex-col justify-start items-center gap-3">
-            <div className="justify-start text-brand-colors-SteamWhite text-4xl font-normal font-['MadaniArabic-Bold'] leading-[60px]">5</div>
-            <div className="justify-start text-brand-colors-SteamWhite text-base font-normal font-['MadaniArabic-Medium']">Chats</div>
-          </div>
-          <div className="w-16 inline-flex flex-col justify-start items-center gap-3">
-            <div className="justify-start text-brand-colors-SteamWhite text-4xl font-normal font-['MadaniArabic-Bold'] leading-[60px]">10</div>
-            <div className="justify-start text-brand-colors-SteamWhite text-base font-normal font-['MadaniArabic-Medium']">Listing</div>
-          </div>
-        </div>
-      </div>
+  const handleEditProduct = (product: ProductData) => {
+    setSelectedProduct(product);
+    setActiveView('edit-product');
+  };
 
-      {/* Second Stats Card - Ready to sell more */}
-      <div className="w-[420px] h-60 left-[316px] top-[132px] absolute bg-brand-colors-SteamWhite rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)]">
-        <div className="left-[30px] top-[30px] absolute justify-start text-brand-colors-RootBlack text-xl font-normal font-['MadaniArabic-Bold']">Ready to sell more</div>
-        <div className="w-64 h-48 left-[164px] top-[34px] absolute">
-          <div className="w-56 h-8 left-0 top-[162px] absolute bg-[radial-gradient(ellipse_50.00%_50.00%_at_50.00%_50.00%,_rgba(0,_0,_0,_0.20)_0%,_rgba(0,_0,_0,_0)_100%)] rounded-full"></div>
-          <img className="w-52 h-48 left-[58px] top-0 absolute" src="/stats-card-2.png" />
-        </div>
-        <div className="w-52 left-[30px] top-[67px] absolute justify-start text-brand-colors-RootBlack text-base font-madani-medium">Add your fresh produce and start reaching buyers today.</div>
-        <button 
-          onClick={() => {
-            setActiveView('listings');
-            setShouldTriggerAddListing(true);
-          }}
-          data-property-1="Default" 
-          className="w-48 h-14 min-w-48 px-6 py-3 left-[14px] top-[153px] absolute bg-brand-colors-SproutGreen rounded-[30px] inline-flex justify-center items-center gap-2.5 hover:bg-opacity-90 transition-colors cursor-pointer"
-        >
-          <div className="justify-start text-brand-colors-SteamWhite text-base font-normal font-['MadaniArabic-Bold']">Add New Product</div>
-        </button>
-      </div>
+  const handleBackFromEditProduct = () => {
+    setActiveView('product-detail');
+  };
 
-      {/* Third Stats Card - Today's Tip */}
-      <div data-property-1="Default" className="w-80 h-60 left-[753px] top-[133px] absolute bg-brand-colors-SteamWhite rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] overflow-hidden">
-        <img className="w-80 h-60 left-[-1px] top-0 absolute object-cover" src="/stats-card-3.png" alt="Today's Tip Background" />
-        <div className="w-80 h-60 left-[-1px] top-0 absolute" style={{ backgroundColor: 'hsla(86, 78%, 8%, 0.7)' }}></div>
-        <div className="left-[30px] top-[30px] absolute justify-start text-brand-colors-SteamWhite text-xl font-normal font-['MadaniArabic-Bold']">Today's Tip</div>
-        <div className="w-72 left-[30px] top-[67px] absolute justify-start text-brand-colors-SteamWhite text-base font-normal font-['MadaniArabic-Medium']">Harvest early in the morning to keep your produce fresher for longer, cooler temps reduce wilting and spoilage!</div>
-      </div>
+  const handleSaveProduct = (product: ProductData) => {
+    console.log('Save product:', product);
+    // TODO: Implement save functionality
+    setActiveView('product-detail');
+  };
 
-      {/* My Listings Section */}
-      <div className="w-[693px] left-[40px] top-[415px] absolute inline-flex flex-col justify-start items-start gap-7">
-        <div className="self-stretch inline-flex justify-between items-center">
-          <div className="justify-start text-brand-colors-RootBlack text-2xl font-normal font-['MadaniArabic-Bold']">My Listings</div>
-          <div data-property-1="Default" className="flex justify-start items-center gap-1">
-            <div className="justify-start text-brand-colors-RootBlack text-base font-madani-medium">View All</div>
-            <img src="/chevron-right-2.svg" alt="Chevron right" className="w-6 h-6" />
-          </div>
-        </div>
-        <div className="self-stretch inline-flex justify-start items-center gap-5">
-          <div data-property-1="Default" className="w-56 h-72 relative bg-brand-colors-SteamWhite rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] overflow-hidden">
-            <div className="w-48 h-36 left-[10px] top-[10px] absolute rounded-[10px] inline-flex flex-col justify-center items-center gap-2.5 overflow-hidden">
-              <img className="w-48 h-36 rounded-[10px]" src="/listing-1.png" />
-            </div>
-            <div className="w-48 left-[10px] top-[170px] absolute justify-start text-brand-colors-rootgrey text-base font-normal font-['MadaniArabic-Medium']">Basket of Tomatoes</div>
-            <div className="left-[10px] top-[202px] absolute inline-flex justify-start items-baseline gap-1">
-              <div className="justify-start text-brand-colors-RootBlack text-xl font-normal font-['MadaniArabic-Medium'] leading-9">₦35,000</div>
-              <div className="justify-start text-brand-colors-RootBlack text-xs font-madani-light">Per Unit</div>
-            </div>
-            <div className="left-[10px] top-[237px] absolute inline-flex justify-start items-center gap-1">
-              <img src="/location-icon.svg" alt="Location" className="w-6 h-6" />
-              <div className="justify-start text-brand-colors-RootBlack text-xs font-madani-light">Ojo, Lagos</div>
-            </div>
-          </div>
-          <div data-property-1="Default" className="w-56 h-72 relative bg-brand-colors-SteamWhite rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] overflow-hidden">
-            <div className="w-48 h-36 left-[10px] top-[10px] absolute rounded-[10px] inline-flex flex-col justify-center items-center gap-2.5 overflow-hidden">
-              <img className="w-48 h-36 rounded-[10px] object-cover" src="/listing-2.png" />
-            </div>
-            <div className="w-48 left-[10px] top-[170px] absolute justify-start text-brand-colors-rootgrey text-base font-normal font-['MadaniArabic-Medium']">Basket of Fresh Pepper</div>
-            <div className="left-[10px] top-[202px] absolute inline-flex justify-start items-baseline gap-1">
-              <div className="justify-start text-brand-colors-RootBlack text-xl font-normal font-['MadaniArabic-Medium'] leading-9">₦50,000</div>
-              <div className="justify-start text-brand-colors-RootBlack text-xs font-madani-light">Per Unit</div>
-            </div>
-            <div className="left-[10px] top-[237px] absolute inline-flex justify-start items-center gap-1">
-              <img src="/location-icon.svg" alt="Location" className="w-6 h-6" />
-              <div className="justify-start text-brand-colors-RootBlack text-xs font-madani-light">Ojo, Lagos</div>
-            </div>
-          </div>
-          <div data-property-1="Default" className="w-56 h-72 relative bg-brand-colors-SteamWhite rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] overflow-hidden">
-            <div className="w-48 h-36 left-[10px] top-[10px] absolute rounded-[10px] inline-flex flex-col justify-center items-center gap-2.5 overflow-hidden">
-              <img className="w-48 h-36 rounded-[10px] object-cover" src="/listing-3.png" />
-            </div>
-            <div className="w-48 left-[10px] top-[170px] absolute justify-start text-brand-colors-rootgrey text-base font-normal font-['MadaniArabic-Medium']">Sack of Onions (50kg)</div>
-            <div className="left-[10px] top-[202px] absolute inline-flex justify-start items-baseline gap-1">
-              <div className="justify-start text-brand-colors-RootBlack text-xl font-normal font-['MadaniArabic-Medium'] leading-9">₦60,500</div>
-              <div className="justify-start text-brand-colors-RootBlack text-xs font-madani-light">Per Unit</div>
-            </div>
-            <div className="left-[10px] top-[237px] absolute inline-flex justify-start items-center gap-1">
-              <img src="/location-icon.svg" alt="Location" className="w-6 h-6" />
-              <div className="justify-start text-brand-colors-RootBlack text-xs font-madani-light">Ojo, Lagos</div>
-            </div>
-          </div>
-        </div>
-      </div>
+  const handleDeleteFromDetail = (productId: number) => {
+    deleteListing(productId);
+    setActiveView('listings');
+  };
 
-      {/* Trending Farm Produce Section */}
-      <div className="w-[693px] left-[40px] top-[800px] absolute inline-flex flex-col justify-start items-start gap-7">
-        <div className="self-stretch inline-flex justify-between items-center">
-          <div className="justify-start text-brand-colors-RootBlack text-2xl font-normal font-['MadaniArabic-Bold']">Trending Farm Produce</div>
-          <div data-property-1="Default" className="flex justify-start items-center gap-1">
-            <div className="justify-start text-brand-colors-RootBlack text-base font-madani-medium">See more</div>
-            <img src="/chevron-right-2.svg" alt="Chevron right" className="w-6 h-6" />
-          </div>
-        </div>
-        <div className="self-stretch inline-flex justify-start items-start gap-5">
-          <div className="w-80 h-72 relative bg-brand-colors-SteamWhite rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] overflow-hidden">
-            <img className="w-40 h-28 left-[177px] top-[162px] absolute" src="/tomatoes-trending-farm-produce.png" />
-            <div className="w-48 left-[20px] top-[128px] absolute inline-flex flex-col justify-center items-start gap-4">
-              <div className="justify-start text-brand-colors-RootBlack text-base font-madani-medium">Insight:</div>
-              <div className="self-stretch justify-start text-brand-colors-rootgrey text-base font-normal font-['MadaniArabic-Medium']">Prices rising due to seasonal scarcity; great time to list your harvest!</div>
-            </div>
-            <div className="left-[20px] top-[96px] absolute inline-flex justify-start items-center gap-2">
-              <div className="justify-start text-brand-colors-RootBlack text-base font-madani-medium">Avg price: </div>
-              <div className="justify-start"><span className="text-brand-colors-RootBlack text-base font-madani-medium">₦39,500 </span><span className="text-brand-colors-rootgrey text-base font-normal font-['MadaniArabic-Medium']">per basket</span></div>
-            </div>
-            <div className="left-[20px] top-[64px] absolute inline-flex justify-start items-center gap-2">
-              <div className="justify-start text-brand-colors-RootBlack text-base font-madani-medium">Status: </div>
-              <div className="justify-start"><span className="text-brand-colors-rootgrey text-base font-normal font-['MadaniArabic-Medium']">Demand </span><span className="text-brand-colors-RootBlack text-base font-madani-medium">up 15%</span><span className="text-brand-colors-rootgrey text-base font-normal font-['MadaniArabic-Medium']"> this week</span></div>
-            </div>
-            <div className="left-[20px] top-[20px] absolute inline-flex justify-start items-center gap-2">
-              <div className="justify-start text-brand-colors-RootBlack text-xl font-normal font-['MadaniArabic-Bold']">Tomatoes</div>
-              <img className="w-6 h-6" src="/ph_trend-up-bold.svg" alt="Trend up" />
-            </div>
-          </div>
-          <div className="w-80 h-72 relative bg-brand-colors-SteamWhite rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] overflow-hidden">
-            <img className="w-40 h-28 left-[177px] top-[162px] absolute" src="/maize-trending-farm-produce.png" />
-            <div className="w-48 left-[20px] top-[128px] absolute inline-flex flex-col justify-center items-start gap-4">
-              <div className="justify-start text-brand-colors-RootBlack text-base font-madani-medium">Insight:</div>
-              <div className="self-stretch justify-start text-brand-colors-rootgrey text-base font-normal font-['MadaniArabic-Medium']">Prices dropping slightly as harvest peaks; consider storing if possible.</div>
-            </div>
-            <div className="left-[20px] top-[96px] absolute inline-flex justify-start items-center gap-2">
-              <div className="justify-start text-brand-colors-RootBlack text-base font-madani-medium">Avg price: </div>
-              <div className="justify-start"><span className="text-brand-colors-RootBlack text-base font-madani-medium">₦12,000 </span><span className="text-brand-colors-rootgrey text-base font-normal font-['MadaniArabic-Medium']">per 50kg bag</span></div>
-            </div>
-            <div className="left-[20px] top-[64px] absolute inline-flex justify-start items-center gap-2">
-              <div className="justify-start text-brand-colors-RootBlack text-base font-madani-medium">Status: </div>
-              <div className="justify-start"><span className="text-brand-colors-rootgrey text-base font-normal font-['MadaniArabic-Medium']">Demand </span><span className="text-brand-colors-RootBlack text-base font-madani-medium">down 10%</span><span className="text-brand-colors-rootgrey text-base font-normal font-['MadaniArabic-Medium']"> this week</span></div>
-            </div>
-            <div className="left-[20px] top-[20px] absolute inline-flex justify-start items-center gap-2">
-              <div className="justify-start text-brand-colors-RootBlack text-xl font-normal font-['MadaniArabic-Bold']">Maize</div>
-              <img className="w-6 h-6" src="/ph_trend-down-bold.svg" alt="Trend down" />
-            </div>
-          </div>
-        </div>
-      </div>
+  const handleAddNewListing = () => {
+    setActiveView('add-listing');
+  };
 
-      {/* Chats Section */}
-      <div className="w-80 left-[753px] top-[415px] absolute inline-flex flex-col justify-start items-end gap-7">
-        <div className="self-stretch h-6 inline-flex justify-between items-center">
-          <div className="justify-start text-brand-colors-RootBlack text-2xl font-normal font-['MadaniArabic-Bold']">Chats</div>
-          <div data-property-1="Default" className="flex justify-start items-center gap-1">
-            <div className="justify-start text-brand-colors-RootBlack text-base font-madani-medium">View All</div>
-            <img src="/chevron-right-2.svg" alt="Chevron right" className="w-6 h-6" />
-          </div>
-        </div>
-        <div className="self-stretch flex flex-col justify-start items-start gap-2">
-          <div data-property-1="unread" className="w-80 px-3 py-2 bg-brand-colors-SteamWhite rounded-[20px] inline-flex justify-start items-start gap-3">
-            <div className="flex-1 flex justify-start items-start gap-3">
-              <img className="w-9 h-9 rounded-full object-cover" src="/dashboard-chat-1.png" />
-              <div className="flex-1 inline-flex flex-col justify-start items-start gap-1">
-                <div className="self-stretch justify-start text-brand-colors-RootBlack text-sm font-normal font-['MadaniArabic-Medium']">Ugonna Chibuike</div>
-                <div className="self-stretch justify-start text-brand-colors-RootBlack text-xs font-madani-light">oga watin be last price</div>
-              </div>
-            </div>
-            <div className="self-stretch inline-flex flex-col justify-between items-end">
-              <div className="justify-start text-brand-colors-RootBlack text-xs font-madani-light">5 mins</div>
-              <div className="w-4 h-4 bg-brand-colors-SproutGreen rounded-[99px] flex flex-col justify-center items-center">
-                <div className="justify-start text-brand-colors-SteamWhite text-xs font-normal font-['MadaniArabic-Medium']">1</div>
-              </div>
-            </div>
-          </div>
-          <div data-property-1="unread" className="w-80 px-3 py-2 bg-brand-colors-SteamWhite rounded-[20px] inline-flex justify-start items-start gap-3">
-            <div className="flex-1 flex justify-start items-start gap-3">
-              <img className="w-9 h-9 rounded-full object-cover" src="/dashboard-chat-2.png" />
-              <div className="flex-1 inline-flex flex-col justify-start items-start gap-1">
-                <div className="self-stretch justify-start text-brand-colors-RootBlack text-sm font-normal font-['MadaniArabic-Medium']">White Tapes</div>
-                <div className="self-stretch justify-start text-brand-colors-RootBlack text-xs font-madani-light">How fresh is the pepper</div>
-              </div>
-            </div>
-            <div className="self-stretch inline-flex flex-col justify-between items-end">
-              <div className="justify-start text-brand-colors-RootBlack text-xs font-madani-light">30 mins</div>
-              <div className="w-4 h-4 bg-brand-colors-SproutGreen rounded-[99px] flex flex-col justify-center items-center">
-                <div className="justify-start text-brand-colors-SteamWhite text-xs font-normal font-['MadaniArabic-Medium']">1</div>
-              </div>
-            </div>
-          </div>
-          <div data-property-1="unread" className="w-80 px-3 py-2 bg-brand-colors-SteamWhite rounded-[20px] inline-flex justify-start items-start gap-3">
-            <div className="flex-1 flex justify-start items-start gap-3">
-              <img className="w-9 h-9 rounded-full object-cover" src="/dashboard-chat-3.png" />
-              <div className="flex-1 inline-flex flex-col justify-start items-start gap-1">
-                <div className="self-stretch justify-start text-brand-colors-RootBlack text-sm font-normal font-['MadaniArabic-Medium']">Tunde Ednut</div>
-                <div className="self-stretch justify-start text-brand-colors-RootBlack text-xs font-madani-light">How fresh is the pepper</div>
-              </div>
-            </div>
-            <div className="self-stretch inline-flex flex-col justify-between items-end">
-              <div className="justify-start text-brand-colors-RootBlack text-xs font-madani-light">3 hrs</div>
-              <div className="w-4 h-4 bg-brand-colors-SproutGreen rounded-[99px] flex flex-col justify-center items-center">
-                <div className="justify-start text-brand-colors-SteamWhite text-xs font-normal font-['MadaniArabic-Medium']">1</div>
-              </div>
-            </div>
-          </div>
-          <div data-property-1="unread" className="w-80 px-3 py-2 bg-brand-colors-SteamWhite rounded-[20px] inline-flex justify-start items-start gap-3">
-            <div className="flex-1 flex justify-start items-start gap-3">
-              <img className="w-9 h-9 rounded-full object-cover" src="/dashboard-chat-4.png" />
-              <div className="flex-1 inline-flex flex-col justify-start items-start gap-1">
-                <div className="self-stretch justify-start text-brand-colors-RootBlack text-sm font-normal font-['MadaniArabic-Medium']">Fatima Alabi</div>
-                <div className="self-stretch justify-start text-brand-colors-RootBlack text-xs font-madani-light">How fresh is the pepper</div>
-              </div>
-            </div>
-            <div className="self-stretch inline-flex flex-col justify-between items-end">
-              <div className="justify-start text-brand-colors-RootBlack text-xs font-madani-light">3 hrs</div>
-              <div className="w-4 h-4 bg-brand-colors-SproutGreen rounded-[99px] flex flex-col justify-center items-center">
-                <div className="justify-start text-brand-colors-SteamWhite text-xs font-normal font-['MadaniArabic-Medium']">1</div>
-              </div>
-            </div>
-          </div>
-          <div data-property-1="unread" className="w-80 px-3 py-2 bg-brand-colors-SteamWhite rounded-[20px] inline-flex justify-start items-start gap-3">
-            <div className="flex-1 flex justify-start items-start gap-3">
-              <img className="w-9 h-9 rounded-full object-cover" src="/dashboard-chat-5.png" />
-              <div className="flex-1 inline-flex flex-col justify-start items-start gap-1">
-                <div className="self-stretch justify-start text-brand-colors-RootBlack text-sm font-normal font-['MadaniArabic-Medium']">Frank Edward</div>
-                <div className="self-stretch justify-start text-brand-colors-RootBlack text-xs font-madani-light">How fresh is the pepper</div>
-              </div>
-            </div>
-            <div className="self-stretch inline-flex flex-col justify-between items-end">
-              <div className="justify-start text-brand-colors-RootBlack text-xs font-madani-light">1 day</div>
-              <div className="w-4 h-4 bg-brand-colors-SproutGreen rounded-[99px] flex flex-col justify-center items-center">
-                <div className="justify-start text-brand-colors-SteamWhite text-xs font-normal font-['MadaniArabic-Medium']">1</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  const handleBackFromAddListing = () => {
+    setActiveView('listings');
+  };
 
-      {/* Testimonials Section */}
-      <div className="w-80 left-[753px] top-[800px] absolute inline-flex flex-col justify-start items-end gap-7">
-        <div className="self-stretch h-6 inline-flex justify-between items-center">
-          <div className="justify-start text-brand-colors-RootBlack text-2xl font-normal font-['MadaniArabic-Bold']">Testimonials</div>
-          <div data-property-1="Default" className="flex justify-start items-center gap-1">
-            <div className="justify-start text-brand-colors-RootBlack text-base font-madani-medium">View All</div>
-            <img src="/chevron-right-2.svg" alt="Chevron right" className="w-6 h-6" />
-          </div>
-        </div>
-        <div className="w-80 h-60 relative bg-brand-colors-SteamWhite rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] overflow-hidden">
-          <div className="left-[10px] top-[10px] absolute inline-flex justify-start items-center gap-3">
-            <img className="w-10 h-10 rounded-full object-cover" src="/dashboard-chat-2.png" />
-            <div className="w-28 inline-flex flex-col justify-start items-start gap-2">
-              <div className="self-stretch justify-start text-brand-colors-RootBlack text-base font-madani-medium">White Tapes</div>
-              <div className="self-stretch justify-start text-brand-colors-rootgrey text-xs font-madani-light">Fashion Designer</div>
-            </div>
-          </div>
-          <div className="w-80 left-[10px] top-[70px] absolute justify-start text-brand-colors-RootBlack text-sm font-normal font-['Montserrat'] leading-tight">"I found the freshest tomatoes I've ever bought through AgriLink. Your farm's produce was top quality, and it arrived just as promised. Thank you for making it so easy to buy directly from you, I'll definitely order again!"</div>
-          <div className="left-[10px] top-[200px] absolute inline-flex justify-start items-center gap-1.5">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFC107" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-            </svg>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFC107" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-            </svg>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFC107" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-            </svg>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFC107" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-            </svg>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFC107" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-            </svg>
-          </div>
-        </div>
-      </div>
+  const handleSaveNewListing = (formData: any) => {
+    console.log('Save new listing:', formData);
+    // TODO: Implement save functionality
+    setActiveView('listings');
+  };
 
-    </div>
-  );
+
+
+
+  // Old renderDashboardContent function removed - now inline
 
   return (
-    <div className="flex w-full h-screen bg-gray-50 p-0 m-0">
+    <div className="w-full min-h-screen bg-gray-50 overflow-x-hidden">
+      {/* Mobile Header */}
+      {activeView !== 'product-detail' && activeView !== 'edit-product' && activeView !== 'add-listing' && (
+        <div className="lg:hidden fixed top-0 left-0 right-0 z-30 mobile-header-bg w-full max-w-full">
+        <div className="w-full h-full p-4 flex flex-col gap-2.5 max-w-full">
+          <div className="w-full flex flex-col gap-4 max-w-full">
+            <div className="w-full flex justify-between items-center max-w-full">
+              <div className="flex items-center flex-shrink-0">
+                <img src="/Agrilink-logo-dark.svg" alt="Agrilink Logo" className="h-6" />
+              </div>
+              <button
+                className="flex-shrink-0 h-10 px-4 py-3 bg-brand-colors-SproutGreen rounded-full flex items-center justify-center text-sm"
+                onClick={() => window.location.href = '/marketplace'}
+              >
+                <div className="text-white text-sm font-bold font-madani-bold whitespace-nowrap">Go to Marketplace</div>
+              </button>
+            </div>
+            <div className="w-full flex justify-between items-center gap-2 max-w-full">
+              <button
+                onClick={() => {
+                  setActiveView('dashboard');
+                  updateUiState({ showMobileNotifications: false });
+                }}
+                className={`flex-shrink-0 w-10 h-10 p-0.5 rounded-2xl flex items-center justify-center btn-shadow ${activeView === 'dashboard' && !uiState.showMobileNotifications ? 'bg-brand-colors-RootBlack' : 'bg-white'}`}
+              >
+                <img
+                  src="/dashboard.svg"
+                  alt="Dashboard"
+                  className={`w-6 h-6 ${activeView === 'dashboard' && !uiState.showMobileNotifications ? 'icon-invert' : 'icon-normal'}`}
+                />
+              </button>
+              <button
+                onClick={() => {
+                  setActiveView('listings');
+                  updateUiState({ showMobileNotifications: false });
+                }}
+                className={`flex-shrink-0 w-10 h-10 p-0.5 rounded-2xl flex items-center justify-center btn-shadow ${activeView === 'listings' && !uiState.showMobileNotifications ? 'bg-brand-colors-RootBlack' : 'bg-white'}`}
+              >
+                <img
+                  src="/listing.svg"
+                  alt="Listings"
+                  className={`w-6 h-6 ${activeView === 'listings' && !uiState.showMobileNotifications ? 'icon-invert' : 'icon-normal'}`}
+                />
+              </button>
+              <button
+                onClick={() => {
+                  setActiveView('chats');
+                  updateUiState({ showMobileNotifications: false });
+                }}
+                className={`flex-shrink-0 w-10 h-10 p-0.5 rounded-2xl flex items-center justify-center btn-shadow ${activeView === 'chats' && !uiState.showMobileNotifications ? 'bg-brand-colors-RootBlack' : 'bg-white'}`}
+              >
+                <img
+                  src="/chat icon.svg"
+                  alt="Chats"
+                  className={`w-6 h-6 ${activeView === 'chats' && !uiState.showMobileNotifications ? 'icon-invert' : 'icon-normal'}`}
+                />
+              </button>
+              <button
+                onClick={() => {
+                  updateUiState({ showMobileNotifications: !uiState.showMobileNotifications });
+                }}
+                className={`flex-shrink-0 w-10 h-10 p-0.5 rounded-2xl flex items-center justify-center btn-shadow ${uiState.showMobileNotifications ? 'bg-brand-colors-RootBlack' : 'bg-white'}`}
+              >
+                <img
+                  src="/notification-icon.svg"
+                  alt="Notifications"
+                  className={`w-6 h-6 ${uiState.showMobileNotifications ? 'icon-invert' : 'icon-normal'}`}
+                />
+              </button>
+              <button
+                onClick={() => {
+                  setActiveView('settings');
+                  updateUiState({ showMobileNotifications: false });
+                }}
+                className="flex-shrink-0 w-10 h-10 p-0.5 rounded-2xl overflow-hidden btn-shadow"
+              >
+                <img className="w-full h-full rounded-full object-cover" src="/profile image.png" alt="Profile" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      )}
+
       {/* Sidebar */}
-      <DashboardSidebar 
-        activeView={activeView} 
+      <DashboardSidebar
+        activeView={activeView}
         setActiveView={setActiveView}
+        isMobileMenuOpen={uiState.isMobileMenuOpen}
+        setIsMobileMenuOpen={(isOpen: boolean) => updateUiState({ isMobileMenuOpen: isOpen })}
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 bg-white rounded-tr-3xl rounded-br-3xl overflow-y-auto h-full">
-        {activeView === 'dashboard' && renderDashboardContent()}
-        {activeView === 'listings' && (
-          <MyListings
-            onDeleteListing={handleDeleteListing}
-            onCreateListing={() => {}}
-            shouldTriggerAdd={shouldTriggerAddListing}
-            onAddTriggered={() => setShouldTriggerAddListing(false)}
+      <div className={`w-full lg:pl-64 xl:pl-80 bg-white lg:rounded-tr-3xl lg:rounded-br-3xl min-h-screen overflow-x-hidden ${(activeView === 'product-detail' || activeView === 'edit-product' || activeView === 'add-listing') ? 'pt-0' : 'pt-32 lg:pt-0'}`}>
+        {uiState.showMobileNotifications && (
+          <div className="lg:hidden">
+            <MobileNotifications
+              notifications={notifications}
+              onNotificationClick={handleNotificationClick}
+            />
+          </div>
+        )}
+        {!uiState.showMobileNotifications && activeView === 'dashboard' && (
+          <>
+            <div className="lg:hidden">
+              <MobileDashboard
+                onProductClick={handleProductClick}
+                onViewAllListings={() => setActiveView('listings')}
+                onSeeMoreTrending={() => setActiveView('listings')}
+                onViewAllTestimonials={() => setActiveView('chats')}
+              />
+            </div>
+            <div className="hidden lg:block p-6 overflow-y-auto">
+              <div className="w-full max-w-full lg:max-w-[1129px] mx-auto bg-brand-colors-SteamWhite rounded-[20px] p-4 sm:p-6 lg:p-10 space-y-4">
+                {/* Top Header Section */}
+                <div className="w-full bg-white/80 rounded-lg p-4 sm:p-7 flex flex-col sm:flex-row justify-between items-start gap-4">
+                  <div className="flex flex-col gap-4">
+                    <div className="text-brand-colors-RootBlack text-base font-madani-medium">Welcome to your dashboard</div>
+                    <div className="flex items-center gap-3">
+                      <div><span className="text-brand-colors-RootBlack text-2xl font-normal font-['MadaniArabic-Bold']">Good Morning </span><span className="text-brand-colors-SproutGreen text-2xl font-normal font-['MadaniArabic-Bold']">Anosikay Farms</span></div>
+                      <img src="/si_sun-fill.svg" alt="Sun" className="w-6 h-6" />
+                    </div>
+                  </div>
+                  <div className="flex justify-start items-center gap-4">
+                    <div className="relative" ref={notificationRef}>
+                      <button
+                        onClick={() => updateUiState({ isNotificationOpen: !uiState.isNotificationOpen })}
+                        className="w-10 h-10 p-[3px] bg-brand-colors-SteamWhite rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.15)] flex justify-center items-center gap-2.5 hover:bg-gray-50 transition-colors"
+                      >
+                        <img className="w-6 h-6" src="/notification-icon.svg" alt="Notifications" />
+                      </button>
+                      {uiState.isNotificationOpen && (
+                        <div className="absolute right-0 mt-2 w-80 sm:w-96 max-h-[500px] bg-brand-colors-SteamWhite rounded-[20px] shadow-xl border border-gray-200 z-50 flex flex-col">
+                          <div className="p-5 flex flex-col gap-4 flex-shrink-0">
+                            <div className="flex justify-between items-center">
+                              <div className="text-brand-colors-RootBlack text-2xl font-normal font-['MadaniArabic-Bold']">Notifications</div>
+                              <button onClick={() => updateUiState({ isNotificationOpen: false })} className="text-gray-500 hover:text-gray-700">×</button>
+                            </div>
+                          </div>
+                          <div className="flex-1 overflow-y-auto px-5">
+                            <div className="space-y-2 pb-4">
+                              {notifications.map((notification) => (
+                                <NotificationItem
+                                  key={notification.id}
+                                  notification={notification}
+                                  variant="desktop"
+                                  onClick={handleNotificationClick}
+                                  onMarkAsRead={markAsRead}
+                                />
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <button
+                      onClick={() => setActiveView('settings')}
+                      className="hover:opacity-80 transition-opacity"
+                    >
+                      <img className="w-10 h-10 rounded-full object-cover" src="/profile image.png" alt="Profile" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Stats Cards Row */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1.5fr_1fr] gap-4 sm:gap-6">
+                  <StatsCard card={desktopStatsCards[0]} variant="desktop" />
+                  <StatsCard card={desktopStatsCards[1]} variant="desktop" />
+                  <StatsCard card={desktopStatsCards[2]} variant="desktop" />
+                </div>
+
+                {/* Content Grid */}
+                <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4 sm:gap-8">
+                  {/* Left Column */}
+                  <div className="space-y-8">
+                    {/* My Listings Section */}
+                    <div className="flex flex-col gap-7">
+                      <div className="flex justify-between items-center">
+                        <div className="text-brand-colors-RootBlack text-2xl font-normal font-['MadaniArabic-Bold']">My Listings</div>
+                        <div className="flex items-center gap-1 cursor-pointer">
+                          <div className="text-brand-colors-RootBlack text-base font-madani-medium">View All</div>
+                          <img src="/chevron-right-2.svg" alt="Chevron right" className="w-6 h-6" />
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:gap-5 gap-4 lg:overflow-x-auto">
+                        {mockListings.slice(0, 3).map((product) => (
+                          <ProductCard
+                            key={product.id}
+                            product={product}
+                            variant="desktop"
+                            onCardClick={handleProductClick}
+                          />
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Trending Farm Produce Section */}
+                    <div className="flex flex-col gap-7">
+                      <div className="flex justify-between items-center">
+                        <div className="text-brand-colors-RootBlack text-2xl font-normal font-['MadaniArabic-Bold']">Trending Farm Produce</div>
+                        <div className="flex items-center gap-1 cursor-pointer">
+                          <div className="text-brand-colors-RootBlack text-base font-madani-medium">See more</div>
+                          <img src="/chevron-right-2.svg" alt="Chevron right" className="w-6 h-6" />
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                        <div className="p-5 bg-white rounded-[20px] shadow-lg relative overflow-hidden">
+                          <img className="absolute w-32 h-24 right-4 bottom-4 mix-blend-multiply" src="/tomatoes-trending-farm-produce.png" alt="Tomatoes" />
+                          <div className="flex items-center gap-2 mb-2">
+                            <h3 className="text-xl font-bold text-brand-colors-RootBlack">Tomatoes</h3>
+                            <img src="/ph_trend-up-bold.svg" alt="Trend up" className="w-5 h-5" />
+                          </div>
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-sm font-medium text-brand-colors-RootBlack">Status:</span>
+                            <span className="text-sm text-brand-colors-rootgrey">Demand </span>
+                            <span className="text-sm font-medium text-brand-colors-RootBlack">up 15%</span>
+                            <span className="text-sm text-brand-colors-rootgrey"> this week</span>
+                          </div>
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-sm font-medium text-brand-colors-RootBlack">Avg price:</span>
+                            <span className="text-base font-semibold text-brand-colors-RootBlack">₦39,500 </span>
+                            <span className="text-sm text-brand-colors-rootgrey">per basket</span>
+                          </div>
+                          <div className="w-48">
+                            <span className="text-sm font-medium text-brand-colors-RootBlack">Insight: </span>
+                            <span className="text-sm text-brand-colors-rootgrey">Prices rising due to seasonal scarcity; great time to list your harvest!</span>
+                          </div>
+                        </div>
+                        <div className="p-5 bg-white rounded-[20px] shadow-lg relative overflow-hidden">
+                          <img className="absolute w-32 h-24 right-4 bottom-4 mix-blend-multiply" src="/maize-trending-farm-produce.png" alt="Maize" />
+                          <div className="flex items-center gap-2 mb-2">
+                            <h3 className="text-xl font-bold text-brand-colors-RootBlack">Maize</h3>
+                            <img src="/ph_trend-down-bold.svg" alt="Trend down" className="w-5 h-5" />
+                          </div>
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-sm font-medium text-brand-colors-RootBlack">Status:</span>
+                            <span className="text-sm text-brand-colors-rootgrey">Demand </span>
+                            <span className="text-sm font-medium text-brand-colors-RootBlack">down 10%</span>
+                            <span className="text-sm text-brand-colors-rootgrey"> this week</span>
+                          </div>
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-sm font-medium text-brand-colors-RootBlack">Avg price:</span>
+                            <span className="text-base font-semibold text-brand-colors-RootBlack">₦12,000 </span>
+                            <span className="text-sm text-brand-colors-rootgrey">per 50kg bag</span>
+                          </div>
+                          <div className="w-48">
+                            <span className="text-sm font-medium text-brand-colors-RootBlack">Insight: </span>
+                            <span className="text-sm text-brand-colors-rootgrey">Prices dropping slightly as harvest peaks; consider storing if possible.</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right Column */}
+                  <div className="space-y-8">
+                    {/* Chats Section */}
+                    <div className="flex flex-col gap-7">
+                      <div className="flex justify-between items-center">
+                        <div className="text-brand-colors-RootBlack text-2xl font-normal font-['MadaniArabic-Bold']">Chats</div>
+                        <div className="flex items-center gap-1 cursor-pointer" onClick={() => setActiveView('chats')}>
+                          <div className="text-brand-colors-RootBlack text-base font-madani-medium">View All</div>
+                          <img src="/chevron-right-2.svg" alt="Chevron right" className="w-6 h-6" />
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        {[
+                          { name: "Ugonna Chibuike", message: "oga watin be last price", time: "5 mins", avatar: "/dashboard-chat-1.png" },
+                          { name: "White Tapes", message: "How fresh is the pepper", time: "30 mins", avatar: "/dashboard-chat-2.png" },
+                          { name: "Tunde Ednut", message: "How fresh is the pepper", time: "3 hrs", avatar: "/dashboard-chat-3.png" }
+                        ].map((chat, index) => (
+                          <div key={index} className="px-3 py-2 bg-brand-colors-SteamWhite rounded-[20px] flex items-start gap-3">
+                            <img className="w-9 h-9 rounded-full object-cover" src={chat.avatar} alt={chat.name} />
+                            <div className="flex-1">
+                              <div className="text-sm font-medium text-brand-colors-RootBlack">{chat.name}</div>
+                              <div className="text-xs text-brand-colors-rootgrey">{chat.message}</div>
+                            </div>
+                            <div className="text-xs text-brand-colors-rootgrey">{chat.time}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Testimonials Section */}
+                    <div className="flex flex-col gap-7">
+                      <div className="flex justify-between items-center">
+                        <div className="text-brand-colors-RootBlack text-2xl font-normal font-['MadaniArabic-Bold']">Testimonials</div>
+                        <div className="flex items-center gap-1 cursor-pointer">
+                          <div className="text-brand-colors-RootBlack text-base font-madani-medium">View All</div>
+                          <img src="/chevron-right-2.svg" alt="Chevron right" className="w-6 h-6" />
+                        </div>
+                      </div>
+                      <div className="p-4 bg-white rounded-[20px] shadow-lg">
+                        <div className="flex items-center gap-3 mb-4">
+                          <img className="w-10 h-10 rounded-full object-cover" src="/dashboard-chat-2.png" alt="White Tapes" />
+                          <div>
+                            <div className="text-base font-medium text-brand-colors-RootBlack">White Tapes</div>
+                            <div className="text-xs text-brand-colors-rootgrey">Fashion Designer</div>
+                          </div>
+                        </div>
+                        <p className="text-sm text-brand-colors-RootBlack italic">
+                          "I found the freshest tomatoes I've ever bought through AgriLink. Your farm's produce was top quality, and it arrived just as promised."
+                        </p>
+                        <div className="flex items-center gap-1 mt-3">
+                          {[...Array(5)].map((_, i) => (
+                            <svg key={i} className="w-5 h-5 text-yellow-400 fill-current">
+                              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+        {!uiState.showMobileNotifications && activeView === 'listings' && (
+          <>
+            <div className="lg:hidden">
+              <MobileListings
+                favoriteProducts={favoriteProducts}
+                onDeleteClick={deleteListing}
+                onProductClick={handleProductClick}
+                onAddClick={handleAddNewListing}
+              />
+            </div>
+            <div className="hidden lg:block">
+              <MyListings
+                onDeleteListing={deleteListing}
+                onCreateListing={() => {}}
+                shouldTriggerAdd={uiState.shouldTriggerAddListing}
+                onAddTriggered={() => updateUiState({ shouldTriggerAddListing: false })}
+                onProfileClick={() => setActiveView('settings')}
+              />
+            </div>
+          </>
+        )}
+        {!uiState.showMobileNotifications && activeView === 'chats' && (
+          <div className="lg:hidden h-full">
+            <Chats
+              variant="mobile"
+              onProfileClick={() => setActiveView('settings')}
+            />
+          </div>
+        )}
+        {!uiState.showMobileNotifications && activeView === 'chats' && (
+          <div className="hidden lg:block h-full">
+            <Chats
+              variant="desktop"
+              onProfileClick={() => setActiveView('settings')}
+            />
+          </div>
+        )}
+        {!uiState.showMobileNotifications && activeView === 'settings' && (
+          <>
+            <div className="lg:hidden h-full">
+              <Settings
+                variant="mobile"
+                onBack={() => setActiveView('dashboard')}
+                onNotificationClick={handleNotificationClickFromChild}
+                onProfileClick={() => setActiveView('settings')}
+              />
+            </div>
+            <div className="hidden lg:block h-full">
+              <Settings
+                variant="desktop"
+                onNotificationClick={handleNotificationClickFromChild}
+                onProfileClick={() => setActiveView('settings')}
+              />
+            </div>
+          </>
+        )}
+        {!uiState.showMobileNotifications && activeView === 'product-detail' && (
+          <MobileProductDetail
+            product={selectedProduct}
+            isOpen={true}
+            onClose={handleBackFromProductDetail}
+            onEdit={handleEditProduct}
+            onDelete={handleDeleteFromDetail}
           />
         )}
-        {activeView === 'chats' && <Chats />}
-        {activeView === 'settings' && <Settings />}
+        {!uiState.showMobileNotifications && activeView === 'edit-product' && (
+          <MobileEditProduct
+            product={selectedProduct}
+            isOpen={true}
+            onClose={handleBackFromEditProduct}
+            onSave={handleSaveProduct}
+            onDelete={handleDeleteFromDetail}
+          />
+        )}
+        {!uiState.showMobileNotifications && activeView === 'add-listing' && (
+          <MobileAddListing
+            onBack={handleBackFromAddListing}
+            onSave={handleSaveNewListing}
+          />
+        )}
       </div>
 
     </div>

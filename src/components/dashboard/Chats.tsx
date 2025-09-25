@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
+import ChatItem, { ChatData } from './ChatItem';
+import MobileChatDetail from './MobileChatDetail';
+import NotificationDropdown from '../ui/NotificationDropdown';
+import { mockChats } from '@/data/mockChats';
+import { Chat } from '@/types';
+import { formatRelativeTime } from '@/lib/formatters';
 
-interface ChatData {
-  id: string;
-  name: string;
-  lastMessage: string;
-  time: string;
-  avatar: string;
-  unread?: boolean;
-}
-
-const ChatDetailView: React.FC<{ chat: ChatData; onClose: () => void }> = ({ chat, onClose }) => {
+const ChatDetailView: React.FC<{ chat: ChatData; onClose: () => void; showCloseButton?: boolean }> = ({ chat, onClose, showCloseButton = true }) => {
   const [messageInput, setMessageInput] = useState('');
 
   const handleSendMessage = () => {
@@ -27,13 +24,13 @@ const ChatDetailView: React.FC<{ chat: ChatData; onClose: () => void }> = ({ cha
   };
 
   return (
-    <div className="w-full h-full bg-white rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex flex-col overflow-hidden">
+    <div className="w-full h-full flex flex-col overflow-hidden">
         {/* Header */}
         <div className="w-full px-5 py-5 bg-white bg-opacity-80 flex justify-between items-center border-b border-gray-100 flex-shrink-0">
           <div className="flex items-center gap-3">
-            <img 
-              className="w-10 h-10 rounded-full" 
-              src={chat.avatar} 
+            <img
+              className="w-10 h-10 rounded-full object-cover"
+              src={chat.avatar}
               alt={chat.name}
             />
             <div className="flex flex-col">
@@ -41,23 +38,24 @@ const ChatDetailView: React.FC<{ chat: ChatData; onClose: () => void }> = ({ cha
                 {chat.name}
               </span>
               <span className="text-brand-colors-RootBlack text-xs font-light font-['MadaniArabic-Light']">
-                {chat.time}
+                {chat.timestamp}
               </span>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <button className="w-6 h-6 relative">
-              <div className="w-4 h-3.5 absolute left-1 top-2 opacity-30 bg-brand-colors-RootBlack"></div>
-              <div className="w-4.5 h-4.5 absolute left-0.5 top-0.5 bg-brand-colors-RootBlack"></div>
+              <img src="/phone.svg" alt="Call" className="w-6 h-6" />
             </button>
-            <button 
-              onClick={onClose}
-              className="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+            {showCloseButton && (
+              <button
+                onClick={onClose}
+                className="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            )}
           </div>
         </div>
 
@@ -157,7 +155,7 @@ const ChatDetailView: React.FC<{ chat: ChatData; onClose: () => void }> = ({ cha
           <div className="flex justify-start items-center gap-3">
             <div className="flex justify-start items-center gap-2.5">
               <div className="w-6 h-6 relative overflow-hidden">
-                <img src="/emoji icon.svg" alt="Emoji" className="w-6 h-6" />
+                <img src="/emoji%20icon.svg" alt="Emoji" className="w-6 h-6" />
               </div>
             </div>
             <input
@@ -177,12 +175,12 @@ const ChatDetailView: React.FC<{ chat: ChatData; onClose: () => void }> = ({ cha
             </div>
             <div className="flex justify-start items-center gap-2.5">
               <div className="w-6 h-6 relative overflow-hidden">
-                <img src="/files icon.svg" alt="Files" className="w-6 h-6" />
+                <img src="/files%20icon.svg" alt="Files" className="w-6 h-6" />
               </div>
             </div>
             <div className="flex justify-start items-center gap-2.5">
               <div className="w-6 h-6 relative overflow-hidden">
-                <img src="/image icon.svg" alt="Image" className="w-6 h-6" />
+                <img src="/image%20icon.svg" alt="Image" className="w-6 h-6" />
               </div>
             </div>
           </div>
@@ -193,33 +191,114 @@ const ChatDetailView: React.FC<{ chat: ChatData; onClose: () => void }> = ({ cha
 
 interface ChatsProps {
   showHeader?: boolean;
+  variant?: 'mobile' | 'desktop';
+  onProfileClick?: () => void;
 }
 
-const Chats: React.FC<ChatsProps> = ({ showHeader = true }) => {
-  const [selectedChat, setSelectedChat] = useState<ChatData | null>(null);
+const Chats: React.FC<ChatsProps> = ({ showHeader = true, variant = 'desktop', onProfileClick }) => {
+  // Convert Chat data to ChatData format
+  const convertToChatsData = (chats: Chat[]): ChatData[] => {
+    return chats.map(chat => ({
+      id: chat.id,
+      name: chat.participants.find(p => p.role === 'buyer')?.name || 'Unknown User',
+      avatar: chat.participants.find(p => p.role === 'buyer')?.avatar || '/default-avatar.png',
+      lastMessage: chat.lastMessage.content,
+      timestamp: formatRelativeTime(chat.lastMessage.timestamp),
+      isRead: chat.lastMessage.read,
+      unreadCount: chat.unreadCount
+    }));
+  };
 
-  const chatData: ChatData[] = [
-    { id: 'ugonna', name: 'Ugonna Chibuike', lastMessage: 'oga watin be last price', time: '5 mins', avatar: '/dashboard-chat-1.png', unread: true },
-    { id: 'white-tapes', name: 'White Tapes', lastMessage: 'How fresh is the pepper', time: '30 mins', avatar: '/dashboard-chat-2.png', unread: true },
-    { id: 'tunde', name: 'Tunde Ednut', lastMessage: 'How fresh is the pepper', time: '3 hrs', avatar: '/dashboard-chat-3.png', unread: true },
-    { id: 'fatima', name: 'Fatima Alabi', lastMessage: 'How fresh is the pepper', time: '3 hrs', avatar: '/dashboard-chat-4.png', unread: true },
-    { id: 'frank', name: 'Frank Edward', lastMessage: 'How fresh is the pepper', time: '1 day', avatar: '/dashboard-chat-5.png', unread: true },
-    { id: 'anozie', name: 'Anozie kelvin', lastMessage: 'How fresh is the pepper', time: '1 day', avatar: '/chat-6.png' },
-    { id: 'wahab', name: 'Wahab Akintola', lastMessage: 'How fresh is the pepper', time: '1 day', avatar: '/chat-7.png' },
-    { id: 'osaro', name: 'Osaro John', lastMessage: 'How fresh is the pepper', time: '1 day', avatar: '/chat-8.png' },
-    { id: 'pascal', name: 'Pascal Favour', lastMessage: 'How fresh is the pepper', time: '1 day', avatar: '/chat-9.svg' },
-    { id: 'samuel', name: 'Samuel Johnson', lastMessage: 'When can I collect the yam?', time: '2 days', avatar: 'https://placehold.co/40x40' },
-    { id: 'mary', name: 'Mary Okafor', lastMessage: 'Is the cassava still available?', time: '3 days', avatar: 'https://placehold.co/40x40' },
-    { id: 'david', name: 'David Adebayo', lastMessage: 'Quality of the tomatoes please', time: '4 days', avatar: 'https://placehold.co/40x40' }
-  ];
+  const chatData = convertToChatsData(mockChats);
+
+  // For desktop, start with no chat selected to show empty state; for mobile, start with none
+  const [selectedChat, setSelectedChat] = useState<ChatData | null>(null);
+  const [selectedMobileChat, setSelectedMobileChat] = useState<ChatData | null>(null);
 
   const handleChatClick = (chat: ChatData) => {
     setSelectedChat(chat);
   };
 
   const handleCloseDetail = () => {
+    // Allow closing chat detail to return to empty state
     setSelectedChat(null);
   };
+
+  const handleMobileChatClick = (chat: ChatData) => {
+    setSelectedMobileChat(chat);
+  };
+
+  const handleMobileBackClick = () => {
+    setSelectedMobileChat(null);
+  };
+
+  // Mobile Version
+  if (variant === 'mobile') {
+    // Show chat detail view if a chat is selected
+    if (selectedMobileChat) {
+      return (
+        <MobileChatDetail
+          chat={selectedMobileChat}
+          onBack={handleMobileBackClick}
+        />
+      );
+    }
+
+    // Show chat list view
+    return (
+      <div className="w-full h-full bg-brand-colors-SteamWhite flex flex-col overflow-hidden">
+        {/* Header Section */}
+        <div className="w-full pt-4 pb-4 px-5 bg-white/80 flex flex-col gap-4 flex-shrink-0">
+          <div className="flex flex-col gap-3">
+            <div
+              className="text-sm font-medium text-brand-colors-RootBlack"
+              style={{ fontFamily: 'MadaniArabic-Medium' }}
+            >
+              Respond to recent chats
+            </div>
+            <div
+              className="text-xl font-bold text-brand-colors-RootBlack"
+              style={{ fontFamily: 'MadaniArabic-Bold' }}
+            >
+              Your Inbox
+            </div>
+          </div>
+
+          {/* Search Bar */}
+          <div className="w-full p-3 bg-black/5 rounded-[30px] border border-black/5 flex items-center gap-2">
+            <div className="w-6 h-6 relative">
+              <svg className="w-full h-full" viewBox="0 0 24 24" fill="none">
+                <circle cx="11" cy="11" r="8" stroke="#8B9281" strokeWidth="2"/>
+                <path d="m21 21-4.35-4.35" stroke="#8B9281" strokeWidth="2"/>
+              </svg>
+            </div>
+            <input
+              type="text"
+              placeholder="Search"
+              className="flex-1 bg-transparent outline-none border-none text-base text-brand-colors-rootgrey placeholder-brand-colors-rootgrey"
+              style={{ fontFamily: 'MadaniArabic-Medium' }}
+            />
+          </div>
+        </div>
+
+        {/* Chat List - Scrollable */}
+        <div className="flex-1 w-full px-4 pb-4 overflow-y-auto">
+          <div className="space-y-3">
+            {chatData.map((chat) => (
+              <ChatItem
+                key={chat.id}
+                chat={chat}
+                onClick={handleMobileChatClick}
+                className="shadow-sm"
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Desktop Version - matches the provided design structure
   return (
     <>
       <style>
@@ -244,7 +323,7 @@ const Chats: React.FC<ChatsProps> = ({ showHeader = true }) => {
           }
         `}
       </style>
-      <div className="w-full h-full bg-white rounded-[20px] flex flex-col overflow-hidden">
+      <div className="w-full h-full bg-brand-colors-SteamWhite rounded-[20px] overflow-hidden">
         {/* Header */}
         <div className="w-full px-10 py-7 bg-white/80 flex justify-between items-center flex-shrink-0">
           <div className="flex flex-col gap-4">
@@ -253,21 +332,34 @@ const Chats: React.FC<ChatsProps> = ({ showHeader = true }) => {
           </div>
           {showHeader && (
             <div className="flex items-center gap-4">
-              <div className="w-10 h-10 p-[3px] bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.15)] rounded-[20px] flex justify-center items-center">
-                <img className="w-6 h-6" src="/notification-icon.svg" alt="Notifications" />
-              </div>
-              <img className="w-10 h-10 rounded-full object-cover" src="/profile image.png" alt="Profile" />
+              <NotificationDropdown
+                onMarkAllAsRead={() => {
+                  console.log('Mark all as read');
+                }}
+                onOpenNotifications={() => {
+                  console.log('Open notifications');
+                }}
+                onNotificationClick={(notification) => {
+                  console.log('Notification clicked:', notification);
+                }}
+              />
+              <button
+                onClick={onProfileClick}
+                className="hover:opacity-80 transition-opacity"
+              >
+                <img className="w-10 h-10 rounded-full object-cover" src="/profile image.png" alt="Profile" />
+              </button>
             </div>
           )}
         </div>
 
-        {/* Main Content */}
-        <div className="flex-1 flex gap-5 p-10 pt-0 overflow-hidden">
-          {/* Chat List */}
+        {/* Main Content - Side by side layout */}
+        <div className="flex gap-5 px-10 pb-10 h-[814px]">
+          {/* Chat List - Fixed width 455px */}
           <div className="w-[455px] bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col overflow-hidden">
             {/* Search */}
             <div className="px-5 py-2.5 bg-white/80 flex-shrink-0">
-              <div className="w-full p-3 bg-black/5 rounded-[30px] flex items-center gap-2">
+              <div className="w-full p-3 bg-black/5 rounded-[30px] border border-black/5 flex items-center gap-2">
                 <div className="w-6 h-6">
                   <svg className="w-full h-full" viewBox="0 0 24 24" fill="none">
                     <circle cx="11" cy="11" r="8" stroke="#8B9281" strokeWidth="2"/>
@@ -282,25 +374,29 @@ const Chats: React.FC<ChatsProps> = ({ showHeader = true }) => {
             <div className="flex-1 px-5 py-2.5 overflow-y-auto custom-scroll">
               <div className="space-y-5">
                 {chatData.map((chat) => (
-                  <div 
+                  <div
                     key={chat.id}
-                    className="p-3 bg-white rounded-[20px] flex items-start gap-3 cursor-pointer hover:bg-gray-50 transition-colors"
+                    className={`p-3 rounded-[20px] flex items-start gap-3 cursor-pointer transition-all duration-200 ${
+                      selectedChat?.id === chat.id
+                        ? 'bg-brand-colors-SproutGreen/10 border border-brand-colors-SproutGreen/30 shadow-md'
+                        : 'bg-white hover:bg-gray-50 hover:shadow-sm'
+                    }`}
                     onClick={() => handleChatClick(chat)}
                   >
                     <img className="w-10 h-10 rounded-full" src={chat.avatar} alt={chat.name} />
                     <div className="flex-1 min-w-0">
-                      <div className={`text-base font-madani-medium truncate ${chat.unread ? 'text-black font-semibold' : 'text-brand-colors-RootBlack'}`}>
+                      <div className={`text-base font-madani-medium truncate ${!chat.isRead ? 'text-black font-semibold' : 'text-brand-colors-RootBlack'}`}>
                         {chat.name}
                       </div>
-                      <div className={`text-xs font-madani-light truncate ${chat.unread ? 'text-black' : 'text-brand-colors-rootgrey'}`}>
+                      <div className={`text-xs font-madani-light truncate ${!chat.isRead ? 'text-black' : 'text-brand-colors-rootgrey'}`}>
                         {chat.lastMessage}
                       </div>
                     </div>
                     <div className="flex flex-col items-end gap-2">
-                      <div className="text-xs font-madani-light text-brand-colors-RootBlack">{chat.time}</div>
-                      {chat.unread && (
+                      <div className="text-xs font-madani-light text-brand-colors-RootBlack">{chat.timestamp}</div>
+                      {!chat.isRead && chat.unreadCount && (
                         <div className="w-5 h-5 bg-brand-colors-SproutGreen rounded-full flex items-center justify-center">
-                          <div className="text-white text-xs font-madani-medium">1</div>
+                          <div className="text-white text-xs font-madani-medium">{chat.unreadCount}</div>
                         </div>
                       )}
                     </div>
@@ -310,14 +406,33 @@ const Chats: React.FC<ChatsProps> = ({ showHeader = true }) => {
             </div>
           </div>
 
-          {/* Chat Detail / Empty State */}
-          <div className="flex-1">
+          {/* Chat Detail - Fixed width 574px */}
+          <div className="w-[574px] bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col overflow-hidden">
             {selectedChat ? (
-              <ChatDetailView chat={selectedChat} onClose={handleCloseDetail} />
+              <ChatDetailView
+                chat={selectedChat}
+                onClose={handleCloseDetail}
+                showCloseButton={true}
+              />
             ) : (
-              <div className="w-full h-full bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex items-center justify-center">
+              <div className="w-full h-full flex items-center justify-center">
                 <div className="flex flex-col items-center gap-6">
-                  <img className="w-[200px] h-[200px]" src="/empty-state-messages.png" alt="Empty state" />
+                  <img
+                    className="w-[200px] h-[200px] object-contain"
+                    src="/empty-state-messages.png"
+                    alt="No messages selected"
+                    onError={(e) => {
+                      // Fallback to SVG if image doesn't exist
+                      const target = e.target as HTMLImageElement;
+                      target.outerHTML = `
+                        <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center">
+                          <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                          </svg>
+                        </div>
+                      `;
+                    }}
+                  />
                   <div className="text-center">
                     <div className="text-brand-colors-RootBlack text-[32px] font-madani-bold leading-[50px] mb-6">Your Messages</div>
                     <div className="text-brand-colors-rootgrey text-xl font-madani-medium">Click on a chat to open here.</div>

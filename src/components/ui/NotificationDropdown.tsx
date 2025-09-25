@@ -226,7 +226,7 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
           <div className="flex-1 overflow-y-auto px-5">
             <div className="space-y-2 pb-4">
               {notifications.map((notification) => (
-                <div 
+                <div
                   key={notification.id}
                   className="w-full p-2.5 bg-brand-colors-SteamWhite rounded-[10px] flex justify-between items-start cursor-pointer hover:bg-gray-50 transition-colors"
                   onClick={() => handleNotificationClick(notification)}
@@ -248,10 +248,10 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
               ))}
             </div>
           </div>
-          
+
           {/* Footer Button - Fixed */}
           <div className="p-5 pt-0 flex-shrink-0">
-            <button 
+            <button
               onClick={handleOpenNotifications}
               className="w-full h-[60px] min-w-[200px] px-6 py-3 bg-brand-colors-HarvestMist rounded-[30px] inline-flex justify-center items-center gap-2.5 hover:bg-opacity-80 transition-colors"
               style={{
