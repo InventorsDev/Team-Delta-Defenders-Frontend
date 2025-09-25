@@ -71,8 +71,10 @@ const ProductGrid: React.FC<ProductGridProps> = ({
                 {product.location}
               </div>
             </div>
-            <div className="absolute top-[69.5%] left-2 right-2 h-[15%] overflow-hidden text-xs leading-tight font-light text-root-black font-madani-light" style={{display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical'}}>
-              {product.description}
+            <div className="absolute top-[69.5%] left-2 right-2 h-[15%] overflow-hidden text-xs leading-tight font-light text-root-black font-madani-light">
+              <div className="line-clamp-2">
+                {product.description}
+              </div>
             </div>
             <div className="absolute bottom-6 right-2 flex items-center gap-1">
               <div className="text-sm lg:text-base font-medium text-root-black font-madani-medium">{product.rating}</div>
