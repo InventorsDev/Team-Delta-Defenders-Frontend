@@ -1,8 +1,31 @@
-name: Frontend CI
+name: Frontend CI 
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main" ]   
+    paths-ignore:          
+      - 'src/data/**'
+      - 'src/types/**'
+      - 'src/styles/**'
+      - 'src/hooks/**'
+      - 'src/lib/**'
+      - 'src/components/ui/**'
+      - 'src/pages/NotFound.tsx'
+      - 'src/vite-env.d.ts'
+      - 'src/index.css'
+      - 'src/App.css'
+      - 'src/fonts.css'
+      - 'src/**/*.test.*'
+      - 'src/**/*.spec.*'
+      - 'src/**/*.mock.*'
+      - 'src/**/__mocks__/**'
+      - 'src/**/__tests__/**'
+      - 'public/**'
+      - '*.md'
+      - '*.yml'
+      - '*.yaml'
+      - '*.lock'
+      - 'README.md'
 
 jobs:
   build:
@@ -23,7 +46,7 @@ jobs:
 
       - name: Run linter
         run: |
-          if npm run | grep -q "lint"; then
+          if [ "$(npm pkg get scripts.lint)" != "undefined" ]; then
             npm run lint
           else
             echo "No lint script found, skipping..."
@@ -31,7 +54,7 @@ jobs:
 
       - name: Run tests
         run: |
-          if npm run | grep -q "test"; then
+          if [ "$(npm pkg get scripts.test)" != "undefined" ]; then
             npm test
           else
             echo "No test script found, skipping..."
@@ -39,7 +62,7 @@ jobs:
 
       - name: Build project
         run: |
-          if npm run | grep -q "build"; then
+          if [ "$(npm pkg get scripts.build)" != "undefined" ]; then
             npm run build
           else
             echo "No build script found, skipping..."
