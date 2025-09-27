@@ -107,8 +107,7 @@ const MobileListings: React.FC<MobileListingsProps> = ({
       {/* Floating Add Button */}
       <button
         onClick={onAddClick}
-        className="fixed bottom-20 right-4 w-14 h-14 shadow-xl rounded-full flex items-center justify-center z-50"
-        style={{ backgroundColor: 'var(--brand-colors-SproutGreen, #84C62C)' }}
+        className="fixed bottom-20 right-4 w-14 h-14 bg-brand-colors-SproutGreen shadow-xl rounded-full flex items-center justify-center z-50 hover:bg-brand-colors-SproutGreen/90 transition-colors"
       >
         <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />

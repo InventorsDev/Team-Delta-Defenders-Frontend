@@ -213,7 +213,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   if (variant === 'desktop') {
     return (
       <div
-        className={`w-56 h-80 relative bg-brand-colors-SteamWhite rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] overflow-hidden cursor-pointer hover:shadow-lg transition-shadow ${className}`}
+        className={`w-56 h-80 relative bg-white rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] overflow-hidden cursor-pointer hover:shadow-lg transition-shadow ${className}`}
         onClick={handleCardClick}
       >
         <div className="w-48 h-36 left-[10px] top-[10px] absolute rounded-[10px] inline-flex flex-col justify-center items-center gap-2.5 overflow-hidden">

@@ -1,21 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import DeleteAccountModal from './DeleteAccountModal';
+import LogoutModal from './LogoutModal';
 import NotificationDropdown from '../ui/NotificationDropdown';
+import Toast from '../ui/Toast';
+import { useToast } from '../../hooks/useToast';
 
 interface DesktopSettingsProps {
   showHeader?: boolean;
+  context?: 'dashboard' | 'marketplace';
 }
 
 type SettingsCategory =
   | 'personal-details'
-  | 'address-book'
   | 'change-language'
   | 'change-password'
+  | 'address-book'
+  | 'logout'
   | 'delete-account';
 
 const DesktopSettings: React.FC<DesktopSettingsProps> = ({
-  showHeader = true
+  showHeader = true,
+  context = 'dashboard'
 }) => {
+  const { toasts, showSuccess, showError, removeToast } = useToast();
   const [selectedCategory, setSelectedCategory] = useState<SettingsCategory>('personal-details');
   const [formData, setFormData] = useState({
     fullName: 'Kenechukwu Anosike',
@@ -25,23 +32,6 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
     email: 'anosikekenechukwu2023@gmail.com'
   });
 
-  // Address Book state
-  const [addresses, setAddresses] = useState([
-    {
-      id: 1,
-      location: 'Ojo, Lagos',
-      state: 'Lagos',
-      lga: 'Ojo',
-      address: 'No 5, Ojo street, Ojo Lagos'
-    },
-    {
-      id: 2,
-      location: 'Ikeja, Lagos',
-      state: 'Lagos',
-      lga: 'Ikeja',
-      address: 'Plot 12, Ikeja GRA, Lagos'
-    }
-  ]);
 
   const nigerianStates = [
     'Abia', 'Adamawa', 'Akwa Ibom', 'Anambra', 'Bauchi', 'Bayelsa', 'Benue', 'Borno', 'Cross River', 'Delta',
@@ -53,20 +43,9 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
   // Delete Account Modal state
   const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
 
-  // Address Book state management
-  const [addressView, setAddressView] = useState<'list' | 'edit' | 'add'>('list');
-  const [editingAddress, setEditingAddress] = useState<any>(null);
-  const [editFormData, setEditFormData] = useState({
-    state: '',
-    lga: '',
-    farmAddress: ''
-  });
-  const [addFormData, setAddFormData] = useState({
-    state: '',
-    lga: '',
-    farmAddress: ''
-  });
-  const [isStateDropdownOpen, setIsStateDropdownOpen] = useState(false);
+  // Logout Modal state
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+
   const [isPersonalDetailsStateDropdownOpen, setIsPersonalDetailsStateDropdownOpen] = useState(false);
 
   // Change Language state
@@ -80,13 +59,48 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const settingsCategories = [
-    { id: 'personal-details' as SettingsCategory, label: 'Personal details' },
-    { id: 'address-book' as SettingsCategory, label: 'Address Book' },
-    { id: 'change-language' as SettingsCategory, label: 'Change Language' },
-    { id: 'change-password' as SettingsCategory, label: 'Change Password' },
-    { id: 'delete-account' as SettingsCategory, label: 'Delete Account' },
-  ];
+  // Address Book state (only for dashboard context)
+  const [addressView, setAddressView] = useState<'list' | 'edit' | 'add'>('list');
+  const [addresses, setAddresses] = useState([
+    {
+      id: 1,
+      location: 'Lagos',
+      address: 'Plot 15, Igbogbo Road, Ojo, Lagos State, Nigeria'
+    }
+  ]);
+  const [editFormData, setEditFormData] = useState({
+    state: '',
+    lga: '',
+    farmAddress: ''
+  });
+  const [addFormData, setAddFormData] = useState({
+    state: '',
+    lga: '',
+    farmAddress: ''
+  });
+  const [isStateDropdownOpen, setIsStateDropdownOpen] = useState(false);
+
+  const getSettingsCategories = () => {
+    if (context === 'dashboard') {
+      return [
+        { id: 'personal-details' as SettingsCategory, label: 'Personal details' },
+        { id: 'address-book' as SettingsCategory, label: 'Address Book' },
+        { id: 'change-language' as SettingsCategory, label: 'Change Language' },
+        { id: 'change-password' as SettingsCategory, label: 'Change Password' },
+        { id: 'delete-account' as SettingsCategory, label: 'Delete Account' },
+      ];
+    } else {
+      return [
+        { id: 'personal-details' as SettingsCategory, label: 'Personal details' },
+        { id: 'change-language' as SettingsCategory, label: 'Change Language' },
+        { id: 'change-password' as SettingsCategory, label: 'Change Password' },
+        { id: 'logout' as SettingsCategory, label: 'Logout' },
+        { id: 'delete-account' as SettingsCategory, label: 'Delete Account' },
+      ];
+    }
+  };
+
+  const settingsCategories = getSettingsCategories();
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -98,18 +112,20 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
       const target = event.target as HTMLElement;
       if (!target.closest('.dropdown-container')) {
         setIsPersonalDetailsStateDropdownOpen(false);
-        setIsStateDropdownOpen(false);
+        if (context === 'dashboard') {
+          setIsStateDropdownOpen(false);
+        }
       }
     };
 
-    if (isPersonalDetailsStateDropdownOpen || isStateDropdownOpen) {
+    if (isPersonalDetailsStateDropdownOpen || (context === 'dashboard' && isStateDropdownOpen)) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isPersonalDetailsStateDropdownOpen, isStateDropdownOpen]);
+  }, [isPersonalDetailsStateDropdownOpen, isStateDropdownOpen, context]);
 
   const handleDeleteAccount = () => {
     setShowDeleteAccountModal(false);
@@ -123,9 +139,9 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
 
   const handleSaveLanguage = () => {
     if (selectedLanguage !== 'English') {
-      alert('This language is not yet available');
+      showError('This language is not yet available');
     } else {
-      alert('Language saved successfully');
+      showSuccess('Language saved successfully');
     }
   };
 
@@ -153,77 +169,9 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
     alert('Password changed successfully');
   };
 
-  // Address Book handlers
-  const handleEditAddress = (address: any) => {
-    setEditingAddress(address);
-    setEditFormData({
-      state: address.state,
-      lga: address.lga,
-      farmAddress: address.address
-    });
-    setAddressView('edit');
-  };
-
-  const handleAddNewLocation = () => {
-    setAddFormData({ state: '', lga: '', farmAddress: '' });
-    setAddressView('add');
-  };
-
-  const handleSaveAddress = () => {
-    if (!editFormData.state || !editFormData.lga || !editFormData.farmAddress) {
-      alert('Please fill in all fields');
-      return;
-    }
-
-    const updatedAddresses = addresses.map(addr =>
-      addr.id === editingAddress.id
-        ? {
-            ...addr,
-            state: editFormData.state,
-            lga: editFormData.lga,
-            location: `${editFormData.lga}, ${editFormData.state}`,
-            address: editFormData.farmAddress
-          }
-        : addr
-    );
-
-    setAddresses(updatedAddresses);
-    setEditingAddress(null);
-    setEditFormData({ state: '', lga: '', farmAddress: '' });
-    setAddressView('list');
-    alert('Address updated successfully');
-  };
-
-  const handleSaveNewLocation = () => {
-    if (!addFormData.state || !addFormData.lga || !addFormData.farmAddress) {
-      alert('Please fill in all fields');
-      return;
-    }
-
-    const newLocation = {
-      id: addresses.length + 1,
-      location: `${addFormData.lga}, ${addFormData.state}`,
-      state: addFormData.state,
-      lga: addFormData.lga,
-      address: addFormData.farmAddress
-    };
-
-    setAddresses([newLocation, ...addresses]);
-    setAddFormData({ state: '', lga: '', farmAddress: '' });
-    setAddressView('list');
-    alert('New location added successfully');
-  };
-
-  const handleBackToAddressList = () => {
-    setAddressView('list');
-    setEditingAddress(null);
-    setEditFormData({ state: '', lga: '', farmAddress: '' });
-    setAddFormData({ state: '', lga: '', farmAddress: '' });
-    setIsStateDropdownOpen(false);
-  };
 
   const renderPersonalDetails = () => (
-    <div className="w-full h-full bg-brand-colors-SteamWhite shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col">
+    <div className="w-full h-full bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col">
       {/* Header */}
       <div className="w-full p-5 bg-white/80 border-b border-gray-100 flex-shrink-0">
         <div className="text-black text-2xl font-madani-bold">
@@ -373,502 +321,8 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
     </div>
   );
 
-  const renderAddressBook = () => {
-    // Handle different views within address book
-    if (addressView === 'edit') {
-      return renderEditAddress();
-    }
 
-    if (addressView === 'add') {
-      return renderAddNewAddress();
-    }
 
-    // Default list view
-    return (
-      <div className="w-full h-full bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col">
-        {/* Header */}
-        <div className="w-full p-5 bg-white/80 border-b border-gray-100 flex-shrink-0">
-          <div className="text-black text-2xl font-madani-bold">Address Book</div>
-        </div>
-
-        {/* Content Area */}
-        <div className="flex-1 overflow-y-auto px-[70px] py-8">
-          <div className="flex flex-col gap-9">
-            {addresses.map((address) => (
-              <div key={address.id} className="w-full px-6 pt-4 pb-7 bg-black/5 rounded-[30px] flex flex-col gap-5">
-                <div className="w-full flex justify-between items-start">
-                  <div className="flex items-center gap-1">
-                    <div className="flex items-center gap-2.5">
-                      <img
-                        src="/location-icon.svg"
-                        alt="Location"
-                        className="w-4 h-4"
-                      />
-                    </div>
-                    <div className="text-brand-colors-RootBlack text-xl font-madani-medium leading-9">
-                      {address.location}
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => handleEditAddress(address)}
-                    className="p-2.5 bg-brand-colors-HarvestMist rounded-[20px] flex items-center gap-2.5 cursor-pointer hover:bg-brand-colors-HarvestMist/80 transition-colors"
-                  >
-                    <div className="text-brand-colors-RootBlack text-base font-madani-medium">
-                      Edit
-                    </div>
-                  </button>
-                </div>
-                <div className="w-full flex flex-col gap-3.5">
-                  <div className="text-black text-xl font-madani-medium leading-9">
-                    Farm Address:
-                  </div>
-                  <div className="text-brand-colors-rootgrey text-xl font-madani-medium leading-9">
-                    {address.address}
-                  </div>
-                </div>
-              </div>
-            ))}
-
-            {/* Add New Location Button */}
-            <button
-              onClick={handleAddNewLocation}
-              className="w-full h-full px-6 py-3 bg-brand-colors-SproutGreen rounded-[30px] flex items-center justify-center gap-2.5 cursor-pointer hover:bg-brand-colors-SproutGreen/90 transition-colors"
-            >
-              <div className="text-brand-colors-SteamWhite text-base font-madani-bold">
-                Add New Location
-              </div>
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const renderEditAddress = () => (
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        position: 'relative',
-        background: 'var(--brand-colors-SteamWhite, white)',
-        boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.08)',
-        overflow: 'hidden',
-        borderRadius: 20
-      }}
-    >
-      {/* Header */}
-      <div
-        style={{
-          width: 693,
-          padding: 20,
-          left: 0,
-          top: 0,
-          position: 'absolute',
-          background: 'rgba(255, 255, 255, 0.80)',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-          display: 'inline-flex'
-        }}
-      >
-        <div
-          style={{
-            textBoxTrim: 'trim-both',
-            textBoxEdge: 'cap alphabetic',
-            color: 'black',
-            fontSize: 24,
-            fontFamily: 'MadaniArabic-Bold',
-            fontWeight: '400',
-            wordWrap: 'break-word'
-          }}
-        >
-          Edit Address
-        </div>
-      </div>
-
-      {/* Content */}
-      <div
-        style={{
-          width: 553,
-          left: 70,
-          top: 98,
-          position: 'absolute',
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-          gap: 30,
-          display: 'inline-flex'
-        }}
-      >
-        {/* State */}
-        <div
-          style={{
-            alignSelf: 'stretch',
-            flexDirection: 'column',
-            justifyContent: 'flex-start',
-            alignItems: 'flex-start',
-            gap: 20,
-            display: 'flex'
-          }}
-        >
-          <div
-            style={{
-              width: 506,
-              height: 11,
-              textBoxTrim: 'trim-both',
-              textBoxEdge: 'cap alphabetic',
-              color: 'var(--brand-colors-RootBlack, #182605)',
-              fontSize: 20,
-              fontFamily: 'MadaniArabic-Medium',
-              fontWeight: '400',
-              wordWrap: 'break-word'
-            }}
-          >
-            State
-          </div>
-          <div className="relative dropdown-container" style={{alignSelf: 'stretch'}}>
-            <button
-              onClick={() => setIsStateDropdownOpen(!isStateDropdownOpen)}
-              style={{
-                alignSelf: 'stretch',
-                height: 60,
-                paddingLeft: 30,
-                paddingRight: 30,
-                background: 'rgba(0, 0, 0, 0.05)',
-                overflow: 'hidden',
-                borderRadius: 30,
-                outline: '2px rgba(0, 0, 0, 0.05) solid',
-                outlineOffset: '-2px',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                display: 'inline-flex',
-                width: '100%',
-                border: 'none',
-                cursor: 'pointer'
-              }}
-            >
-              <div
-                style={{
-                  textBoxTrim: 'trim-both',
-                  textBoxEdge: 'cap alphabetic',
-                  color: 'var(--brand-colors-RootBlack, #182605)',
-                  fontSize: 20,
-                  fontFamily: 'MadaniArabic-Medium',
-                  fontWeight: '400',
-                  lineHeight: 37,
-                  wordWrap: 'break-word'
-                }}
-              >
-                {editFormData.state || 'Lagos'}
-              </div>
-              <div style={{justifyContent: 'flex-start', alignItems: 'center', gap: 10, display: 'flex'}}>
-                <div style={{width: 24, height: 24, position: 'relative', overflow: 'hidden'}}>
-                  <div style={{width: 12, height: 6, left: 6, top: 9, position: 'absolute', outline: '2px var(--brand-colors-RootBlack, #182605) solid', outlineOffset: '-1px'}} />
-                </div>
-              </div>
-            </button>
-            {/* Dropdown Menu */}
-            {isStateDropdownOpen && (
-              <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-[20px] shadow-lg z-10 max-h-60 overflow-y-auto">
-                {nigerianStates.map((state) => (
-                  <button
-                    key={state}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setEditFormData({ ...editFormData, state });
-                      setIsStateDropdownOpen(false);
-                    }}
-                    className={`w-full px-7 py-3 text-left hover:bg-black/5 transition-colors ${
-                      editFormData.state === state ? 'bg-black/10' : ''
-                    }`}
-                  >
-                    <div className="text-brand-colors-RootBlack text-base font-madani-medium">
-                      {state}
-                    </div>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* LGA */}
-        <div
-          style={{
-            alignSelf: 'stretch',
-            flexDirection: 'column',
-            justifyContent: 'flex-start',
-            alignItems: 'flex-start',
-            gap: 20,
-            display: 'flex'
-          }}
-        >
-          <div
-            style={{
-              width: 506,
-              height: 11,
-              textBoxTrim: 'trim-both',
-              textBoxEdge: 'cap alphabetic',
-              color: 'var(--brand-colors-RootBlack, #182605)',
-              fontSize: 20,
-              fontFamily: 'MadaniArabic-Medium',
-              fontWeight: '400',
-              wordWrap: 'break-word'
-            }}
-          >
-            LGA
-          </div>
-          <div
-            style={{
-              alignSelf: 'stretch',
-              height: 60,
-              paddingLeft: 30,
-              paddingRight: 30,
-              background: 'rgba(0, 0, 0, 0.05)',
-              overflow: 'hidden',
-              borderRadius: 30,
-              outline: '2px rgba(0, 0, 0, 0.05) solid',
-              outlineOffset: '-2px',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              display: 'inline-flex'
-            }}
-          >
-            <input
-              type="text"
-              value={editFormData.lga}
-              onChange={(e) => setEditFormData({ ...editFormData, lga: e.target.value })}
-              placeholder="Ojo"
-              style={{
-                textBoxTrim: 'trim-both',
-                textBoxEdge: 'cap alphabetic',
-                color: 'var(--brand-colors-RootBlack, #182605)',
-                fontSize: 20,
-                fontFamily: 'MadaniArabic-Medium',
-                fontWeight: '400',
-                lineHeight: 37,
-                wordWrap: 'break-word',
-                background: 'transparent',
-                border: 'none',
-                outline: 'none',
-                width: '100%'
-              }}
-            />
-          </div>
-        </div>
-
-        {/* Farm Address */}
-        <div
-          style={{
-            alignSelf: 'stretch',
-            flexDirection: 'column',
-            justifyContent: 'flex-start',
-            alignItems: 'flex-start',
-            gap: 20,
-            display: 'flex'
-          }}
-        >
-          <div
-            style={{
-              width: 506,
-              height: 11,
-              textBoxTrim: 'trim-both',
-              textBoxEdge: 'cap alphabetic',
-              color: 'var(--brand-colors-RootBlack, #182605)',
-              fontSize: 20,
-              fontFamily: 'MadaniArabic-Medium',
-              fontWeight: '400',
-              wordWrap: 'break-word'
-            }}
-          >
-            Farm Address
-          </div>
-          <div
-            style={{
-              alignSelf: 'stretch',
-              height: 60,
-              paddingLeft: 30,
-              paddingRight: 30,
-              background: 'rgba(0, 0, 0, 0.05)',
-              overflow: 'hidden',
-              borderRadius: 30,
-              outline: '2px rgba(0, 0, 0, 0.05) solid',
-              outlineOffset: '-2px',
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              gap: 10,
-              display: 'inline-flex'
-            }}
-          >
-            <input
-              type="text"
-              value={editFormData.farmAddress}
-              onChange={(e) => setEditFormData({ ...editFormData, farmAddress: e.target.value })}
-              placeholder="Plot 15, Igbogbo Road, Ojo, Lagos State, Nigeria"
-              style={{
-                textBoxTrim: 'trim-both',
-                textBoxEdge: 'cap alphabetic',
-                color: 'var(--brand-colors-RootBlack, #182605)',
-                fontSize: 20,
-                fontFamily: 'MadaniArabic-Medium',
-                fontWeight: '400',
-                lineHeight: 37,
-                wordWrap: 'break-word',
-                background: 'transparent',
-                border: 'none',
-                outline: 'none',
-                width: '100%'
-              }}
-            />
-          </div>
-        </div>
-
-        {/* Save Button */}
-        <button
-          onClick={handleSaveAddress}
-          style={{
-            alignSelf: 'stretch',
-            height: 60,
-            minWidth: 200,
-            paddingLeft: 24,
-            paddingRight: 24,
-            paddingTop: 12,
-            paddingBottom: 12,
-            background: 'var(--brand-colors-SproutGreen, #84C62C)',
-            borderRadius: 30,
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: 10,
-            display: 'inline-flex',
-            border: 'none',
-            cursor: 'pointer'
-          }}
-        >
-          <div
-            style={{
-              textBoxTrim: 'trim-both',
-              textBoxEdge: 'cap alphabetic',
-              color: 'var(--brand-colors-SteamWhite, white)',
-              fontSize: 16,
-              fontFamily: 'MadaniArabic-Bold',
-              fontWeight: '400',
-              wordWrap: 'break-word'
-            }}
-          >
-            Save
-          </div>
-        </button>
-      </div>
-    </div>
-  );
-
-  const renderAddNewAddress = () => (
-    <div className="w-full h-full bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col">
-      {/* Header */}
-      <div className="w-full p-5 bg-white/80 border-b border-gray-100 flex items-center gap-4 flex-shrink-0">
-        <button
-          onClick={handleBackToAddressList}
-          className="flex items-center justify-center p-1 hover:bg-gray-100 rounded-lg transition-colors"
-        >
-          <img src="/chevron-left-2.svg" alt="Back" className="w-6 h-6" />
-        </button>
-        <div className="text-black text-2xl font-madani-bold">Add New Location</div>
-      </div>
-
-      {/* Content Area */}
-      <div className="flex-1 overflow-y-auto px-[70px] py-8">
-        <div className="flex flex-col gap-[30px]">
-        {/* State */}
-        <div className="flex flex-col gap-5">
-          <div className="text-brand-colors-RootBlack text-xl font-madani-medium">State</div>
-          <div className="relative dropdown-container">
-            <button
-              onClick={() => setIsStateDropdownOpen(!isStateDropdownOpen)}
-              className="w-full h-[60px] px-[30px] bg-black/5 rounded-[30px] border-2 border-black/5 flex items-center justify-between"
-            >
-              <div className={`text-brand-colors-RootBlack text-xl font-madani-medium leading-[37px] ${!addFormData.state ? 'opacity-50' : ''}`}>
-                {addFormData.state || 'Select your state'}
-              </div>
-              <div className="w-6 h-6 relative overflow-hidden">
-                <img src="/chevron-down-2.svg" alt="Dropdown" className="w-6 h-6" />
-              </div>
-            </button>
-
-            {/* Dropdown Menu */}
-            {isStateDropdownOpen && (
-              <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-[20px] shadow-lg z-10 max-h-60 overflow-y-auto">
-                {nigerianStates.map((state) => (
-                  <button
-                    key={state}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setAddFormData({ ...addFormData, state });
-                      setIsStateDropdownOpen(false);
-                    }}
-                    className={`w-full px-7 py-3 text-left hover:bg-black/5 transition-colors ${
-                      addFormData.state === state ? 'bg-black/10' : ''
-                    }`}
-                  >
-                    <div className="text-brand-colors-RootBlack text-base font-madani-medium">
-                      {state}
-                    </div>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* LGA */}
-        <div className="flex flex-col gap-5">
-          <div className="text-brand-colors-RootBlack text-xl font-madani-medium">LGA</div>
-          <div className="h-[60px] px-[30px] bg-black/5 rounded-[30px] border-2 border-black/5 flex items-center">
-            <input
-              type="text"
-              value={addFormData.lga}
-              onChange={(e) => setAddFormData({ ...addFormData, lga: e.target.value })}
-              placeholder="Enter LGA"
-              className="w-full bg-transparent outline-none text-brand-colors-RootBlack text-xl font-madani-medium leading-[37px] placeholder:opacity-50 placeholder:text-brand-colors-RootBlack"
-            />
-          </div>
-        </div>
-
-        {/* Farm Address */}
-        <div className="flex flex-col gap-5">
-          <div className="text-brand-colors-RootBlack text-xl font-madani-medium">Farm Address</div>
-          <div className="min-h-[80px] px-[30px] py-4 bg-black/5 rounded-[30px] border-2 border-black/5 flex items-start">
-            <textarea
-              value={addFormData.farmAddress}
-              onChange={(e) => setAddFormData({ ...addFormData, farmAddress: e.target.value })}
-              placeholder="Enter farm address"
-              className="w-full bg-transparent outline-none text-brand-colors-RootBlack text-xl font-madani-medium leading-[37px] placeholder:opacity-50 placeholder:text-brand-colors-RootBlack resize-none"
-              rows={2}
-            />
-          </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex gap-4">
-          <button
-            onClick={handleBackToAddressList}
-            className="flex-1 h-[60px] px-6 py-3 bg-brand-colors-HarvestMist rounded-[30px] flex items-center justify-center gap-2.5 hover:bg-brand-colors-HarvestMist/80 transition-colors"
-          >
-            <div className="text-brand-colors-RootBlack text-base font-madani-bold">
-              Cancel
-            </div>
-          </button>
-          <button
-            onClick={handleSaveNewLocation}
-            className="flex-1 h-[60px] px-6 py-3 bg-brand-colors-SproutGreen rounded-[30px] flex items-center justify-center gap-2.5 hover:bg-brand-colors-SproutGreen/90 transition-colors"
-          >
-            <div className="text-white text-base font-madani-bold">
-              Add Location
-            </div>
-          </button>
-        </div>
-        </div>
-      </div>
-    </div>
-  );
 
   const renderChangeLanguage = () => (
     <div className="w-full h-full bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col">
@@ -1022,16 +476,346 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
     </div>
   );
 
+  const handleLogout = () => {
+    setShowLogoutModal(false);
+    // Handle actual logout logic here
+    console.log('User logged out');
+  };
+
+  // Address Book handlers (only for dashboard context)
+  const handleEditAddress = (address: any) => {
+    setEditFormData({
+      state: address.location,
+      lga: '',
+      farmAddress: address.address
+    });
+    setAddressView('edit');
+  };
+
+  const handleAddNewLocation = () => {
+    setAddFormData({ state: '', lga: '', farmAddress: '' });
+    setAddressView('add');
+  };
+
+  const handleBackToAddressList = () => {
+    setAddressView('list');
+  };
+
+  const handleSaveAddress = () => {
+    console.log('Address saved:', editFormData);
+    setAddressView('list');
+  };
+
+  const handleSaveNewLocation = () => {
+    if (addFormData.state && addFormData.farmAddress) {
+      const newAddress = {
+        id: addresses.length + 1,
+        location: addFormData.state,
+        address: addFormData.farmAddress
+      };
+      setAddresses([...addresses, newAddress]);
+      setAddFormData({ state: '', lga: '', farmAddress: '' });
+      setAddressView('list');
+    }
+  };
+
+  // Address Book render functions (only for dashboard context)
+  const renderAddressBook = () => {
+    if (addressView === 'edit') {
+      return renderEditAddress();
+    }
+
+    if (addressView === 'add') {
+      return renderAddNewAddress();
+    }
+
+    // Default list view
+    return (
+      <div className="w-full h-full bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col">
+        {/* Header */}
+        <div className="w-full p-5 bg-white/80 border-b border-gray-100 flex-shrink-0">
+          <div className="text-black text-2xl font-madani-bold">Address Book</div>
+        </div>
+
+        {/* Content Area */}
+        <div className="flex-1 overflow-y-auto px-[70px] py-8">
+          <div className="flex flex-col gap-9">
+            {addresses.map((address) => (
+              <div key={address.id} className="w-full px-6 pt-4 pb-7 bg-black/5 rounded-[30px] flex flex-col gap-5">
+                <div className="w-full flex justify-between items-start">
+                  <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-2.5">
+                      <img
+                        src="/location-icon.svg"
+                        alt="Location"
+                        className="w-4 h-4"
+                      />
+                    </div>
+                    <div className="text-brand-colors-RootBlack text-xl font-madani-medium leading-9">
+                      {address.location}
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => handleEditAddress(address)}
+                    className="p-2.5 bg-brand-colors-HarvestMist rounded-[20px] flex items-center gap-2.5 cursor-pointer hover:bg-brand-colors-HarvestMist/80 transition-colors"
+                  >
+                    <div className="text-brand-colors-RootBlack text-base font-madani-medium">
+                      Edit
+                    </div>
+                  </button>
+                </div>
+                <div className="w-full flex flex-col gap-3.5">
+                  <div className="text-black text-xl font-madani-medium leading-9">
+                    Farm Address:
+                  </div>
+                  <div className="text-brand-colors-rootgrey text-xl font-madani-medium leading-9">
+                    {address.address}
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {/* Add New Location Button */}
+            <button
+              onClick={handleAddNewLocation}
+              className="w-full h-full px-6 py-3 bg-brand-colors-SproutGreen rounded-[30px] flex items-center justify-center gap-2.5 cursor-pointer hover:bg-brand-colors-SproutGreen/90 transition-colors"
+            >
+              <div className="text-brand-colors-SteamWhite text-base font-madani-bold">
+                Add New Location
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderEditAddress = () => (
+    <div className="w-full h-full bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col">
+      {/* Header */}
+      <div className="w-full p-5 bg-white/80 border-b border-gray-100 flex items-center gap-4 flex-shrink-0">
+        <button
+          onClick={handleBackToAddressList}
+          className="flex items-center justify-center p-1 hover:bg-gray-100 rounded-lg transition-colors"
+        >
+          <img src="/chevron-left-2.svg" alt="Back" className="w-6 h-6" />
+        </button>
+        <div className="text-black text-2xl font-madani-bold">Edit Address</div>
+      </div>
+
+      {/* Content Area */}
+      <div className="flex-1 overflow-y-auto px-[70px] py-8">
+        <div className="flex flex-col gap-[30px]">
+          {/* State */}
+          <div className="flex flex-col gap-5">
+            <div className="text-brand-colors-RootBlack text-xl font-madani-medium">State</div>
+            <div className="relative dropdown-container">
+              <button
+                onClick={() => setIsStateDropdownOpen(!isStateDropdownOpen)}
+                className="w-full h-[60px] px-[30px] bg-black/5 rounded-[30px] border-2 border-black/5 flex items-center justify-between hover:bg-black/10 transition-colors"
+              >
+                <div className={`text-brand-colors-RootBlack text-xl font-madani-medium leading-[37px] ${!editFormData.state ? 'opacity-50' : ''}`}>
+                  {editFormData.state || 'Select your state'}
+                </div>
+                <div className="w-6 h-6 relative overflow-hidden">
+                  <img
+                    src="/chevron-down-2.svg"
+                    alt="Dropdown"
+                    className={`w-6 h-6 transition-transform ${isStateDropdownOpen ? 'rotate-180' : ''}`}
+                  />
+                </div>
+              </button>
+
+              {/* Dropdown Menu */}
+              {isStateDropdownOpen && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-[20px] shadow-lg z-10 max-h-60 overflow-y-auto">
+                  {nigerianStates.map((state) => (
+                    <button
+                      key={state}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setEditFormData({ ...editFormData, state });
+                        setIsStateDropdownOpen(false);
+                      }}
+                      className={`w-full px-7 py-3 text-left hover:bg-black/5 transition-colors ${
+                        editFormData.state === state ? 'bg-black/10' : ''
+                      }`}
+                    >
+                      <div className="text-brand-colors-RootBlack text-base font-madani-medium">
+                        {state}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* LGA */}
+          <div className="flex flex-col gap-5">
+            <div className="text-brand-colors-RootBlack text-xl font-madani-medium">LGA</div>
+            <div className="h-[60px] px-[30px] bg-black/5 rounded-[30px] border-2 border-black/5 flex items-center">
+              <input
+                type="text"
+                value={editFormData.lga}
+                onChange={(e) => setEditFormData({ ...editFormData, lga: e.target.value })}
+                placeholder="Enter LGA"
+                className="w-full bg-transparent outline-none text-brand-colors-RootBlack text-xl font-madani-medium leading-[37px] placeholder:opacity-50 placeholder:text-brand-colors-RootBlack"
+              />
+            </div>
+          </div>
+
+          {/* Farm Address */}
+          <div className="flex flex-col gap-5">
+            <div className="text-brand-colors-RootBlack text-xl font-madani-medium">Farm Address</div>
+            <div className="min-h-[80px] px-[30px] py-4 bg-black/5 rounded-[30px] border-2 border-black/5 flex items-start">
+              <textarea
+                value={editFormData.farmAddress}
+                onChange={(e) => setEditFormData({ ...editFormData, farmAddress: e.target.value })}
+                placeholder="Enter farm address"
+                className="w-full bg-transparent outline-none text-brand-colors-RootBlack text-xl font-madani-medium leading-[37px] placeholder:opacity-50 placeholder:text-brand-colors-RootBlack resize-none"
+                rows={2}
+              />
+            </div>
+          </div>
+
+          {/* Save Button */}
+          <button
+            onClick={handleSaveAddress}
+            className="w-full h-[60px] min-w-[200px] px-6 py-3 bg-brand-colors-SproutGreen rounded-[30px] flex items-center justify-center gap-2.5 hover:bg-brand-colors-SproutGreen/90 transition-colors"
+          >
+            <div className="text-brand-colors-SteamWhite text-base font-madani-bold">
+              Save
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderAddNewAddress = () => (
+    <div className="w-full h-full bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col">
+      {/* Header */}
+      <div className="w-full p-5 bg-white/80 border-b border-gray-100 flex items-center gap-4 flex-shrink-0">
+        <button
+          onClick={handleBackToAddressList}
+          className="flex items-center justify-center p-1 hover:bg-gray-100 rounded-lg transition-colors"
+        >
+          <img src="/chevron-left-2.svg" alt="Back" className="w-6 h-6" />
+        </button>
+        <div className="text-black text-2xl font-madani-bold">Add New Location</div>
+      </div>
+
+      {/* Content Area */}
+      <div className="flex-1 overflow-y-auto px-[70px] py-8">
+        <div className="flex flex-col gap-[30px]">
+          {/* State */}
+          <div className="flex flex-col gap-5">
+            <div className="text-brand-colors-RootBlack text-xl font-madani-medium">State</div>
+            <div className="relative dropdown-container">
+              <button
+                onClick={() => setIsStateDropdownOpen(!isStateDropdownOpen)}
+                className="w-full h-[60px] px-[30px] bg-black/5 rounded-[30px] border-2 border-black/5 flex items-center justify-between hover:bg-black/10 transition-colors"
+              >
+                <div className={`text-brand-colors-RootBlack text-xl font-madani-medium leading-[37px] ${!addFormData.state ? 'opacity-50' : ''}`}>
+                  {addFormData.state || 'Select your state'}
+                </div>
+                <div className="w-6 h-6 relative overflow-hidden">
+                  <img
+                    src="/chevron-down-2.svg"
+                    alt="Dropdown"
+                    className={`w-6 h-6 transition-transform ${isStateDropdownOpen ? 'rotate-180' : ''}`}
+                  />
+                </div>
+              </button>
+
+              {/* Dropdown Menu */}
+              {isStateDropdownOpen && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-[20px] shadow-lg z-10 max-h-60 overflow-y-auto">
+                  {nigerianStates.map((state) => (
+                    <button
+                      key={state}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setAddFormData({ ...addFormData, state });
+                        setIsStateDropdownOpen(false);
+                      }}
+                      className={`w-full px-7 py-3 text-left hover:bg-black/5 transition-colors ${
+                        addFormData.state === state ? 'bg-black/10' : ''
+                      }`}
+                    >
+                      <div className="text-brand-colors-RootBlack text-base font-madani-medium">
+                        {state}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* LGA */}
+          <div className="flex flex-col gap-5">
+            <div className="text-brand-colors-RootBlack text-xl font-madani-medium">LGA</div>
+            <div className="h-[60px] px-[30px] bg-black/5 rounded-[30px] border-2 border-black/5 flex items-center">
+              <input
+                type="text"
+                value={addFormData.lga}
+                onChange={(e) => setAddFormData({ ...addFormData, lga: e.target.value })}
+                placeholder="Enter LGA"
+                className="w-full bg-transparent outline-none text-brand-colors-RootBlack text-xl font-madani-medium leading-[37px] placeholder:opacity-50 placeholder:text-brand-colors-RootBlack"
+              />
+            </div>
+          </div>
+
+          {/* Farm Address */}
+          <div className="flex flex-col gap-5">
+            <div className="text-brand-colors-RootBlack text-xl font-madani-medium">Farm Address</div>
+            <div className="min-h-[80px] px-[30px] py-4 bg-black/5 rounded-[30px] border-2 border-black/5 flex items-start">
+              <textarea
+                value={addFormData.farmAddress}
+                onChange={(e) => setAddFormData({ ...addFormData, farmAddress: e.target.value })}
+                placeholder="Enter farm address"
+                className="w-full bg-transparent outline-none text-brand-colors-RootBlack text-xl font-madani-medium leading-[37px] placeholder:opacity-50 placeholder:text-brand-colors-RootBlack resize-none"
+                rows={2}
+              />
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex gap-4">
+            <button
+              onClick={handleBackToAddressList}
+              className="flex-1 h-[60px] px-6 py-3 bg-brand-colors-HarvestMist rounded-[30px] flex items-center justify-center gap-2.5 hover:bg-brand-colors-HarvestMist/80 transition-colors"
+            >
+              <div className="text-brand-colors-RootBlack text-base font-madani-bold">
+                Cancel
+              </div>
+            </button>
+            <button
+              onClick={handleSaveNewLocation}
+              className="flex-1 h-[60px] px-6 py-3 bg-brand-colors-SproutGreen rounded-[30px] flex items-center justify-center gap-2.5 hover:bg-brand-colors-SproutGreen/90 transition-colors"
+            >
+              <div className="text-white text-base font-madani-bold">
+                Add Location
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   const renderCategoryContent = () => {
     switch (selectedCategory) {
       case 'personal-details':
         return renderPersonalDetails();
-      case 'address-book':
-        return renderAddressBook();
       case 'change-language':
         return renderChangeLanguage();
       case 'change-password':
         return renderChangePassword();
+      case 'address-book':
+        return context === 'dashboard' ? renderAddressBook() : renderPersonalDetails();
       case 'delete-account':
         return (
           <div className="w-full h-full bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col">
@@ -1082,7 +866,7 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
   };
 
   return (
-    <div className="w-full h-full relative bg-brand-colors-SteamWhite rounded-[20px] overflow-hidden">
+    <div className="w-full h-full relative bg-white rounded-[20px] overflow-hidden">
       {/* Header */}
       {showHeader && (
         <div className="w-full px-10 py-[30px] bg-white/80 flex justify-between items-start">
@@ -1119,7 +903,13 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
                   ? 'bg-black/8 shadow-sm'
                   : 'bg-white hover:bg-gray-50'
               }`}
-              onClick={() => setSelectedCategory(category.id)}
+              onClick={() => {
+                if (category.id === 'logout' && context === 'marketplace') {
+                  setShowLogoutModal(true);
+                } else {
+                  setSelectedCategory(category.id);
+                }
+              }}
             >
               <div className="text-brand-colors-RootBlack text-xl font-madani-medium leading-[37px]">
                 {category.label}
@@ -1140,6 +930,25 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
         onClose={() => setShowDeleteAccountModal(false)}
         onConfirm={handleDeleteAccount}
       />
+
+      {/* Logout Modal */}
+      <LogoutModal
+        isOpen={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        onConfirm={handleLogout}
+      />
+
+      {/* Toast Notifications */}
+      {toasts.map((toast) => (
+        <Toast
+          key={toast.id}
+          message={toast.message}
+          type={toast.type}
+          duration={toast.duration}
+          isVisible={true}
+          onClose={() => removeToast(toast.id)}
+        />
+      ))}
     </div>
   );
 };

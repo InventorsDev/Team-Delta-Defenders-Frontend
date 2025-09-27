@@ -193,9 +193,10 @@ interface ChatsProps {
   showHeader?: boolean;
   variant?: 'mobile' | 'desktop';
   onProfileClick?: () => void;
+  context?: 'dashboard' | 'marketplace';
 }
 
-const Chats: React.FC<ChatsProps> = ({ showHeader = true, variant = 'desktop', onProfileClick }) => {
+const Chats: React.FC<ChatsProps> = ({ showHeader = true, variant = 'desktop', onProfileClick, context = 'dashboard' }) => {
   // Convert Chat data to ChatData format
   const convertToChatsData = (chats: Chat[]): ChatData[] => {
     return chats.map(chat => ({
@@ -246,9 +247,9 @@ const Chats: React.FC<ChatsProps> = ({ showHeader = true, variant = 'desktop', o
 
     // Show chat list view
     return (
-      <div className="w-full h-full bg-brand-colors-SteamWhite flex flex-col overflow-hidden">
+      <div className="w-full h-full bg-white flex flex-col overflow-hidden">
         {/* Header Section */}
-        <div className="w-full pt-4 pb-4 px-5 bg-white/80 flex flex-col gap-4 flex-shrink-0">
+        <div className="w-full pt-4 pb-4 px-5 bg-white flex flex-col gap-4 flex-shrink-0">
           <div className="flex flex-col gap-3">
             <div
               className="text-sm font-medium text-brand-colors-RootBlack"
@@ -263,7 +264,6 @@ const Chats: React.FC<ChatsProps> = ({ showHeader = true, variant = 'desktop', o
               Your Inbox
             </div>
           </div>
-
           {/* Search Bar */}
           <div className="w-full p-3 bg-black/5 rounded-[30px] border border-black/5 flex items-center gap-2">
             <div className="w-6 h-6 relative">
@@ -323,14 +323,14 @@ const Chats: React.FC<ChatsProps> = ({ showHeader = true, variant = 'desktop', o
           }
         `}
       </style>
-      <div className="w-full h-full bg-brand-colors-SteamWhite rounded-[20px] overflow-hidden">
+      <div className="w-full h-full bg-white rounded-[20px] overflow-hidden">
         {/* Header */}
-        <div className="w-full px-10 py-7 bg-white/80 flex justify-between items-center flex-shrink-0">
-          <div className="flex flex-col gap-4">
-            <div className="text-brand-colors-RootBlack text-base font-madani-medium">Respond to recent chats</div>
-            <div className="text-brand-colors-RootBlack text-2xl font-madani-bold">Your Inbox</div>
-          </div>
-          {showHeader && (
+        {showHeader && (
+          <div className="w-full px-10 py-7 bg-white flex justify-between items-center flex-shrink-0">
+            <div className="flex flex-col gap-4">
+              <div className="text-brand-colors-RootBlack text-base font-madani-medium">Respond to recent chats</div>
+              <div className="text-brand-colors-RootBlack text-2xl font-madani-bold">Your Inbox</div>
+            </div>
             <div className="flex items-center gap-4">
               <NotificationDropdown
                 onMarkAllAsRead={() => {
@@ -350,13 +350,26 @@ const Chats: React.FC<ChatsProps> = ({ showHeader = true, variant = 'desktop', o
                 <img className="w-10 h-10 rounded-full object-cover" src="/profile image.png" alt="Profile" />
               </button>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Main Content - Side by side layout */}
-        <div className="flex gap-5 px-10 pb-10 h-[814px]">
+        <div className="flex gap-5 px-16 pb-10 h-[814px] justify-center">
           {/* Chat List - Fixed width 455px */}
-          <div className="w-[455px] bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col overflow-hidden">
+          <div className="w-[455px] bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col overflow-hidden mt-10">
+            {/* Header for Marketplace */}
+            {context === 'marketplace' && (
+              <div className="px-5 py-4 bg-white flex-shrink-0 border-b border-gray-100">
+                <div className="flex flex-col gap-2">
+                  <div className="text-brand-colors-RootBlack text-sm font-madani-medium">
+                    Respond to recent chats
+                  </div>
+                  <div className="text-brand-colors-RootBlack text-xl font-madani-bold">
+                    Your Inbox
+                  </div>
+                </div>
+              </div>
+            )}
             {/* Search */}
             <div className="px-5 py-2.5 bg-white/80 flex-shrink-0">
               <div className="w-full p-3 bg-black/5 rounded-[30px] border border-black/5 flex items-center gap-2">
@@ -406,8 +419,8 @@ const Chats: React.FC<ChatsProps> = ({ showHeader = true, variant = 'desktop', o
             </div>
           </div>
 
-          {/* Chat Detail - Fixed width 574px */}
-          <div className="w-[574px] bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col overflow-hidden">
+          {/* Chat Detail - Fixed width 700px */}
+          <div className="w-[700px] bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col overflow-hidden mt-10">
             {selectedChat ? (
               <ChatDetailView
                 chat={selectedChat}

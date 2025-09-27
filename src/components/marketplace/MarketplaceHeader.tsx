@@ -3,7 +3,7 @@ import '@/styles/fonts.css';
 import { Link } from 'react-router-dom';
 import NotificationDropdown from '../ui/NotificationDropdown';
 
-type ActiveView = 'marketplace' | 'chats' | 'settings';
+type ActiveView = 'marketplace' | 'chats' | 'notifications' | 'settings';
 
 interface MarketplaceHeaderProps {
   isScrolled: boolean;
@@ -61,7 +61,7 @@ const MarketplaceHeader: React.FC<MarketplaceHeaderProps> = ({
             <NotificationDropdown
               buttonClassName="!bg-white"
               onMarkAllAsRead={() => console.log('Mark all as read - marketplace')}
-              onOpenNotifications={() => console.log('Open notifications - marketplace')}
+              onOpenNotifications={() => setActiveView('notifications')}
               onNotificationClick={(notification) => console.log('Notification clicked - marketplace:', notification)}
             />
             <button
@@ -139,20 +139,25 @@ const MarketplaceHeader: React.FC<MarketplaceHeaderProps> = ({
             </button>
 
             {/* Notifications */}
-            <div
-              className="w-10 h-10 p-[3px] rounded-[20px] flex justify-center items-center gap-2.5"
+            <button
+              onClick={() => setActiveView('notifications')}
+              className="w-10 h-10 p-[3px] rounded-[20px] flex justify-center items-center gap-2.5 transition-colors"
               style={{
-                backgroundColor: 'white',
+                backgroundColor: activeView === 'notifications' ? '#182605' : 'white',
                 boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.15)'
               }}
             >
-              <NotificationDropdown
-                buttonClassName="!w-6 !h-6 !p-0 !bg-transparent !shadow-none"
-                onMarkAllAsRead={() => console.log('Mark all as read - marketplace')}
-                onOpenNotifications={() => console.log('Open notifications - marketplace')}
-                onNotificationClick={(notification) => console.log('Notification clicked - marketplace:', notification)}
+              <img
+                src="/notification-icon.svg"
+                alt="Notifications"
+                className="w-6 h-6"
+                style={{
+                  filter: activeView === 'notifications'
+                    ? 'brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)'
+                    : 'brightness(0) saturate(100%) invert(14%) sepia(69%) saturate(1083%) hue-rotate(71deg) brightness(91%) contrast(106%)'
+                }}
               />
-            </div>
+            </button>
 
             {/* Profile */}
             <button

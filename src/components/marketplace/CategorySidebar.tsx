@@ -10,7 +10,9 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({ categories }) => {
   return (
     <>
       {/* Desktop Version */}
-      <div className="hidden lg:flex sticky top-20 w-full p-4 lg:p-5 bg-white rounded-xl lg:rounded-2xl shadow-lg flex-col gap-3 btn-shadow-lg self-start z-40" style={{height: 'fit-content', maxHeight: 'calc(100vh - 5rem)'}}>
+      <div
+        className="hidden lg:flex w-full p-4 lg:p-5 bg-white rounded-xl lg:rounded-2xl shadow-lg flex-col gap-3 btn-shadow-lg z-40"
+      >
         {categories.map((category, index) => (
           <div
             key={index}

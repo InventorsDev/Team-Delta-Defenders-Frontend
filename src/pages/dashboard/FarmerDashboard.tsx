@@ -8,6 +8,7 @@ import Chats from '@/components/dashboard/Chats';
 import Settings from '@/components/dashboard/Settings';
 import ProductCard, { ProductData } from '@/components/dashboard/ProductCard';
 import NotificationItem, { NotificationData } from '@/components/dashboard/NotificationItem';
+import NotificationDropdown from '@/components/ui/NotificationDropdown';
 import StatsCard from '@/components/dashboard/StatsCard';
 import MobileNotifications from '@/components/dashboard/MobileNotifications';
 import MobileListings from '@/components/dashboard/MobileListings';
@@ -18,6 +19,9 @@ import MobileAddListing from '@/components/dashboard/MobileAddListing';
 
 // Data
 import { mockListings } from '@/data/mockProducts';
+
+// Hooks
+import { useScrollDetection } from '@/hooks/useScrollDetection';
 import { mobileStatsCards, createDesktopStatsCards } from '@/data/mockStats';
 
 // Hooks
@@ -31,19 +35,17 @@ type ActiveView = 'dashboard' | 'listings' | 'chats' | 'settings' | 'product-det
 const FarmerDashboard: React.FC = () => {
   const [activeView, setActiveView] = useState<ActiveView>('dashboard');
   const [uiState, setUiState] = useState({
-    isNotificationOpen: false,
-    isNotificationMenuOpen: false,
     isMobileMenuOpen: false,
     showMobileNotifications: false,
     shouldTriggerAddListing: false
   });
   const [selectedProduct, setSelectedProduct] = useState<ProductData | null>(null);
-  const notificationRef = useRef<HTMLDivElement>(null);
 
   // Custom hooks for business logic
   const { notifications, markAsRead, handleNotificationClick } = useNotifications();
   const { favoriteProducts, toggleFavorite } = useFavorites();
   const { listings, activeListings, soldListings, deleteListing, editListing } = useListings();
+  const isScrolled = useScrollDetection();
 
   // Helper functions to update UI state
   const updateUiState = (updates: Partial<typeof uiState>) => {
@@ -53,7 +55,7 @@ const FarmerDashboard: React.FC = () => {
   // Helper function to handle notification click from child components
   const handleNotificationClickFromChild = () => {
     setActiveView('dashboard');
-    updateUiState({ isNotificationOpen: true, showMobileNotifications: false });
+    updateUiState({ showMobileNotifications: false });
   };
 
   // Create desktop stats cards with proper handlers
@@ -62,25 +64,6 @@ const FarmerDashboard: React.FC = () => {
     (trigger: boolean) => updateUiState({ shouldTriggerAddListing: trigger })
   );
 
-  // Handle click outside notification popup
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
-        updateUiState({
-          isNotificationOpen: false,
-          isNotificationMenuOpen: false
-        });
-      }
-    };
-
-    if (uiState.isNotificationOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [uiState.isNotificationOpen]);
 
   // Product card handlers
   const handleProductClick = (product: ProductData) => {
@@ -136,7 +119,17 @@ const FarmerDashboard: React.FC = () => {
     <div className="w-full min-h-screen bg-gray-50 overflow-x-hidden">
       {/* Mobile Header */}
       {activeView !== 'product-detail' && activeView !== 'edit-product' && activeView !== 'add-listing' && (
-        <div className="lg:hidden fixed top-0 left-0 right-0 z-30 mobile-header-bg w-full max-w-full">
+        <div
+          className="lg:hidden fixed top-0 left-0 right-0 z-30 w-full max-w-full transition-all duration-300"
+          style={{
+            background: isScrolled
+              ? 'rgba(228, 253, 225, 0.30)'
+              : 'rgba(228, 253, 225, 0.50)',
+            backdropFilter: isScrolled ? 'blur(20px)' : 'none',
+            WebkitBackdropFilter: isScrolled ? 'blur(20px)' : 'none',
+            boxShadow: isScrolled ? '0 2px 20px rgba(0, 0, 0, 0.1)' : 'none'
+          }}
+        >
         <div className="w-full h-full p-4 flex flex-col gap-2.5 max-w-full">
           <div className="w-full flex flex-col gap-4 max-w-full">
             <div className="w-full flex justify-between items-center max-w-full">
@@ -245,10 +238,10 @@ const FarmerDashboard: React.FC = () => {
                 onViewAllTestimonials={() => setActiveView('chats')}
               />
             </div>
-            <div className="hidden lg:block p-6 overflow-y-auto">
-              <div className="w-full max-w-full lg:max-w-[1129px] mx-auto bg-brand-colors-SteamWhite rounded-[20px] p-4 sm:p-6 lg:p-10 space-y-4">
+            <div className="hidden lg:block p-3 overflow-y-auto">
+              <div className="w-full max-w-full lg:max-w-[1129px] mx-auto bg-white rounded-[20px] p-3 sm:p-4 lg:p-6 space-y-3">
                 {/* Top Header Section */}
-                <div className="w-full bg-white/80 rounded-lg p-4 sm:p-7 flex flex-col sm:flex-row justify-between items-start gap-4">
+                <div className="w-full bg-white/80 rounded-lg p-3 sm:p-4 flex flex-col sm:flex-row justify-between items-start gap-3">
                   <div className="flex flex-col gap-4">
                     <div className="text-brand-colors-RootBlack text-base font-madani-medium">Welcome to your dashboard</div>
                     <div className="flex items-center gap-3">
@@ -257,37 +250,18 @@ const FarmerDashboard: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex justify-start items-center gap-4">
-                    <div className="relative" ref={notificationRef}>
-                      <button
-                        onClick={() => updateUiState({ isNotificationOpen: !uiState.isNotificationOpen })}
-                        className="w-10 h-10 p-[3px] bg-brand-colors-SteamWhite rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.15)] flex justify-center items-center gap-2.5 hover:bg-gray-50 transition-colors"
-                      >
-                        <img className="w-6 h-6" src="/notification-icon.svg" alt="Notifications" />
-                      </button>
-                      {uiState.isNotificationOpen && (
-                        <div className="absolute right-0 mt-2 w-80 sm:w-96 max-h-[500px] bg-brand-colors-SteamWhite rounded-[20px] shadow-xl border border-gray-200 z-50 flex flex-col">
-                          <div className="p-5 flex flex-col gap-4 flex-shrink-0">
-                            <div className="flex justify-between items-center">
-                              <div className="text-brand-colors-RootBlack text-2xl font-normal font-['MadaniArabic-Bold']">Notifications</div>
-                              <button onClick={() => updateUiState({ isNotificationOpen: false })} className="text-gray-500 hover:text-gray-700">×</button>
-                            </div>
-                          </div>
-                          <div className="flex-1 overflow-y-auto px-5">
-                            <div className="space-y-2 pb-4">
-                              {notifications.map((notification) => (
-                                <NotificationItem
-                                  key={notification.id}
-                                  notification={notification}
-                                  variant="desktop"
-                                  onClick={handleNotificationClick}
-                                  onMarkAsRead={markAsRead}
-                                />
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                    <NotificationDropdown
+                      buttonClassName="bg-white"
+                      onMarkAllAsRead={() => {
+                        console.log('Mark all as read');
+                      }}
+                      onOpenNotifications={() => {
+                        console.log('Open notifications');
+                      }}
+                      onNotificationClick={(notification) => {
+                        console.log('Notification clicked:', notification);
+                      }}
+                    />
                     <button
                       onClick={() => setActiveView('settings')}
                       className="hover:opacity-80 transition-opacity"
@@ -307,7 +281,7 @@ const FarmerDashboard: React.FC = () => {
                 {/* Content Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4 sm:gap-8">
                   {/* Left Column */}
-                  <div className="space-y-8">
+                  <div className="space-y-6">
                     {/* My Listings Section */}
                     <div className="flex flex-col gap-7">
                       <div className="flex justify-between items-center">
@@ -388,7 +362,7 @@ const FarmerDashboard: React.FC = () => {
                   </div>
 
                   {/* Right Column */}
-                  <div className="space-y-8">
+                  <div className="space-y-6">
                     {/* Chats Section */}
                     <div className="flex flex-col gap-7">
                       <div className="flex justify-between items-center">
@@ -404,7 +378,7 @@ const FarmerDashboard: React.FC = () => {
                           { name: "White Tapes", message: "How fresh is the pepper", time: "30 mins", avatar: "/dashboard-chat-2.png" },
                           { name: "Tunde Ednut", message: "How fresh is the pepper", time: "3 hrs", avatar: "/dashboard-chat-3.png" }
                         ].map((chat, index) => (
-                          <div key={index} className="px-3 py-2 bg-brand-colors-SteamWhite rounded-[20px] flex items-start gap-3">
+                          <div key={index} className="px-3 py-2 bg-white rounded-[20px] flex items-start gap-3">
                             <img className="w-9 h-9 rounded-full object-cover" src={chat.avatar} alt={chat.name} />
                             <div className="flex-1">
                               <div className="text-sm font-medium text-brand-colors-RootBlack">{chat.name}</div>
@@ -493,6 +467,7 @@ const FarmerDashboard: React.FC = () => {
             <div className="lg:hidden h-full">
               <Settings
                 variant="mobile"
+                showHeader={false}
                 onBack={() => setActiveView('dashboard')}
                 onNotificationClick={handleNotificationClickFromChild}
                 onProfileClick={() => setActiveView('settings')}
@@ -501,6 +476,7 @@ const FarmerDashboard: React.FC = () => {
             <div className="hidden lg:block h-full">
               <Settings
                 variant="desktop"
+                showHeader={true}
                 onNotificationClick={handleNotificationClickFromChild}
                 onProfileClick={() => setActiveView('settings')}
               />

@@ -121,6 +121,7 @@ const Settings: React.FC<SettingsProps> = ({
     { id: 'address-book', label: 'Address Book' },
     { id: 'change-language', label: 'Change Language' },
     { id: 'change-password', label: 'Change Password' },
+    { id: 'logout', label: 'Logout' },
     { id: 'delete-account', label: 'Delete Account' }
   ];
 
@@ -128,8 +129,8 @@ const Settings: React.FC<SettingsProps> = ({
     { id: 'personal-details', label: 'Personal details' },
     { id: 'change-language', label: 'Change Language' },
     { id: 'change-password', label: 'Change Password' },
-    { id: 'delete-account', label: 'Delete Account' },
-    { id: 'logout', label: 'Logout' }
+    { id: 'logout', label: 'Logout' },
+    { id: 'delete-account', label: 'Delete Account' }
   ];
 
   const settingsMenuItems = menuItems || (context === 'marketplace' ? defaultMarketplaceMenuItems : defaultFarmerMenuItems);
@@ -363,8 +364,6 @@ const Settings: React.FC<SettingsProps> = ({
     switch (activeSection) {
       case 'personal-details':
         return 'Personal Details';
-      case 'address-book':
-        return 'Address Book';
       case 'change-language':
         return 'Change Language';
       case 'change-password':
@@ -376,7 +375,7 @@ const Settings: React.FC<SettingsProps> = ({
 
   // Desktop Version - Use new 3-column layout
   if (variant === 'desktop') {
-    return <DesktopSettings showHeader={showHeader} />;
+    return <DesktopSettings showHeader={showHeader} context={context === 'marketplace' ? 'marketplace' : 'dashboard'} />;
   }
 
   // Mobile Version
@@ -1324,38 +1323,42 @@ const Settings: React.FC<SettingsProps> = ({
 
     // Settings menu view
     return (
-      <div className="w-full h-full bg-brand-colors-SteamWhite overflow-hidden rounded-[20px] flex flex-col gap-2.5">
-        {/* Settings Header */}
-        <div className="w-full pt-5 pb-5 bg-white/80 shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex items-start gap-3">
-          <div className="flex items-center gap-2.5">
-            <button onClick={onBack} className="flex items-center justify-center p-1 hover:bg-gray-100 rounded-lg transition-colors">
-              <img src="/chevron-left-2.svg" alt="Back" className="w-6 h-6" />
+      <div style={{width: '100%', height: '100%', paddingLeft: 10, paddingRight: 10, paddingTop: 20, paddingBottom: 20, background: 'var(--brand-colors-SteamWhite, white)', boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.08)', overflow: 'hidden', borderRadius: 20, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 20, display: 'inline-flex'}}>
+        <div style={{paddingBottom: 20, paddingLeft: 10, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 10, display: 'flex'}}>
+          <div style={{width: '100%', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', gap: 10, display: 'flex'}}>
+            <button onClick={onBack} style={{flexShrink: 0, padding: 4, backgroundColor: 'transparent', border: 'none', cursor: 'pointer'}}>
+              <img src="/chevron-left-2.svg" alt="Back" style={{width: 24, height: 24}} />
             </button>
-          </div>
-          <div className="flex flex-col gap-4">
-            <div className="text-brand-colors-RootBlack text-sm font-medium" style={{ fontFamily: 'MadaniArabic-Medium' }}>
-              {headerTitle}
-            </div>
-            <div className="w-[331px] text-brand-colors-RootBlack text-xl font-bold" style={{ fontFamily: 'MadaniArabic-Bold' }}>
-              {headerSubtitle}
+            <div style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 16, display: 'flex'}}>
+              <div style={{alignSelf: 'stretch', textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 16, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', wordWrap: 'break-word'}}>{headerTitle}</div>
+              <div style={{width: 331, textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 24, fontFamily: 'MadaniArabic-Bold', fontWeight: '400', wordWrap: 'break-word'}}>{headerSubtitle}</div>
             </div>
           </div>
         </div>
-
-        {/* Settings Menu Items */}
-        <div className="w-full flex flex-col gap-5">
-          {settingsMenuItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => handleMenuClick(item.id)}
-              className="w-full h-12 px-10 py-3 bg-brand-colors-SteamWhite rounded-[20px] flex items-center gap-2.5 hover:bg-black/5 transition-colors"
-            >
-              <div className="text-brand-colors-RootBlack text-base font-medium" style={{ fontFamily: 'MadaniArabic-Medium' }}>
-                {item.label}
-              </div>
-            </button>
-          ))}
-        </div>
+        {settingsMenuItems.map((item, index) => (
+          <div
+            key={item.id}
+            data-property-1={activeSection === item.id ? "selected" : "default"}
+            style={{
+              alignSelf: 'stretch',
+              height: 48,
+              paddingLeft: 24,
+              paddingRight: 24,
+              paddingTop: 12,
+              paddingBottom: 12,
+              background: activeSection === item.id ? 'rgba(0, 0, 0, 0.08)' : 'var(--brand-colors-SteamWhite, white)',
+              borderRadius: 20,
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              gap: 10,
+              display: 'inline-flex',
+              cursor: 'pointer'
+            }}
+            onClick={() => handleMenuClick(item.id)}
+          >
+            <div style={{textBoxTrim: 'trim-both', textBoxEdge: 'cap alphabetic', color: 'var(--brand-colors-RootBlack, #182605)', fontSize: 20, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', lineHeight: 37, wordWrap: 'break-word'}}>{item.label}</div>
+          </div>
+        ))}
 
         {/* Toast Notification */}
         {showToast && (

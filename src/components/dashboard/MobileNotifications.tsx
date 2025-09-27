@@ -61,7 +61,7 @@ const MobileNotifications: React.FC<MobileNotificationsProps> = ({
           maxWidth: 340,
           height: 24,
           left: 20,
-          top: 20,
+          top: 10,
           position: 'absolute',
           justifyContent: 'space-between',
           alignItems: 'center',
