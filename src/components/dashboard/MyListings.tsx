@@ -2,12 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import DeleteListingModal from './DeleteListingModal';
 import EditListingView from './EditListingView';
 import AddListingView from './AddListingView';
+import NotificationDropdown from '../ui/NotificationDropdown';
 
 interface MyListingsProps {
   onDeleteListing: (id: number) => void;
   onCreateListing: () => void;
   shouldTriggerAdd?: boolean;
   onAddTriggered?: () => void;
+  onProfileClick?: () => void;
 }
 
 interface Listing {
@@ -161,7 +163,8 @@ const MyListings: React.FC<MyListingsProps> = ({
   onDeleteListing,
   onCreateListing,
   shouldTriggerAdd,
-  onAddTriggered
+  onAddTriggered,
+  onProfileClick
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedSort, setSelectedSort] = useState("Latest Listing");
@@ -360,21 +363,17 @@ const MyListings: React.FC<MyListingsProps> = ({
   };
 
   return (
-    <div className="w-[1129px] h-[980px] relative bg-brand-colors-SteamWhite rounded-[20px] overflow-hidden">
+    <div className="w-full max-w-full lg:max-w-[1129px] min-h-[980px] relative bg-white rounded-[20px]">
       {/* Listings Grid */}
-      <div 
-        className="h-[764px] px-2.5 pb-2.5 left-[30px] top-[226px] absolute flex justify-start items-start gap-2.5 overflow-y-auto"
-        style={{ 
-          scrollbarWidth: 'none', 
-          msOverflowStyle: 'none',
-        }}
+      <div
+        className="min-h-[764px] px-2.5 pb-2.5 left-0 sm:left-[30px] top-[226px] absolute flex justify-start items-start gap-2.5"
       >
-        <div className={`${(selectedListing || isAddMode) ? 'w-[528px] grid grid-cols-2 gap-5' : 'w-[1048px] flex flex-wrap gap-5'} transition-all duration-300`}>
+        <div className={`${(selectedListing || isAddMode) ? 'w-full sm:w-[528px] grid grid-cols-1 sm:grid-cols-2 gap-5' : 'w-full sm:w-[1048px] flex flex-wrap gap-5'} transition-all duration-300`}>
           {listingsData.map((listing) => (
             <div 
               key={listing.id} 
               onClick={() => handleSelectListing(listing)}
-              className="w-60 h-80 relative bg-brand-colors-SteamWhite rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] overflow-hidden cursor-pointer hover:shadow-lg transition-shadow">
+              className="w-60 h-80 relative bg-white rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] overflow-hidden cursor-pointer hover:shadow-lg transition-shadow">
             {/* Image Container */}
             <div className="w-56 h-36 left-[10px] top-[10px] absolute rounded-[10px] overflow-hidden">
               <img className="w-full h-full object-cover rounded-[10px]" src={listing.image} alt={listing.title} />
@@ -411,7 +410,7 @@ const MyListings: React.FC<MyListingsProps> = ({
               {/* Delete Icon */}
               <button 
                 onClick={(e) => handleDeleteClick(listing, e)}
-                className="p-2.5 left-[188px] top-[15px] absolute bg-brand-colors-SteamWhite rounded-3xl shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex items-center hover:bg-red-50 transition-colors group"
+                className="p-2.5 left-[188px] top-[15px] absolute bg-white rounded-3xl shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex items-center hover:bg-red-50 transition-colors group"
               >
                 <img 
                   src="/delete icon.svg" 
@@ -426,7 +425,7 @@ const MyListings: React.FC<MyListingsProps> = ({
         
         {/* Detail/Edit/Add View - Isolated Component */}
         {(selectedListing || isAddMode) && (
-          <div className="sticky w-[514px] h-[724px] top-[20px] bg-brand-colors-SteamWhite rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] z-30 flex flex-col overflow-hidden">
+          <div className="sticky w-full sm:w-[514px] h-[724px] top-[20px] bg-white rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] z-30 flex flex-col overflow-hidden">
             {/* Header with Upload Image Text for Edit/Add Mode */}
             <div className="relative h-16 flex-shrink-0 flex items-center justify-between px-5">
               {(isEditMode || isAddMode) && (
@@ -438,7 +437,7 @@ const MyListings: React.FC<MyListingsProps> = ({
                     setIsAddMode(false);
                     setAddFormData(null);
                   }}
-                  className="p-2.5 bg-brand-colors-SteamWhite rounded-3xl shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors"
+                  className="p-2.5 bg-white rounded-3xl shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors"
                 >
                   <img 
                     src="/close icon.svg" 
@@ -596,14 +595,14 @@ const MyListings: React.FC<MyListingsProps> = ({
                 <div className="bg-white/20 rounded-full p-2.5 flex items-center gap-1.5">
                   <button 
                     onClick={handleEditListing}
-                    className="px-6 py-3 bg-brand-colors-SproutGreen rounded-full flex items-center justify-center hover:bg-opacity-90 transition-colors min-w-[192px]">
+                    className="px-6 py-3 bg-brand-colors-SproutGreen rounded-full flex items-center justify-center hover:bg-opacity-90 transition-colors min-w-0 sm:min-w-[192px]">
                     <span className="text-base font-['MadaniArabic-Bold'] text-brand-colors-SteamWhite">
                       Edit
                     </span>
                   </button>
                   <button 
                     onClick={(e) => handleDeleteClick(selectedListing, e)}
-                    className="p-2.5 bg-brand-colors-SteamWhite rounded-3xl shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex items-center justify-center hover:bg-red-50 transition-colors group"
+                    className="p-2.5 bg-white rounded-3xl shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex items-center justify-center hover:bg-red-50 transition-colors group"
                   >
                     <img 
                       src="/delete icon.svg" 
@@ -650,8 +649,8 @@ const MyListings: React.FC<MyListingsProps> = ({
       </div>
 
       {/* Header Section */}
-      <div className="w-[1129px] px-10 py-7 left-0 top-0 absolute bg-white/80 inline-flex flex-col justify-start items-start gap-10">
-        <div className="w-[1049px] flex justify-between items-start">
+      <div className="w-full px-4 sm:px-10 py-7 left-0 top-0 absolute bg-white/80 inline-flex flex-col justify-start items-start gap-10">
+        <div className="w-full flex justify-between items-start">
           <div className="flex flex-col gap-4">
             <div className="text-brand-colors-RootBlack text-base font-madani-medium">
               manage all your produce
@@ -661,17 +660,30 @@ const MyListings: React.FC<MyListingsProps> = ({
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <button className="w-10 h-10 p-[3px] bg-brand-colors-SteamWhite rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.15)] flex justify-center items-center hover:bg-gray-50 transition-colors">
-              <img className="w-6 h-6" src="/notification-icon.svg" alt="Notifications" />
+            <NotificationDropdown
+              onMarkAllAsRead={() => {
+                console.log('Mark all as read');
+              }}
+              onOpenNotifications={() => {
+                console.log('Open notifications');
+              }}
+              onNotificationClick={(notification) => {
+                console.log('Notification clicked:', notification);
+              }}
+            />
+            <button
+              onClick={onProfileClick}
+              className="hover:opacity-80 transition-opacity"
+            >
+              <img className="w-10 h-10 rounded-full object-cover" src="/profile image.png" alt="Profile" />
             </button>
-            <img className="w-10 h-10 rounded-full object-cover" src="/profile image.png" alt="Profile" />
           </div>
         </div>
         
         {/* Controls Section */}
-        <div className="w-[1052px] inline-flex justify-between items-center">
+        <div className="w-full inline-flex justify-between items-center">
           {/* Search Bar */}
-          <div className="w-96 p-3 bg-black/5 rounded-[30px] outline outline-1 outline-offset-[-1px] outline-black/5 flex items-center gap-2">
+          <div className="w-full sm:w-96 p-3 bg-black/5 rounded-[30px] outline outline-1 outline-offset-[-1px] outline-black/5 flex items-center gap-2">
             <img className="w-6 h-6" src="/search icon.svg" alt="Search" />
             <div className="text-brand-colors-rootgrey text-xl font-madani-medium leading-9">
               Search
@@ -687,7 +699,7 @@ const MyListings: React.FC<MyListingsProps> = ({
               <div className="relative" ref={dropdownRef}>
                 <button 
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="w-52 px-6 py-3 bg-brand-colors-SteamWhite rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.15)] flex justify-center items-center gap-1 hover:bg-gray-50 transition-colors"
+                  className="w-52 px-6 py-3 bg-white rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.15)] flex justify-center items-center gap-1 hover:bg-gray-50 transition-colors"
                 >
                   <div className="text-brand-colors-RootBlack text-base font-madani-medium leading-6 whitespace-nowrap overflow-hidden text-ellipsis flex-1">
                     {selectedSort}
@@ -701,7 +713,7 @@ const MyListings: React.FC<MyListingsProps> = ({
                 
                 {/* Dropdown Menu */}
                 {isDropdownOpen && (
-                  <div className="absolute top-full mt-2 w-52 bg-brand-colors-SteamWhite rounded-[15px] shadow-[0px_8px_40px_10px_rgba(0,0,0,0.12)] overflow-hidden z-20">
+                  <div className="absolute top-full mt-2 w-52 bg-white rounded-[15px] shadow-[0px_8px_40px_10px_rgba(0,0,0,0.12)] overflow-hidden z-20">
                     {sortOptions.map((option, index) => (
                       <button
                         key={index}
@@ -724,12 +736,13 @@ const MyListings: React.FC<MyListingsProps> = ({
             </div>
             
             {/* Add New Listing Button */}
-            <button 
+            <button
               onClick={handleAddNewListing}
-              className="h-14 min-w-48 px-6 py-3 bg-brand-colors-SproutGreen rounded-[30px] flex justify-center items-center hover:bg-opacity-90 transition-colors"
+              className="h-[56px] min-w-[192px] px-6 py-3 rounded-[30px] flex items-center justify-center gap-2.5 cursor-pointer hover:opacity-90 transition-opacity"
+              style={{ backgroundColor: '#84C62C' }}
             >
-              <div className="text-brand-colors-SteamWhite text-base font-madani-bold">
-                Add New Listing
+              <div className="text-white text-base font-madani-bold">
+                Add New Product
               </div>
             </button>
           </div>

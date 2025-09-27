@@ -14,59 +14,61 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
-      onClick={onClose}
-    >
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div
-        className="w-[699px] h-[613px] relative bg-white overflow-hidden rounded-[20px]"
+        className="relative bg-brand-colors-SteamWhite rounded-[20px] w-full max-w-[699px] max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="w-[531px] left-[84px] top-1/2 -translate-y-1/2 absolute flex flex-col justify-start items-center gap-[25px]">
-          <div className="self-stretch flex flex-col justify-start items-center gap-3">
-            <div className="w-[200px] h-[200px]">
+        <div className="flex flex-col items-center justify-center min-h-[500px] p-6 sm:p-8 lg:p-12">
+          <div className="w-full max-w-[531px] flex flex-col justify-start items-center gap-6 sm:gap-8">
+            <div className="w-full flex flex-col justify-start items-center gap-3 sm:gap-4">
               <img
-                style={{width: '100%', height: '100%'}}
+                className="w-[120px] h-[120px] sm:w-[160px] sm:h-[160px] lg:w-[200px] lg:h-[200px]"
                 src="/delete-popup.png"
-                alt="Delete confirmation"
+                alt="Delete Warning"
               />
+              <div className="w-full flex flex-col justify-start items-center gap-4 sm:gap-6">
+                <div className="text-center text-brand-colors-RootBlack font-madani-bold text-2xl sm:text-3xl lg:text-[32px] leading-tight sm:leading-[50px]">
+                  Delete Account?
+                </div>
+                <div className="w-full text-center text-brand-colors-rootgrey font-madani-medium text-base sm:text-lg lg:text-[20px] leading-normal sm:leading-[37px] px-2">
+                  Are you sure you want to delete your account? This action cannot be undone, and all your listings, chats, and data will be permanently removed.
+                </div>
+              </div>
             </div>
-            <div className="self-stretch flex flex-col justify-start items-center gap-5">
-              <div className="text-center text-brand-colors-RootBlack text-[26px] font-['MadaniArabic-Bold'] leading-[40px]">
-                Delete Your Account?
-              </div>
-              <div className="self-stretch text-center text-brand-colors-rootgrey text-lg font-['MadaniArabic-Medium'] leading-[30px] px-4">
-                Are you sure you want to delete your account? This action cannot be undone, and all your listings, chats, and data will be permanently removed.
-              </div>
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 w-full">
+              <button
+                onClick={onClose}
+                className="h-[50px] sm:h-[60px] w-full sm:min-w-[180px] lg:min-w-[200px] px-4 sm:px-6 py-3 bg-brand-colors-HarvestMist rounded-[30px] flex justify-center items-center gap-2.5 hover:bg-brand-colors-HarvestMist/80 transition-colors"
+              >
+                <div className="text-brand-colors-RootBlack text-sm sm:text-base font-madani-bold">
+                  Cancel
+                </div>
+              </button>
+              <button
+                onClick={onConfirm}
+                className="h-[50px] sm:h-[60px] w-full sm:min-w-[180px] lg:min-w-[200px] px-4 sm:px-6 py-3 bg-brand-colors-pepper-red rounded-[30px] flex justify-center items-center gap-2.5 hover:bg-brand-colors-pepper-red/90 transition-colors"
+              >
+                <div className="text-brand-colors-SteamWhite text-sm sm:text-base font-madani-bold">
+                  Yes, Delete
+                </div>
+              </button>
             </div>
-          </div>
-          <div className="flex justify-start items-center gap-4 mt-4">
-            <button
-              onClick={onClose}
-              className="h-[60px] min-w-[200px] px-6 py-3 bg-brand-colors-HarvestMist rounded-[30px] flex justify-center items-center gap-2.5 border-none cursor-pointer hover:opacity-90 transition-opacity"
-            >
-              <div className="text-brand-colors-RootBlack text-base font-['MadaniArabic-Bold']">
-                Cancel
-              </div>
-            </button>
-            <button
-              onClick={onConfirm}
-              className="h-[60px] min-w-[200px] px-6 py-3 bg-brand-colors-pepper-red rounded-[30px] flex justify-center items-center gap-2.5 border-none cursor-pointer hover:opacity-90 transition-opacity"
-            >
-              <div className="text-white text-base font-['MadaniArabic-Bold']">
-                Yes, Delete Account
-              </div>
-            </button>
           </div>
         </div>
+
+        {/* Close Button */}
         <button
           onClick={onClose}
-          className="w-[50px] h-[50px] left-[620px] top-[30px] absolute bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.15)] rounded-full flex justify-center items-center gap-2.5 border-none cursor-pointer hover:bg-gray-50 transition-colors"
+          className="w-[40px] h-[40px] sm:w-[50px] sm:h-[50px] absolute top-3 right-3 sm:top-4 sm:right-4 bg-brand-colors-SteamWhite rounded-full flex justify-center items-center gap-2.5 hover:shadow-lg transition-shadow"
+          style={{
+            boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.15)'
+          }}
         >
           <img
             src="/close icon.svg"
             alt="Close"
-            className="w-6 h-6"
+            className="w-5 h-5 sm:w-6 sm:h-6"
             style={{ filter: 'invert(36%) sepia(69%) saturate(2083%) hue-rotate(338deg) brightness(97%) contrast(106%)' }}
           />
         </button>
