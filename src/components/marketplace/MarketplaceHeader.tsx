@@ -37,7 +37,7 @@ const MarketplaceHeader: React.FC<MarketplaceHeaderProps> = ({
           <div className="flex items-center gap-4">
             <Link to="/farmer-dashboard">
               <div className="min-w-40 min-h-10 px-6 py-3 rounded-3xl flex justify-center items-center" style={{background: '#84C62C'}}>
-                <div className="text-base font-madani-bold text-steam-white">Sell Your Product</div>
+                <div className="text-base font-madani-bold text-brand-colors-SteamWhite">Sell Your Product</div>
               </div>
             </Link>
             <button
@@ -87,7 +87,7 @@ const MarketplaceHeader: React.FC<MarketplaceHeaderProps> = ({
                 className="min-w-[160px] min-h-[40px] px-6 py-3 rounded-[30px] flex justify-center items-center gap-2.5"
                 style={{ backgroundColor: '#84C62C' }}
               >
-                <div className="text-white text-base font-madani-bold">
+                <div className="text-brand-colors-SteamWhite text-base font-madani-bold">
                   Sell Your Product
                 </div>
               </button>

@@ -171,7 +171,7 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
 
 
   const renderPersonalDetails = () => (
-    <div className="w-full h-full bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col">
+    <div className="w-full h-full flex flex-col">
       {/* Header */}
       <div className="w-full p-5 bg-white/80 border-b border-gray-100 flex-shrink-0">
         <div className="text-black text-2xl font-madani-bold">
@@ -180,7 +180,7 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
       </div>
 
       {/* Content Area */}
-      <div className="flex-1 overflow-y-auto px-[70px] py-8">
+      <div className="px-[70px] py-8">
         <div className="flex flex-col items-center gap-8">
           {/* Profile Image Upload - Centered */}
           <div className="w-[104px] h-[103px] overflow-hidden rounded-[10px] border-2 border-brand-colors-RootBlack relative">
@@ -325,14 +325,14 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
 
 
   const renderChangeLanguage = () => (
-    <div className="w-full h-full bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col">
+    <div className="w-full h-full flex flex-col">
       {/* Header */}
       <div className="flex-shrink-0 w-full p-5 bg-white/80 border-b border-gray-100">
         <div className="text-black text-2xl font-madani-bold">Change Language</div>
       </div>
 
       {/* Language Options */}
-      <div className="flex-1 overflow-y-auto px-[70px] py-8">
+      <div className="px-[70px] py-8">
         <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-6">
           {['English', 'Igbo', 'Yoruba', 'Hausa'].map((language) => (
@@ -368,14 +368,14 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
   );
 
   const renderChangePassword = () => (
-    <div className="w-full h-full bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col">
+    <div className="w-full h-full flex flex-col">
       {/* Header */}
       <div className="flex-shrink-0 w-full p-5 bg-white/80 border-b border-gray-100">
         <div className="text-black text-2xl font-madani-bold">Change Password</div>
       </div>
 
       {/* Password Form */}
-      <div className="flex-1 overflow-y-auto px-[70px] py-8">
+      <div className="px-[70px] py-8">
         <div className="flex flex-col gap-[30px]">
         {/* Current Password */}
         <div className="flex flex-col gap-5">
@@ -531,7 +531,7 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
 
     // Default list view
     return (
-      <div className="w-full h-full bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col">
+      <div className="w-full h-full flex flex-col">
         {/* Header */}
         <div className="w-full p-5 bg-white/80 border-b border-gray-100 flex-shrink-0">
           <div className="text-black text-2xl font-madani-bold">Address Book</div>
@@ -591,7 +591,7 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
   };
 
   const renderEditAddress = () => (
-    <div className="w-full h-full bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col">
+    <div className="w-full h-full flex flex-col">
       {/* Header */}
       <div className="w-full p-5 bg-white/80 border-b border-gray-100 flex items-center gap-4 flex-shrink-0">
         <button
@@ -604,7 +604,7 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
       </div>
 
       {/* Content Area */}
-      <div className="flex-1 overflow-y-auto px-[70px] py-8">
+      <div className="px-[70px] py-8">
         <div className="flex flex-col gap-[30px]">
           {/* State */}
           <div className="flex flex-col gap-5">
@@ -694,7 +694,7 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
   );
 
   const renderAddNewAddress = () => (
-    <div className="w-full h-full bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col">
+    <div className="w-full h-full flex flex-col">
       {/* Header */}
       <div className="w-full p-5 bg-white/80 border-b border-gray-100 flex items-center gap-4 flex-shrink-0">
         <button
@@ -707,7 +707,7 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
       </div>
 
       {/* Content Area */}
-      <div className="flex-1 overflow-y-auto px-[70px] py-8">
+      <div className="px-[70px] py-8">
         <div className="flex flex-col gap-[30px]">
           {/* State */}
           <div className="flex flex-col gap-5">
@@ -818,14 +818,14 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
         return context === 'dashboard' ? renderAddressBook() : renderPersonalDetails();
       case 'delete-account':
         return (
-          <div className="w-full h-full bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col">
+          <div className="w-full h-full flex flex-col">
             {/* Header */}
             <div className="flex-shrink-0 w-full p-5 bg-white/80 border-b border-gray-100">
               <div className="text-black text-2xl font-madani-bold">Delete Account</div>
             </div>
 
             {/* Content */}
-            <div className="flex-1 overflow-y-auto px-[70px] py-8">
+            <div className="px-[70px] py-8">
               <div className="flex flex-col gap-8">
               <div className="flex flex-col gap-4">
                 <div className="text-brand-colors-RootBlack text-xl font-madani-medium">
@@ -892,10 +892,25 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
       )}
 
       {/* Main Content - 2 Columns */}
-      <div className="flex gap-5 px-10 pb-10 h-[824px]">
+      <div className="flex gap-5 px-16 pb-10 justify-center">
         {/* Settings Categories - Fixed width 336px */}
-        <div className="w-[336px] bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] p-5 flex flex-col gap-5">
-          {settingsCategories.map((category) => (
+        <div className="w-[336px] bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col mt-10">
+          {/* Header for Marketplace */}
+          {context === 'marketplace' && (
+            <div className="px-5 py-4 bg-white flex-shrink-0">
+              <div className="flex flex-col gap-2">
+                <div className="text-brand-colors-RootBlack text-sm font-madani-medium">
+                  Manage Your Preferences
+                </div>
+                <div className="text-brand-colors-RootBlack text-xl font-madani-bold">
+                  Your Settings
+                </div>
+              </div>
+            </div>
+          )}
+          {/* Categories List */}
+          <div className="p-5 flex flex-col gap-5">
+            {settingsCategories.map((category) => (
             <div
               key={category.id}
               className={`h-12 px-6 py-3 rounded-[20px] flex items-center cursor-pointer transition-all duration-200 ${
@@ -915,11 +930,12 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
                 {category.label}
               </div>
             </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* Settings Content - Fixed width 693px */}
-        <div className="w-[693px] h-full overflow-y-auto">
+        <div className="w-[693px] bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] mt-10">
           {renderCategoryContent()}
         </div>
       </div>

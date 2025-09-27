@@ -359,7 +359,7 @@ const Chats: React.FC<ChatsProps> = ({ showHeader = true, variant = 'desktop', o
           <div className="w-[455px] bg-white shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] rounded-[20px] flex flex-col overflow-hidden mt-10">
             {/* Header for Marketplace */}
             {context === 'marketplace' && (
-              <div className="px-5 py-4 bg-white flex-shrink-0 border-b border-gray-100">
+              <div className="px-5 py-4 bg-white flex-shrink-0">
                 <div className="flex flex-col gap-2">
                   <div className="text-brand-colors-RootBlack text-sm font-madani-medium">
                     Respond to recent chats
