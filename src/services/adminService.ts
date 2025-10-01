@@ -137,7 +137,7 @@ export class AdminService {
   // Export data for reporting
   async exportUsers(format: 'csv' | 'xlsx' = 'csv'): Promise<Blob> {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/export/users?format=${format}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/export/users?format=${format}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('auth_token')}`,
         }

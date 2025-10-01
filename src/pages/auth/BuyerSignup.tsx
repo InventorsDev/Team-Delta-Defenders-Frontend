@@ -36,7 +36,7 @@ const BuyerSignup: React.FC = () => {
     // Original API call (commented out for testing)
     /*
     try {
-      const response = await fetch(`${process.env.REACT_APP_BASE_URL || ''}/auth/buyer/signup`, {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL || ''}/auth/buyer/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
