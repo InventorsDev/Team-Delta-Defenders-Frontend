@@ -1,0 +1,6 @@
+# Ignore large unoptimized images during builds
+# public/*.png
+# public/*.jpg
+# public/*.jpeg
+
+# Keep only essential images for now
