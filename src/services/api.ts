@@ -3,9 +3,9 @@ import { getAuthToken, removeAuthToken } from './auth/tokenStorage';
 
 // API Configuration
 export const API_CONFIG = {
-  BASE_URL: process.env.REACT_APP_API_URL || 'http://localhost:8000/api',
-  TIMEOUT: parseInt(process.env.REACT_APP_API_TIMEOUT || '45000'), // 45 seconds for Render.com
-  MAX_RETRIES: parseInt(process.env.REACT_APP_API_RETRIES || '3'),
+  BASE_URL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api',
+  TIMEOUT: parseInt(import.meta.env.VITE_API_TIMEOUT || '45000'), // 45 seconds for Render.com
+  MAX_RETRIES: parseInt(import.meta.env.VITE_API_RETRIES || '3'),
 } as const;
 
 // API Response Types
@@ -46,8 +46,8 @@ export class ApiRequestError extends Error {
 // Rate limiting tracker
 class RateLimitTracker {
   private requests: Map<string, number[]> = new Map();
-  private readonly maxRequests = parseInt(process.env.REACT_APP_API_RATE_LIMIT || '100'); // requests per minute
-  private readonly timeWindow = parseInt(process.env.REACT_APP_API_RATE_WINDOW || '60000'); // 1 minute
+  private readonly maxRequests = parseInt(import.meta.env.VITE_API_RATE_LIMIT || '100'); // requests per minute
+  private readonly timeWindow = parseInt(import.meta.env.VITE_API_RATE_WINDOW || '60000'); // 1 minute
 
   canMakeRequest(endpoint: string): boolean {
     const now = Date.now();

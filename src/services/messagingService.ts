@@ -86,8 +86,8 @@ export class MessagingService {
   connectWebSocket(authToken: string): Promise<void> {
     return new Promise((resolve, reject) => {
       try {
-        const wsUrl = process.env.REACT_APP_WS_URL ||
-          process.env.REACT_APP_API_URL?.replace(/^https?/, 'ws').replace('/api', '/ws') ||
+        const wsUrl = import.meta.env.VITE_WS_URL ||
+          import.meta.env.VITE_API_URL?.replace(/^https?/, 'ws').replace('/api', '/ws') ||
           'ws://localhost:8000/ws';
 
         this.websocket = new WebSocket(`${wsUrl}/chat?token=${authToken}`);

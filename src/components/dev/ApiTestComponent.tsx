@@ -18,7 +18,7 @@ const ApiTestComponent: React.FC = () => {
 
   // Only show in development
   useEffect(() => {
-    setIsVisible(process.env.NODE_ENV === 'development' || process.env.REACT_APP_ENVIRONMENT === 'development');
+    setIsVisible(import.meta.env.MODE === 'development' || import.meta.env.VITE_ENVIRONMENT === 'development');
   }, []);
 
   const handleQuickTest = async () => {
@@ -64,7 +64,7 @@ const ApiTestComponent: React.FC = () => {
 
       <div className="space-y-2">
         <div className="text-xs text-gray-600 mb-2">
-          Backend: {process.env.REACT_APP_API_URL}
+          Backend: {import.meta.env.VITE_API_URL}
         </div>
 
         <div className="flex gap-2">

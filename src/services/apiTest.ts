@@ -10,7 +10,7 @@ export const testApiConnection = async (): Promise<{
   baseUrl: string;
 }> => {
   const startTime = Date.now();
-  const baseUrl = process.env.REACT_APP_API_URL || 'Not configured';
+  const baseUrl = import.meta.env.VITE_API_URL || 'Not configured';
 
   try {
     console.log('🚀 Testing API connection to:', baseUrl);
@@ -122,7 +122,7 @@ export const runApiTests = async (): Promise<void> => {
   // Test 3: CORS and Headers
   console.log('\n🌐 Test 3: CORS and Security Headers');
   try {
-    const response = await fetch(process.env.REACT_APP_API_URL + '/products', {
+    const response = await fetch(import.meta.env.VITE_API_URL + '/products', {
       method: 'OPTIONS',
       headers: {
         'Origin': window.location.origin,
