@@ -5,10 +5,13 @@ import {
   setAuthToken,
   setRefreshToken,
   setUserData,
+  getUserData,
   getRefreshToken,
   removeAuthToken,
   UserData,
   validateTokenIntegrity,
+  getUserTypeFromToken,
+  decodeJWTToken,
 } from './tokenStorage';
 
 // Authentication request/response types
@@ -184,13 +187,75 @@ export class AuthService {
         phoneNumber: data.phoneNumber ? sanitizeInput(data.phoneNumber) : undefined,
       };
 
-      const response = await api.post<AuthResponse>('/auth/register', sanitizedData);
+      const response = await api.post<any>('/auth/register', sanitizedData);
 
-      if (response.success && response.data) {
-        await this.handleAuthSuccess(response.data);
+      console.log('=== REGISTRATION DEBUG ===');
+      console.log('Raw registration response:', response);
+
+      // Extract token from response (handle both wrapped and direct formats)
+      let token: string;
+      let user: any;
+      let refreshToken: string;
+      let expiresIn: number;
+
+      if (response.data && response.data.token) {
+        // Wrapped format: { success: true, data: { token, user } }
+        token = response.data.token;
+        user = response.data.user || {};
+        refreshToken = response.data.refreshToken || token;
+        expiresIn = response.data.expiresIn || 3600;
+      } else if (response.token) {
+        // Direct format: { token, user }
+        token = response.token;
+        user = response.user || {};
+        refreshToken = response.refreshToken || token;
+        expiresIn = response.expiresIn || 3600;
+      } else {
+        console.error('No token found in registration response:', response);
+        throw new Error('Invalid response format: missing token');
       }
 
-      return response.data!;
+      console.log('Extracted token:', token);
+
+      // Decode JWT token to get user type/role
+      const tokenPayload = decodeJWTToken(token);
+      console.log('Decoded token payload:', tokenPayload);
+
+      const userTypeFromToken = getUserTypeFromToken(token);
+      console.log('User type from token:', userTypeFromToken);
+
+      // Build user data, prioritizing token data
+      const userData: UserData = {
+        id: tokenPayload?.id || tokenPayload?.userId || user.id || '',
+        email: tokenPayload?.email || user.email || sanitizedData.email,
+        name: user.name || user.fullName || sanitizedData.name, // For farmers, this is their business name
+        role: userTypeFromToken || user.role || user.currentRole || sanitizedData.role,
+        isVerified: user.isVerified || user.emailVerified || false,
+        avatar: user.avatar || user.profilePicture,
+      };
+
+      console.log('Final user data:', userData);
+
+      if (!userData.role) {
+        console.error('Could not determine user role from token or response');
+        throw new Error('Unable to determine user type. Please contact support.');
+      }
+
+      const authData: AuthResponse = {
+        token,
+        user: userData,
+        refreshToken,
+        expiresIn,
+        tokenType: 'Bearer',
+        permissions: response.permissions || response.data?.permissions,
+      };
+
+      console.log('Final registration auth data:', authData);
+      console.log('========================');
+
+      await this.handleAuthSuccess(authData);
+
+      return authData;
     } catch (error) {
       this.handleAuthError(error);
       throw error;
@@ -205,13 +270,136 @@ export class AuthService {
         password: data.password,
       };
 
-      const response = await api.post<AuthResponse>('/auth/login', sanitizedData);
+      const response = await api.post<any>('/auth/signin', sanitizedData);
 
-      if (response.success && response.data) {
-        await this.handleAuthSuccess(response.data);
+      console.log('=== LOGIN DEBUG ===');
+      console.log('Raw API response:', JSON.stringify(response, null, 2));
+      console.log('Response structure:', {
+        hasData: !!response.data,
+        hasToken: !!response.token,
+        hasUser: !!response.user,
+        hasSuccess: !!response.success,
+        responseKeys: Object.keys(response),
+      });
+      console.log('User from response:', response.user || response.data?.user);
+      if (response.user) {
+        console.log('User properties:', {
+          id: response.user.id,
+          email: response.user.email,
+          name: response.user.name,
+          fullName: response.user.fullName,
+          businessName: response.user.businessName,
+          role: response.user.role,
+          currentRole: response.user.currentRole,
+          allKeys: Object.keys(response.user)
+        });
       }
 
-      return response.data!;
+      // Extract token from response (handle both wrapped and direct formats)
+      let token: string;
+      let user: any;
+      let refreshToken: string;
+      let expiresIn: number;
+
+      if (response.data && response.data.token) {
+        // Wrapped format: { success: true, data: { token, user } }
+        token = response.data.token;
+        user = response.data.user || {};
+        refreshToken = response.data.refreshToken || token;
+        expiresIn = response.data.expiresIn || 3600;
+      } else if (response.token) {
+        // Direct format: { token, user }
+        token = response.token;
+        user = response.user || {};
+        refreshToken = response.refreshToken || token;
+        expiresIn = response.expiresIn || 3600;
+      } else {
+        console.error('No token found in response:', response);
+        throw new Error('Invalid response format: missing token');
+      }
+
+      console.log('Extracted token:', token);
+      console.log('User from response:', user);
+
+      // PRIMARY APPROACH: Decode JWT token to get user type/role
+      const tokenPayload = decodeJWTToken(token);
+      console.log('Decoded token payload:', tokenPayload);
+
+      // Get user type from token
+      const userTypeFromToken = getUserTypeFromToken(token);
+      console.log('User type from token:', userTypeFromToken);
+
+      // Build user data, prioritizing token data over response data
+      // Try multiple possible field names for name
+      let userName = user.name || user.fullName || user.businessName ||
+                     tokenPayload?.name || tokenPayload?.fullName || tokenPayload?.businessName || '';
+
+      // WORKAROUND: If name is empty and user just signed up, use stored business name
+      if (!userName || userName.trim() === '') {
+        const signupBusinessName = sessionStorage.getItem('signupBusinessName');
+        const signupEmail = sessionStorage.getItem('signupEmail');
+
+        // Only use fallback if this is the same user who just signed up
+        if (signupBusinessName && signupEmail === sanitizedData.email) {
+          console.log('Using stored business name from signup:', signupBusinessName);
+          userName = signupBusinessName;
+          // Clear the stored values after using them
+          sessionStorage.removeItem('signupBusinessName');
+          sessionStorage.removeItem('signupEmail');
+        }
+      }
+
+      console.log('Name field extraction:', {
+        'user.name': user.name,
+        'user.fullName': user.fullName,
+        'user.businessName': user.businessName,
+        'tokenPayload.name': tokenPayload?.name,
+        'tokenPayload.fullName': tokenPayload?.fullName,
+        'final userName': userName
+      });
+
+      const userData: UserData = {
+        id: tokenPayload?.id || tokenPayload?.userId || user.id || '',
+        email: tokenPayload?.email || user.email || sanitizedData.email,
+        name: userName, // For farmers, this is their business name
+        role: userTypeFromToken || user.role || user.currentRole,
+        isVerified: user.isVerified || user.emailVerified || false,
+        avatar: user.avatar || user.profilePicture,
+      };
+
+      console.log('Final user data:', userData);
+
+      // Validate that we have a role
+      if (!userData.role) {
+        console.error('Could not determine user role from token or response');
+        console.error('Token payload:', tokenPayload);
+        console.error('User from response:', user);
+        throw new Error('Unable to determine user type. Please contact support.');
+      }
+
+      const authData: AuthResponse = {
+        token,
+        user: userData,
+        refreshToken,
+        expiresIn,
+        tokenType: 'Bearer',
+        permissions: response.permissions || response.data?.permissions,
+      };
+
+      console.log('Final auth data:', authData);
+      console.log('User role for routing:', authData.user.role);
+      console.log('===================');
+
+      await this.handleAuthSuccess(authData);
+
+      // Extra workaround: Ensure user data is saved with the correct name
+      // This handles cases where the backend doesn't properly store/return the name
+      if (authData.user.name) {
+        console.log('Manually saving user data with name:', authData.user.name);
+        setUserData(authData.user);
+      }
+
+      return authData;
     } catch (error) {
       this.handleAuthError(error);
       throw error;

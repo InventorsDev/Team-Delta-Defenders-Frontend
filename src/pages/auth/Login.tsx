@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { authService } from '@/services/auth/authService';
+import { getCurrentUserType } from '@/services/auth/tokenStorage';
 
 const EyeIcon: React.FC<{ isVisible: boolean }> = ({ isVisible }) => (
   <img 
@@ -19,6 +21,7 @@ const GoogleIcon: React.FC = () => (
 );
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -26,6 +29,7 @@ const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string>('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -38,13 +42,61 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setError('');
+
     try {
-      // TODO: Implement actual login logic
-      console.log("Login data:", formData);
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-    } catch (error) {
+      const response = await authService.login({
+        email: formData.email,
+        password: formData.password,
+        rememberMe,
+      });
+
+      console.log("Login successful:", response);
+      console.log("Response type:", typeof response);
+      console.log("Response keys:", response ? Object.keys(response) : 'null/undefined');
+
+      // Validate response structure
+      if (!response) {
+        throw new Error('No response received from server');
+      }
+
+      // Get user role from response, or fallback to decoding the stored token
+      let userRole = response.user?.role;
+
+      if (!userRole) {
+        console.warn('Role not found in response, checking stored token...');
+        userRole = getCurrentUserType();
+        console.log('User role from stored token:', userRole);
+      }
+
+      if (!userRole) {
+        console.error("Could not determine user role from response or token:", response);
+        throw new Error('Unable to determine user type. Please try logging in again.');
+      }
+
+      console.log('Routing user based on role:', userRole);
+
+      // Redirect based on user role
+      if (userRole === 'farmer') {
+        console.log('Redirecting to farmer dashboard');
+        navigate('/farmer-dashboard');
+      } else if (userRole === 'buyer') {
+        console.log('Redirecting to marketplace');
+        navigate('/marketplace');
+      } else {
+        // Fallback for unknown roles - redirect to home
+        console.warn('Unknown user role:', userRole);
+        navigate('/');
+      }
+    } catch (error: any) {
       console.error("Login error:", error);
+      console.error("Error details:", {
+        message: error.message,
+        status: error.status,
+        data: error.data,
+        stack: error.stack
+      });
+      setError(error.message || 'Login failed. Please check your credentials.');
     } finally {
       setIsLoading(false);
     }
@@ -142,6 +194,13 @@ const Login: React.FC = () => {
             {/* Form */}
             <div className="flex-1 flex flex-col justify-center">
             <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Error Message */}
+              {error && (
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-[20px] text-sm">
+                  {error}
+                </div>
+              )}
+
               {/* Email */}
               <div className="space-y-1">
                 <label htmlFor="email" className="block text-brand-colors-RootBlack text-sm font-madani-medium">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const EyeIcon: React.FC<{ isVisible: boolean }> = ({ isVisible }) => (
@@ -21,6 +21,17 @@ const BuyerSignupStep2: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string>('');
+
+  // Load Step 1 data on mount
+  useEffect(() => {
+    const step1Data = sessionStorage.getItem('buyerSignupStep1');
+    if (!step1Data) {
+      // If no step 1 data, redirect back to step 1
+      navigate('/buyer-signup');
+    }
+  }, [navigate]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -30,16 +41,82 @@ const BuyerSignupStep2: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!acceptedTerms) {
       alert('Please accept the Terms and Conditions to continue.');
       return;
     }
-    
-    console.log('Buyer Step 2 Form submitted:', formData);
-    navigate('/buyer-signup-step3');
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
+
+    setIsLoading(true);
+    setError('');
+
+    try {
+      // Get step 1 data from sessionStorage
+      const step1DataStr = sessionStorage.getItem('buyerSignupStep1');
+      if (!step1DataStr) {
+        navigate('/buyer-signup');
+        return;
+      }
+
+      const step1Data = JSON.parse(step1DataStr);
+
+      // Combine all data for backend
+      const signupData = {
+        fullName: step1Data.fullName,
+        phone: step1Data.phone,
+        email: step1Data.email,
+        state: formData.state,
+        houseAddress: formData.houseAddress,  // Note: houseAddress for buyers
+        password: formData.password
+      };
+
+      console.log('Sending complete buyer signup data:', signupData);
+
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/buyers/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(signupData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Signup failed. Please try again.');
+      }
+
+      const data = await response.json();
+      console.log('Buyer signup successful:', data);
+
+      // Store role for login fallback (in case backend doesn't return it during signin)
+      sessionStorage.setItem('signupRole', 'buyer');
+      localStorage.setItem('signupRole', 'buyer');
+
+      // Clear signup data
+      sessionStorage.removeItem('buyerSignupStep1');
+
+      // Navigate to step 3 (success page)
+      navigate('/buyer-signup-step3');
+
+    } catch (error: any) {
+      console.error('Buyer signup error:', error);
+      setError(error.message || 'Signup failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -134,6 +211,13 @@ const BuyerSignupStep2: React.FC = () => {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Error Message */}
+            {error && (
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-[20px] text-sm">
+                {error}
+              </div>
+            )}
+
             {/* State */}
             <div className="space-y-1">
               <label htmlFor="state" className="block text-brand-colors-RootBlack text-sm font-madani-medium">
@@ -260,9 +344,10 @@ const BuyerSignupStep2: React.FC = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full h-11 bg-brand-colors-SproutGreen hover:bg-brand-colors-SproutGreen/90 rounded-2xl flex items-center justify-center text-brand-colors-SteamWhite text-sm font-madani-bold transition-colors mt-5"
+              disabled={isLoading}
+              className="w-full h-11 bg-brand-colors-SproutGreen hover:bg-brand-colors-SproutGreen/90 rounded-2xl flex items-center justify-center text-brand-colors-SteamWhite text-sm font-madani-bold transition-colors mt-5 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Sign Up
+              {isLoading ? 'Creating Account...' : 'Sign Up'}
             </button>
           </form>
 

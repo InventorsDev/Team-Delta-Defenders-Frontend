@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const GoogleIcon: React.FC = () => (
@@ -31,6 +31,17 @@ const SignupStep2: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string>('');
+
+  // Load Step 1 data on mount
+  useEffect(() => {
+    const step1Data = sessionStorage.getItem('farmerSignupStep1');
+    if (!step1Data) {
+      // If no step 1 data, redirect back to step 1
+      navigate('/farmers-signup');
+    }
+  }, [navigate]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -40,16 +51,112 @@ const SignupStep2: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!acceptedTerms) {
       alert('Please accept the Terms and Conditions to continue.');
       return;
     }
-    
-    console.log('Step 2 Form submitted:', formData);
-    navigate('/farmers-signup-step3');
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
+
+    setIsLoading(true);
+    setError('');
+
+    try {
+      // Get step 1 data from sessionStorage
+      const step1DataStr = sessionStorage.getItem('farmerSignupStep1');
+      if (!step1DataStr) {
+        navigate('/farmers-signup');
+        return;
+      }
+
+      const step1Data = JSON.parse(step1DataStr);
+
+      // Combine all data for backend
+      // Use businessName as fullName if provided, otherwise use fullName from step 1
+      const signupData = {
+        fullName: formData.businessName || step1Data.fullName, // Backend stores this as user name
+        phone: step1Data.phone,
+        email: step1Data.email,
+        state: formData.state,
+        farmAddress: formData.farmAddress,
+        password: formData.password
+      };
+
+      console.log('=== SIGNUP REQUEST DEBUG ===');
+      console.log('Step 1 data:', step1Data);
+      console.log('Step 2 form data:', formData);
+      console.log('Business Name field value:', formData.businessName);
+      console.log('Final fullName being sent:', signupData.fullName);
+      console.log('Complete signup data:', signupData);
+      console.log('========================');
+
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/farmers/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(signupData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Signup failed. Please try again.');
+      }
+
+      const data = await response.json();
+      console.log('=== SIGNUP RESPONSE DEBUG ===');
+      console.log('Full response:', data);
+      console.log('Response keys:', Object.keys(data));
+      console.log('User object:', data.user);
+      console.log('User keys:', data.user ? Object.keys(data.user) : 'no user');
+      console.log('Business name in response:', data.user?.businessName);
+      console.log('Token:', data.token);
+
+      // Try to decode token to see what's in it
+      if (data.token) {
+        try {
+          const tokenParts = data.token.split('.');
+          const payload = JSON.parse(atob(tokenParts[1]));
+          console.log('Token payload:', payload);
+          console.log('Business name in token:', payload.businessName);
+        } catch (e) {
+          console.error('Could not decode token:', e);
+        }
+      }
+      console.log('========================');
+
+      // Store business name and role for login fallback
+      // (Backend might not return name field properly during signin)
+      const businessName = formData.businessName || step1Data.fullName;
+      sessionStorage.setItem('signupRole', 'farmer');
+      sessionStorage.setItem('signupBusinessName', businessName);
+      sessionStorage.setItem('signupEmail', step1Data.email);
+      localStorage.setItem('signupRole', 'farmer');
+
+      // Clear signup data
+      sessionStorage.removeItem('farmerSignupStep1');
+
+      // Navigate to step 3 (success page)
+      navigate('/farmers-signup-step3');
+
+    } catch (error: any) {
+      console.error('Signup error:', error);
+      setError(error.message || 'Signup failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleGoogleSignup = () => {
@@ -137,10 +244,17 @@ const SignupStep2: React.FC = () => {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Error Message */}
+            {error && (
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-[20px] text-sm">
+                {error}
+              </div>
+            )}
+
             {/* Business Name */}
             <div className="space-y-1">
               <label htmlFor="businessName" className="block text-brand-colors-RootBlack text-sm font-madani-medium">
-                Business Name
+                Business/Farm Name
               </label>
               <input
                 type="text"
@@ -148,7 +262,7 @@ const SignupStep2: React.FC = () => {
                 name="businessName"
                 value={formData.businessName}
                 onChange={handleInputChange}
-                placeholder="Enter your Business Name"
+                placeholder="e.g., ByLuke Farms, Anosikay Farms"
                 className="w-full h-11 px-4 bg-brand-colors-HarvestMist border-2 border-brand-colors-HarvestMist rounded-2xl text-brand-colors-RootBlack text-sm font-madani-medium focus:outline-none focus:border-brand-colors-SproutGreen transition-colors custom-placeholder"
                 required
               />
@@ -280,9 +394,10 @@ const SignupStep2: React.FC = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full h-11 bg-brand-colors-SproutGreen hover:bg-brand-colors-SproutGreen/90 rounded-2xl flex items-center justify-center text-brand-colors-SteamWhite text-sm font-madani-bold transition-colors mt-5"
+              disabled={isLoading}
+              className="w-full h-11 bg-brand-colors-SproutGreen hover:bg-brand-colors-SproutGreen/90 rounded-2xl flex items-center justify-center text-brand-colors-SteamWhite text-sm font-madani-bold transition-colors mt-5 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Sign Up
+              {isLoading ? 'Creating Account...' : 'Sign Up'}
             </button>
           </form>
 
