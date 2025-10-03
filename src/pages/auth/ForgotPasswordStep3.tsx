@@ -87,20 +87,14 @@ const ForgotPasswordStep3: React.FC = () => {
 
     setIsLoading(true);
     try {
-      // TODO: Implement actual password reset logic
-      console.log(`Password reset completed for ${contactType}:`, contact);
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Navigate to success page
-      navigate('/password-reset-success', { 
-        state: { 
-          contact, 
-          contactType 
-        } 
+      navigate('/password-reset-success', {
+        state: {
+          contact,
+          contactType
+        }
       });
     } catch (error) {
-      console.error("Password reset error:", error);
       setErrors({ submit: 'Failed to reset password. Please try again.' });
     } finally {
       setIsLoading(false);

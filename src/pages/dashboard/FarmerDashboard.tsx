@@ -51,14 +51,10 @@ const FarmerDashboard: React.FC = () => {
   const { listings, activeListings, soldListings, deleteListing, editListing } = useListings();
   const isScrolled = useScrollDetection();
 
-  // Fetch user data on component mount
   useEffect(() => {
     const userData = getUserData();
     if (userData) {
-      // Use name as business name (backend doesn't have separate businessName field)
       setBusinessName(userData.name || 'Farmer');
-      console.log('User data loaded:', userData);
-      console.log('Display name:', userData.name);
     }
   }, []);
 
@@ -101,8 +97,6 @@ const FarmerDashboard: React.FC = () => {
   };
 
   const handleSaveProduct = (product: ProductData) => {
-    console.log('Save product:', product);
-    // TODO: Implement save functionality
     setActiveView('product-detail');
   };
 
@@ -120,8 +114,6 @@ const FarmerDashboard: React.FC = () => {
   };
 
   const handleSaveNewListing = (formData: any) => {
-    console.log('Save new listing:', formData);
-    // TODO: Implement save functionality
     setActiveView('listings');
   };
 
@@ -268,15 +260,9 @@ const FarmerDashboard: React.FC = () => {
                   <div className="flex justify-start items-center gap-4">
                     <NotificationDropdown
                       buttonClassName="bg-white"
-                      onMarkAllAsRead={() => {
-                        console.log('Mark all as read');
-                      }}
-                      onOpenNotifications={() => {
-                        console.log('Open notifications');
-                      }}
-                      onNotificationClick={(notification) => {
-                        console.log('Notification clicked:', notification);
-                      }}
+                      onMarkAllAsRead={() => {}}
+                      onOpenNotifications={() => {}}
+                      onNotificationClick={(notification) => {}}
                     />
                     <button
                       onClick={() => setActiveView('settings')}

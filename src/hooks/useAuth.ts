@@ -71,12 +71,10 @@ export const useAuthProvider = (): AuthContextType => {
               isInitialized: true,
             }));
 
-            // Refresh user data from server
             try {
               await authService.getCurrentUser();
             } catch (error) {
-              // If refresh fails, keep existing data but log the issue
-              console.warn('Failed to refresh user data on init:', error);
+              // Silent error handling
             }
           } else {
             // Token exists but no user data - try to fetch from server
@@ -91,7 +89,6 @@ export const useAuthProvider = (): AuthContextType => {
                 isInitialized: true,
               }));
             } catch (error) {
-              // Authentication failed
               setState(prev => ({
                 ...prev,
                 user: null,
@@ -111,7 +108,6 @@ export const useAuthProvider = (): AuthContextType => {
           }));
         }
       } catch (error) {
-        console.error('Auth initialization error:', error);
         setState(prev => ({
           ...prev,
           user: null,
@@ -140,9 +136,6 @@ export const useAuthProvider = (): AuthContextType => {
         isLoading: false,
         error: null,
       }));
-
-      // Log successful login for security monitoring
-      console.info('User login successful:', response.user.email);
     } catch (error) {
       const errorMessage = error instanceof ApiRequestError
         ? error.message
@@ -174,8 +167,6 @@ export const useAuthProvider = (): AuthContextType => {
         isLoading: false,
         error: null,
       }));
-
-      console.info('User registration successful:', response.user.email);
     } catch (error) {
       const errorMessage = error instanceof ApiRequestError
         ? error.message
@@ -207,10 +198,7 @@ export const useAuthProvider = (): AuthContextType => {
         isLoading: false,
         error: null,
       }));
-
-      console.info('User logout successful');
     } catch (error) {
-      // Even if server logout fails, clear local state
       setState(prev => ({
         ...prev,
         user: null,
@@ -218,8 +206,6 @@ export const useAuthProvider = (): AuthContextType => {
         isLoading: false,
         error: null,
       }));
-
-      console.warn('Logout error (but cleared local state):', error);
     }
   }, []);
 

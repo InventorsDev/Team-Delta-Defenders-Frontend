@@ -208,7 +208,6 @@ export class AuthService {
         refreshToken = response.refreshToken || token;
         expiresIn = response.expiresIn || 3600;
       } else {
-        console.error('No token found in registration response:', response);
         throw new Error('Invalid response format: missing token');
       }
 
@@ -276,7 +275,6 @@ export class AuthService {
         refreshToken = response.refreshToken || token;
         expiresIn = response.expiresIn || 3600;
       } else {
-        console.error('No token found in response:', response);
         throw new Error('Invalid response format: missing token');
       }
 
@@ -338,10 +336,9 @@ export class AuthService {
   // Logout
   async logout(): Promise<void> {
     try {
-      // Clear local authentication data (no server logout endpoint available)
       this.clearAuthData();
     } catch (error) {
-      console.warn('Logout error:', error);
+      // Silent error handling
     }
   }
 
@@ -515,7 +512,7 @@ export class AuthService {
       setUserData(authData.user);
       this.setupTokenRefresh(authData.expiresIn);
     } catch (error) {
-      console.error('Error handling auth success:', error);
+      // Silent error handling
     }
   }
 
@@ -534,9 +531,7 @@ export class AuthService {
         try {
           await this.refreshToken();
         } catch (error) {
-          console.warn('Auto token refresh failed:', error);
-          // Don't automatically logout on refresh failure
-          // Let the user continue and handle it on next API call
+          // Silent error handling - don't automatically logout on refresh failure
         }
       }, refreshTime);
     }
@@ -544,16 +539,7 @@ export class AuthService {
 
   // Handle authentication errors
   private handleAuthError(error: any): void {
-    if (error instanceof ApiRequestError) {
-      // Log security events
-      if (error.status === 401 || error.status === 403) {
-        console.warn('Authentication failed:', error.message);
-      }
-
-      if (error.status === 429) {
-        console.warn('Rate limit exceeded for authentication');
-      }
-    }
+    // Silent error handling for production
   }
 
   // Clear all authentication data

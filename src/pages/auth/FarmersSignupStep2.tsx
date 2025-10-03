@@ -82,24 +82,14 @@ const SignupStep2: React.FC = () => {
 
       const step1Data = JSON.parse(step1DataStr);
 
-      // Combine all data for backend
-      // Use businessName as fullName if provided, otherwise use fullName from step 1
       const signupData = {
-        fullName: formData.businessName || step1Data.fullName, // Backend stores this as user name
+        fullName: formData.businessName || step1Data.fullName,
         phone: step1Data.phone,
         email: step1Data.email,
         state: formData.state,
         farmAddress: formData.farmAddress,
         password: formData.password
       };
-
-      console.log('=== SIGNUP REQUEST DEBUG ===');
-      console.log('Step 1 data:', step1Data);
-      console.log('Step 2 form data:', formData);
-      console.log('Business Name field value:', formData.businessName);
-      console.log('Final fullName being sent:', signupData.fullName);
-      console.log('Complete signup data:', signupData);
-      console.log('========================');
 
       const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/farmers/signup`, {
         method: 'POST',
@@ -116,43 +106,18 @@ const SignupStep2: React.FC = () => {
       }
 
       const data = await response.json();
-      console.log('=== SIGNUP RESPONSE DEBUG ===');
-      console.log('Full response:', data);
-      console.log('Response keys:', Object.keys(data));
-      console.log('User object:', data.user);
-      console.log('User keys:', data.user ? Object.keys(data.user) : 'no user');
-      console.log('Business name in response:', data.user?.businessName);
-      console.log('Token:', data.token);
 
-      // Try to decode token to see what's in it
-      if (data.token) {
-        try {
-          const tokenParts = data.token.split('.');
-          const payload = JSON.parse(atob(tokenParts[1]));
-          console.log('Token payload:', payload);
-          console.log('Business name in token:', payload.businessName);
-        } catch (e) {
-          console.error('Could not decode token:', e);
-        }
-      }
-      console.log('========================');
-
-      // Store business name and role for login fallback
-      // (Backend might not return name field properly during signin)
       const businessName = formData.businessName || step1Data.fullName;
       sessionStorage.setItem('signupRole', 'farmer');
       sessionStorage.setItem('signupBusinessName', businessName);
       sessionStorage.setItem('signupEmail', step1Data.email);
       localStorage.setItem('signupRole', 'farmer');
 
-      // Clear signup data
       sessionStorage.removeItem('farmerSignupStep1');
 
-      // Navigate to step 3 (success page)
       navigate('/farmers-signup-step3');
 
     } catch (error: any) {
-      console.error('Signup error:', error);
       setError(error.message || 'Signup failed. Please try again.');
     } finally {
       setIsLoading(false);
@@ -160,7 +125,7 @@ const SignupStep2: React.FC = () => {
   };
 
   const handleGoogleSignup = () => {
-    console.log('Google signup clicked');
+    // Google signup functionality to be implemented
   };
 
   return (

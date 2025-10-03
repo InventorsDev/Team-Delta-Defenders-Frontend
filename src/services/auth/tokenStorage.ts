@@ -64,7 +64,6 @@ const hasSecureStorage = (): boolean => {
 // Secure token storage functions
 export const setAuthToken = (token: string, expiresIn?: number): void => {
   if (!hasSecureStorage()) {
-    console.warn('Secure storage not available');
     return;
   }
 
@@ -93,7 +92,7 @@ export const setAuthToken = (token: string, expiresIn?: number): void => {
     }, expiresInMs);
 
   } catch (error) {
-    console.error('Error storing auth token:', error);
+    // Silent error handling
   }
 };
 
@@ -125,8 +124,7 @@ export const getAuthToken = (): string | null => {
     return tokenInfo.token;
 
   } catch (error) {
-    console.error('Error retrieving auth token:', error);
-    removeAuthToken(); // Clean up corrupted data
+    removeAuthToken();
     return null;
   }
 };
@@ -138,7 +136,7 @@ export const setRefreshToken = (refreshToken: string): void => {
     const encrypted = SimpleEncryption.encrypt(refreshToken);
     localStorage.setItem(REFRESH_TOKEN_KEY, encrypted);
   } catch (error) {
-    console.error('Error storing refresh token:', error);
+    // Silent error handling
   }
 };
 
@@ -151,7 +149,6 @@ export const getRefreshToken = (): string | null => {
 
     return SimpleEncryption.decrypt(encrypted);
   } catch (error) {
-    console.error('Error retrieving refresh token:', error);
     return null;
   }
 };
@@ -173,7 +170,7 @@ export const setUserData = (userData: UserData): void => {
     const encrypted = SimpleEncryption.encrypt(JSON.stringify(sanitizedData));
     localStorage.setItem(USER_KEY, encrypted);
   } catch (error) {
-    console.error('Error storing user data:', error);
+    // Silent error handling
   }
 };
 
@@ -189,7 +186,6 @@ export const getUserData = (): UserData | null => {
 
     return JSON.parse(decrypted) as UserData;
   } catch (error) {
-    console.error('Error retrieving user data:', error);
     return null;
   }
 };
@@ -227,19 +223,16 @@ export const removeAuthToken = (): void => {
     localStorage.removeItem(USER_KEY);
     localStorage.removeItem(TOKEN_EXPIRY_KEY);
 
-    // Clear any cached user data from memory
     sessionStorage.clear();
   } catch (error) {
-    console.error('Error removing auth data:', error);
+    // Silent error handling
   }
 };
 
 export const clearAllAuthData = (): void => {
   removeAuthToken();
 
-  // Also clear any other app-specific data
   try {
-    // Clear other potential sensitive data
     const keysToRemove = Object.keys(localStorage).filter(key =>
       key.startsWith('agrilink_') ||
       key.includes('auth') ||
@@ -248,7 +241,7 @@ export const clearAllAuthData = (): void => {
 
     keysToRemove.forEach(key => localStorage.removeItem(key));
   } catch (error) {
-    console.error('Error clearing auth data:', error);
+    // Silent error handling
   }
 };
 
@@ -299,20 +292,15 @@ export const decodeJWTToken = (token: string): JWTPayload | null => {
   try {
     if (!token) return null;
 
-    // JWT tokens have 3 parts separated by dots
     const parts = token.split('.');
     if (parts.length !== 3) {
-      console.error('Invalid JWT token format');
       return null;
     }
 
-    // Decode the payload (second part)
     const payload = JSON.parse(atob(parts[1]));
-    console.log('Decoded JWT payload:', payload);
 
     return payload as JWTPayload;
   } catch (error) {
-    console.error('Error decoding JWT token:', error);
     return null;
   }
 };
@@ -323,43 +311,30 @@ export const getUserTypeFromToken = (token: string): 'farmer' | 'buyer' | null =
     const payload = decodeJWTToken(token);
     if (!payload) return null;
 
-    console.log('Extracting user type from token payload:', payload);
-
-    // Check for explicit role field
     if (payload.role) {
-      console.log('Found role in payload:', payload.role);
       return payload.role === 'farmer' || payload.role === 'buyer' ? payload.role : null;
     }
 
     if (payload.currentRole) {
-      console.log('Found currentRole in payload:', payload.currentRole);
       return payload.currentRole === 'farmer' || payload.currentRole === 'buyer' ? payload.currentRole : null;
     }
 
-    // Check for farmerId or buyerId to infer type
     if (payload.farmerId) {
-      console.log('Found farmerId in payload, user is farmer');
       return 'farmer';
     }
 
     if (payload.buyerId) {
-      console.log('Found buyerId in payload, user is buyer');
       return 'buyer';
     }
 
-    // Check for id field that might indicate type
     if (payload.id) {
-      console.log('Checking id field for type indication:', payload.id);
-      // If id contains 'farmer' or 'buyer', use that
       const idLower = payload.id.toString().toLowerCase();
       if (idLower.includes('farmer')) return 'farmer';
       if (idLower.includes('buyer')) return 'buyer';
     }
 
-    console.warn('Could not determine user type from token payload');
     return null;
   } catch (error) {
-    console.error('Error extracting user type from token:', error);
     return null;
   }
 };
@@ -369,15 +344,12 @@ export const getCurrentUserType = (): 'farmer' | 'buyer' | null => {
   try {
     const token = getAuthToken();
     if (!token) {
-      console.log('No auth token found');
       return null;
     }
 
     const userType = getUserTypeFromToken(token);
-    console.log('Current user type from stored token:', userType);
     return userType;
   } catch (error) {
-    console.error('Error getting current user type:', error);
     return null;
   }
 };

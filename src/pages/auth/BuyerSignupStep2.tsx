@@ -72,17 +72,14 @@ const BuyerSignupStep2: React.FC = () => {
 
       const step1Data = JSON.parse(step1DataStr);
 
-      // Combine all data for backend
       const signupData = {
         fullName: step1Data.fullName,
         phone: step1Data.phone,
         email: step1Data.email,
         state: formData.state,
-        houseAddress: formData.houseAddress,  // Note: houseAddress for buyers
+        houseAddress: formData.houseAddress,
         password: formData.password
       };
-
-      console.log('Sending complete buyer signup data:', signupData);
 
       const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/buyers/signup`, {
         method: 'POST',
@@ -99,20 +96,15 @@ const BuyerSignupStep2: React.FC = () => {
       }
 
       const data = await response.json();
-      console.log('Buyer signup successful:', data);
 
-      // Store role for login fallback (in case backend doesn't return it during signin)
       sessionStorage.setItem('signupRole', 'buyer');
       localStorage.setItem('signupRole', 'buyer');
 
-      // Clear signup data
       sessionStorage.removeItem('buyerSignupStep1');
 
-      // Navigate to step 3 (success page)
       navigate('/buyer-signup-step3');
 
     } catch (error: any) {
-      console.error('Buyer signup error:', error);
       setError(error.message || 'Signup failed. Please try again.');
     } finally {
       setIsLoading(false);
