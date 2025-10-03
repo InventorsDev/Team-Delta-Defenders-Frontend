@@ -5,9 +5,9 @@ const ProblemSection = () => {
         <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
           {/* Image Column */}
           <div className="order-2 lg:order-1 flex justify-center">
-            <img 
-              src="/problem-image.png" 
-              alt="Problem illustration" 
+            <img
+              src="/problem-image.webp"
+              alt="Problem illustration"
               className="w-full max-w-md sm:max-w-lg lg:max-w-xl shadow-lg object-cover rounded-3xl"
               style={{
                 aspectRatio: '586/730',

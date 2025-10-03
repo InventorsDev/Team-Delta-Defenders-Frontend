@@ -14,7 +14,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Ojo, Lagos',
     rating: '4.5',
     description: 'Fresh basket of tomatoes - Farm direct picked fresh from farm, these ripe, juicy red tomatoes are perfect for cooking stew',
-    image: '/listing-1.png'
+    image: '/listing-1.webp'
   },
   {
     name: 'Basket of Fresh Pepper (Atarodo)',
@@ -22,7 +22,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Ikorodu, Lagos',
     rating: '3.5',
     description: 'Hot and flavorful peppers to spice up your meals. Carefully handpicked and sorted for freshness.',
-    image: '/listing-2.png'
+    image: '/listing-2.webp'
   },
   {
     name: 'Sack of Onions (50kg)',
@@ -30,7 +30,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Ojo, Lagos',
     rating: '4.0',
     description: 'Firm, aromatic onions ideal for everyday cooking. Long shelf life when stored in a cool, dry place.',
-    image: '/listing-3.png'
+    image: '/listing-3.webp'
   },
   {
     name: 'Sack of Sweet Potatoes (50kg)',
@@ -38,7 +38,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Kano Municipal, Kano',
     rating: '4.5',
     description: 'Sweet, creamy, and packed with nutrients. Great for roasting, frying, or boiling. Direct from farm to your kitchen.',
-    image: '/listing-4.png'
+    image: '/listing-4.webp'
   },
   {
     name: 'Basket of Garden Eggs',
@@ -46,7 +46,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Ojo, Lagos',
     rating: '5.0',
     description: 'Fresh green and white garden eggs, perfect for traditional Nigerian dishes and stews.',
-    image: '/listing-5.png'
+    image: '/listing-5.webp'
   },
   {
     name: 'Bunch of Plantain (20–25 pieces)',
@@ -54,7 +54,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Akwa, Anambra',
     rating: '4.5',
     description: 'Ripe and semi-ripe plantains for frying, boiling, or roasting. Naturally sweet with a firm texture.',
-    image: '/listing-6.png'
+    image: '/listing-6.webp'
   },
   {
     name: '50kg Bag of Local Rice (Ofada)',
@@ -62,7 +62,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Abeokuta South, Ogun',
     rating: '4.5',
     description: 'Stone-free, aromatic Ofada rice with a rich, earthy flavor. Perfect for local delicacies.',
-    image: '/listing-7.png'
+    image: '/listing-7.webp'
   },
   {
     name: 'Basket of Okra',
@@ -70,7 +70,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Ojo, Lagos',
     rating: '4.5',
     description: 'Fresh, tender okra pods great for soups and stews. Rich in fiber and vitamins.',
-    image: '/listing-8.png'
+    image: '/listing-8.webp'
   },
   {
     name: 'Bag of Yellow Maize (50kg)',
@@ -78,7 +78,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Ado-Odo/Ota, Ogun',
     rating: '4.5',
     description: 'Premium dried yellow maize suitable for pap, cornmeal, or animal feed.',
-    image: '/listing-9.png'
+    image: '/listing-9.webp'
   },
   {
     name: 'Basket of Cucumbers',
@@ -86,7 +86,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Gboko, Benue',
     rating: '4.5',
     description: 'Crisp, refreshing cucumbers perfect for salads, smoothies, or snacking.',
-    image: '/listing-10.png'
+    image: '/listing-10.webp'
   },
   {
     name: 'Groundnuts (Bag, 25kg)',
@@ -94,7 +94,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Minna, Niger',
     rating: '4.5',
     description: 'Freshly harvested groundnuts, perfect for oil or snacks.',
-    image: '/listing-11.png'
+    image: '/listing-11.webp'
   },
   {
     name: 'Soybeans (50kg Bag)',
@@ -102,7 +102,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Zaria, Kaduna',
     rating: '4.5',
     description: 'High-protein soybeans, ideal for processing into soy milk.',
-    image: '/listing-12.png'
+    image: '/listing-12.webp'
   },
   {
     name: 'Cashew Nuts (5kg Pack)',
@@ -110,7 +110,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Ogbomosho North, Oyo',
     rating: '4.5',
     description: 'Handpicked cashew nuts, lightly dried, premium quality.',
-    image: '/listing-13.png'
+    image: '/listing-13.webp'
   },
   {
     name: 'Ugu (Bundle)',
@@ -118,7 +118,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Jos North, Plateau',
     rating: '4.5',
     description: 'Fresh green ugu leaves, harvested same day.',
-    image: '/listing-14.png'
+    image: '/listing-14.webp'
   },
   {
     name: 'Banana (Bunch)',
@@ -126,7 +126,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Nsukka, Enugu',
     rating: '4.5',
     description: 'Sweet ripe bananas, naturally grown without chemicals.',
-    image: '/listing-15.png'
+    image: '/listing-15.webp'
   },
   {
     name: 'Pineapple (Each)',
@@ -134,7 +134,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Eleme, Rivers',
     rating: '4.5',
     description: 'Juicy pineapples, handpicked and extra sweet.',
-    image: '/listing-16.png'
+    image: '/listing-16.webp'
   },
   {
     name: 'Watermelon (Large Size)',
@@ -142,7 +142,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Bida, Niger',
     rating: '4.5',
     description: 'Fresh, juicy watermelon with deep red flesh.',
-    image: '/listing-17.png'
+    image: '/listing-17.webp'
   },
   {
     name: 'Yam (Tubers, 10pcs)',
@@ -150,7 +150,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Idah, Kogi',
     rating: '4.0',
     description: 'Big Puna yams, great for pounded yam and porridge.',
-    image: '/listing-18.png'
+    image: '/listing-18.webp'
   },
   {
     name: 'Cassava (50kg Bag)',
@@ -158,7 +158,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Ughelli North, Delta',
     rating: '3.5',
     description: 'Freshly harvested cassava tubers for processing into garri.',
-    image: '/listing-19.png'
+    image: '/listing-19.webp'
   },
   {
     name: 'Palm Oil (25 Liters Jerrycan)',
@@ -166,7 +166,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Orlu, Imo',
     rating: '4.5',
     description: 'Locally processed palm oil, rich red color, no additives.',
-    image: '/listing-20.png'
+    image: '/listing-20.webp'
   },
   {
     name: 'Groundnut Oil (5 Liters Bottle)',
@@ -174,7 +174,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Ilorin South, Kwara',
     rating: '3.5',
     description: 'Pure groundnut oil, cholesterol-free and fresh.',
-    image: '/listing-21.png'
+    image: '/listing-21.webp'
   },
   {
     name: 'Ginger (Sack, 20kg)',
@@ -182,7 +182,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Kafanchan, Kaduna',
     rating: '3.5',
     description: 'Fresh ginger roots, aromatic and ideal for cooking or tea.',
-    image: '/listing-22.png'
+    image: '/listing-22.webp'
   },
   {
     name: 'Garlic (Bag, 10kg)',
@@ -190,7 +190,7 @@ export const marketplaceProducts: Product[] = [
     location: 'Maiduguri, Borno',
     rating: '4.0',
     description: 'Organically grown garlic bulbs, strong flavor, long shelf life.',
-    image: '/listing-23.png'
+    image: '/listing-23.webp'
   },
   {
     name: 'Garri (50kg Bag)',
@@ -198,6 +198,6 @@ export const marketplaceProducts: Product[] = [
     location: 'Sapele, Delta',
     rating: '3.0',
     description: 'Yellow garri, neatly processed and well-dried.',
-    image: '/listing-24.png'
+    image: '/listing-24.webp'
   }
 ];

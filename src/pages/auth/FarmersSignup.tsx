@@ -53,7 +53,7 @@ const Signup: React.FC = () => {
         `}
       </style>
       <div className="min-h-screen bg-cover bg-center bg-no-repeat relative flex items-center" style={{
-        backgroundImage: 'url("/signup1.png")',
+        backgroundImage: 'url("/signup1.webp")',
         backgroundColor: 'hsl(var(--brand-colors-HarvestMist))'
       }}>
         

@@ -80,7 +80,7 @@ const FAQSection = () => {
           </h2>
           <div className="relative w-full max-w-md lg:max-w-lg mt-6 sm:mt-8 hidden sm:block">
             <img
-              src="/FAQ.png"
+              src="/FAQ.webp"
               alt="A large question mark illustration"
               className="w-full h-auto rounded-3xl shadow-lg object-cover"
               style={{

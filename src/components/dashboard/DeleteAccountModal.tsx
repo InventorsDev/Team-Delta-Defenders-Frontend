@@ -24,7 +24,7 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
             <div className="w-full flex flex-col justify-start items-center gap-3 sm:gap-4">
               <img
                 className="w-[120px] h-[120px] sm:w-[160px] sm:h-[160px] lg:w-[200px] lg:h-[200px]"
-                src="/delete-popup.png"
+                src="/delete-popup.webp"
                 alt="Delete Warning"
               />
               <div className="w-full flex flex-col justify-start items-center gap-4 sm:gap-6">

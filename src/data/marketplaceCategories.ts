@@ -4,13 +4,13 @@ export interface Category {
 }
 
 export const marketplaceCategories: Category[] = [
-  { icon: '/grains.png', name: 'Grains' },
-  { icon: '/legumes.png', name: 'Legumes & Nuts' },
+  { icon: '/grains.webp', name: 'Grains' },
+  { icon: '/legumes.webp', name: 'Legumes & Nuts' },
   { icon: '/vegetables.svg', name: 'Vegetables' },
-  { icon: '/fruits.png', name: 'Fruits' },
-  { icon: '/root-crops.png', name: 'Root crops' },
-  { icon: '/processed-goods.png', name: 'Processed goods' },
-  { icon: '/spices-and-condiments.png', name: 'Spices & Condiments' }
+  { icon: '/fruits.webp', name: 'Fruits' },
+  { icon: '/root-crops.webp', name: 'Root crops' },
+  { icon: '/processed-goods.webp', name: 'Processed goods' },
+  { icon: '/spices-and-condiments.webp', name: 'Spices & Condiments' }
 ];
 
 // Function to categorize products based on their names

@@ -53,7 +53,7 @@ const MobileDeleteModal: React.FC<MobileDeleteModalProps> = ({
         confirmText: 'Yes, Delete',
         icon: (
           <img
-            src="/delete-popup.png"
+            src="/delete-popup.webp"
             alt="Delete Account"
             className="w-[100px] h-[100px] object-cover"
           />

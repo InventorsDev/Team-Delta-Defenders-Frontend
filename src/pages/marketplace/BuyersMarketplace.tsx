@@ -81,7 +81,7 @@ const BuyersMarketplace = () => {
   const buyerNotifications: NotificationData[] = [
     {
       id: '1',
-      avatar: '/chat-6.png',
+      avatar: '/chat-6.webp',
       title: 'Order Confirmed',
       message: 'Your order for Fresh Tomatoes has been confirmed by Adebola Farm.',
       timestamp: '2m',
@@ -90,7 +90,7 @@ const BuyersMarketplace = () => {
     },
     {
       id: '2',
-      avatar: '/chat-7.png',
+      avatar: '/chat-7.webp',
       title: 'New Message',
       message: 'Kemi replied to your inquiry about bulk pepper purchase.',
       timestamp: '15m',
@@ -117,7 +117,7 @@ const BuyersMarketplace = () => {
     },
     {
       id: '5',
-      avatar: '/chat-6.png',
+      avatar: '/chat-6.webp',
       title: 'Product Available',
       message: 'Organic Carrots you wishlisted are now available.',
       timestamp: '3h',
@@ -126,7 +126,7 @@ const BuyersMarketplace = () => {
     },
     {
       id: '6',
-      avatar: '/chat-7.png',
+      avatar: '/chat-7.webp',
       title: 'Review Reminder',
       message: 'Please review your recent purchase from Sunshine Farm.',
       timestamp: '1d',

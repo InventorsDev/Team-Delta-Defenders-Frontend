@@ -117,8 +117,8 @@ const SolutionSection = () => {
           {/* Image Column */}
           <div className="flex justify-center">
             <div className="relative">
-              <img 
-                src="/solution-image.png"
+              <img
+                src="/solution-image.webp"
                 alt="Person using agrilink mobile app"
                 className="w-full max-w-md sm:max-w-lg lg:max-w-xl shadow-lg object-cover rounded-3xl"
                 style={{

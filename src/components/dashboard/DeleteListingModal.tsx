@@ -29,7 +29,7 @@ const DeleteListingModal: React.FC<DeleteListingModalProps> = ({
             <div className="w-[200px] h-[200px]">
               <img 
                 style={{width: '100%', height: '100%'}}
-                src="/delete-popup.png"
+                src="/delete-popup.webp"
                 alt="Delete confirmation"
               />
             </div>

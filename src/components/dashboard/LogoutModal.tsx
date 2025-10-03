@@ -27,7 +27,7 @@ const LogoutModal: React.FC<LogoutModalProps> = ({
             <div className="w-full flex flex-col justify-start items-center gap-3 sm:gap-4">
               <img
                 className="w-[150px] h-[144px] sm:w-[180px] sm:h-[173px] lg:w-[208px] lg:h-[200px]"
-                src="/logout-popup.png"
+                src="/logout-popup.webp"
                 alt="Logout confirmation"
               />
               <div className="w-full flex flex-col justify-start items-center gap-4 sm:gap-6">

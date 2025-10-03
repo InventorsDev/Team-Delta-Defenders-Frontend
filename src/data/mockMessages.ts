@@ -39,7 +39,7 @@ export const createMockConversation = (chatId: string | number): MessageData[] =
         content: '',
         sender: 'farmer',
         timestamp: '10:40 AM',
-        imageUrl: '/listing-1-detailed-3.png'
+        imageUrl: '/listing-1-detailed-3.webp'
       },
       {
         id: 5,

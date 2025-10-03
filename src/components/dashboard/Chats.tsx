@@ -109,7 +109,7 @@ const ChatDetailView: React.FC<{ chat: ChatData; onClose: () => void; showCloseB
             <div className="max-w-sm p-1 bg-[#84C62C] rounded-t-3xl rounded-bl-3xl">
               <img 
                 className="w-64 h-40 rounded-lg object-cover" 
-                src="/listing-1-detailed-3.png" 
+                src="/listing-1-detailed-3.webp" 
                 alt="Shared image"
               />
             </div>
@@ -347,7 +347,7 @@ const Chats: React.FC<ChatsProps> = ({ showHeader = true, variant = 'desktop', o
                 onClick={onProfileClick}
                 className="hover:opacity-80 transition-opacity"
               >
-                <img className="w-10 h-10 rounded-full object-cover" src="/profile image.png" alt="Profile" />
+                <img className="w-10 h-10 rounded-full object-cover" src="/profile image.webp" alt="Profile" />
               </button>
             </div>
           </div>
@@ -432,7 +432,7 @@ const Chats: React.FC<ChatsProps> = ({ showHeader = true, variant = 'desktop', o
                 <div className="flex flex-col items-center gap-6">
                   <img
                     className="w-[200px] h-[200px] object-contain"
-                    src="/empty-state-messages.png"
+                    src="/empty-state-messages.webp"
                     alt="No messages selected"
                     onError={(e) => {
                       // Fallback to SVG if image doesn't exist

@@ -90,12 +90,41 @@ const BuyerSignupStep2: React.FC = () => {
         body: JSON.stringify(signupData),
       });
 
+      // Check if response has content before parsing
+      const contentType = response.headers.get('content-type');
+      const hasJsonContent = contentType && contentType.includes('application/json');
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Signup failed. Please try again.');
+        // Try to get error message from response
+        let errorMessage = 'Signup failed. Please try again.';
+
+        if (hasJsonContent) {
+          try {
+            const errorData = await response.json();
+            errorMessage = errorData.message || errorData.error || errorMessage;
+          } catch (parseError) {
+            // If JSON parsing fails, try to get text
+            const errorText = await response.text();
+            if (errorText) {
+              errorMessage = `Server error: ${errorText.substring(0, 100)}`;
+            }
+          }
+        } else {
+          // Non-JSON response
+          const errorText = await response.text();
+          errorMessage = errorText || `Server error (${response.status})`;
+        }
+
+        throw new Error(errorMessage);
       }
 
-      const data = await response.json();
+      // Parse successful response
+      let data;
+      if (hasJsonContent) {
+        data = await response.json();
+      } else {
+        throw new Error('Server returned invalid response format');
+      }
 
       sessionStorage.setItem('signupRole', 'buyer');
       localStorage.setItem('signupRole', 'buyer');
@@ -127,7 +156,7 @@ const BuyerSignupStep2: React.FC = () => {
         `}
       </style>
       <div className="min-h-screen bg-cover bg-center bg-no-repeat relative flex items-center" style={{
-        backgroundImage: 'url("/buyerssignup2.png")',
+        backgroundImage: 'url("/buyerssignup2.webp")',
         backgroundColor: 'hsl(var(--brand-colors-HarvestMist))'
       }}>
         <div 

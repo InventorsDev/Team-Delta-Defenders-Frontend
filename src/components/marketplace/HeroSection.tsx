@@ -17,7 +17,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 }) => {
   return (
     <div className={`${isSearchActive ? 'py-8' : 'py-16'} relative overflow-hidden ${isScrolled ? 'mt-20' : 'mt-8'} transition-all duration-500`}>
-      <div className="absolute top-0 bottom-0 left-4 right-4 sm:left-6 sm:right-6 md:left-8 md:right-8 lg:left-12 lg:right-12 xl:left-16 xl:right-16 2xl:left-24 2xl:right-24" style={{backgroundImage: 'url(/marketplace-hero.png)', backgroundSize: 'cover', backgroundPosition: 'center', borderRadius: '10px'}}></div>
+      <div className="absolute top-0 bottom-0 left-4 right-4 sm:left-6 sm:right-6 md:left-8 md:right-8 lg:left-12 lg:right-12 xl:left-16 xl:right-16 2xl:left-24 2xl:right-24" style={{backgroundImage: 'url(/marketplace-hero.webp)', backgroundSize: 'cover', backgroundPosition: 'center', borderRadius: '10px'}}></div>
       <div className="absolute top-0 bottom-0 left-4 right-4 sm:left-6 sm:right-6 md:left-8 md:right-8 lg:left-12 lg:right-12 xl:left-16 xl:right-16 2xl:left-24 2xl:right-24" style={{backgroundColor: 'hsla(114, 88%, 94%, 0.6)', borderRadius: '10px'}}></div>
       <div className="px-8 sm:px-10 md:px-12 lg:px-16 xl:px-20 2xl:px-32 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-16 relative z-10">
         {/* Left side content */}

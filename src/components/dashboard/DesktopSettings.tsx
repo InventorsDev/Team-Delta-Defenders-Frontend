@@ -886,7 +886,7 @@ const DesktopSettings: React.FC<DesktopSettingsProps> = ({
                 console.log('Notification clicked:', notification);
               }}
             />
-            <img className="w-10 h-10 rounded-full object-cover" src="/profile image.png" alt="Profile" />
+            <img className="w-10 h-10 rounded-full object-cover" src="/profile image.webp" alt="Profile" />
           </div>
         </div>
       )}

@@ -68,7 +68,7 @@ const MarketplaceHeader: React.FC<MarketplaceHeaderProps> = ({
               onClick={() => setActiveView('settings')}
               className={`cursor-pointer ${activeView === 'settings' ? 'ring-2 ring-brand-colors-SproutGreen rounded-full' : ''}`}
             >
-              <img className="w-10 h-10 rounded-full" src="/profile image.png" alt="Profile" />
+              <img className="w-10 h-10 rounded-full" src="/profile image.webp" alt="Profile" />
             </button>
           </div>
         </div>
@@ -166,7 +166,7 @@ const MarketplaceHeader: React.FC<MarketplaceHeaderProps> = ({
             >
               <img
                 className="w-10 h-10 rounded-full object-cover"
-                src="/profile image.png"
+                src="/profile image.webp"
                 alt="Profile"
                 style={{
                   outline: activeView === 'settings' ? '2px solid #84C62C' : 'none',

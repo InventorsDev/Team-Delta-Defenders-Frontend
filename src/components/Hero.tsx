@@ -7,7 +7,7 @@ const Hero = () => {
     <section
       className="text-white py-12 sm:py-16 md:py-20 lg:py-32 relative min-h-screen sm:min-h-[70vh]"
       style={{
-        backgroundImage: `linear-gradient(to bottom, hsl(86, 64%, 20%, 0.3), hsl(86, 64%, 25%, 0.3)), url('/hero-bg.png')`,
+        backgroundImage: `linear-gradient(to bottom, hsl(86, 64%, 20%, 0.3), hsl(86, 64%, 25%, 0.3)), url('/hero-bg.webp')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
         backgroundRepeat: 'no-repeat',

@@ -6,8 +6,8 @@ const CTASection = () => {
     <section className="relative py-12 sm:py-16 md:py-20 lg:py-32 overflow-hidden">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
-        <img 
-          src="/midpage-cta-bg.png"
+        <img
+          src="/midpage-cta.webp"
           alt="Nigerian farmland landscape"
           className="w-full h-full object-cover"
         />
@@ -24,7 +24,7 @@ const CTASection = () => {
                 <Link to="/" className="cursor-pointer">
                   <span className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center overflow-hidden">
                     <img
-                      src="/agrilink-logo.png"
+                      src="/agrilink-logo.webp"
                       alt="Agrilink Logo"
                       className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
                     />

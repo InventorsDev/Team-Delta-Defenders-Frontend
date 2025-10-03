@@ -27,7 +27,7 @@ const defaultNotifications: Notification[] = [
     message: 'You have a new message from Chinedu — check your chat to respond quickly!',
     timestamp: '5 mins',
     isRead: false,
-    avatar: '/dashboard-chat-1.png'
+    avatar: '/dashboard-chat-1.webp'
   },
   {
     id: '2',
@@ -45,7 +45,7 @@ const defaultNotifications: Notification[] = [
     message: 'Complete your profile to attract more buyers and boost your credibility.',
     timestamp: '6 hrs',
     isRead: false,
-    avatar: '/dashboard-chat-3.png'
+    avatar: '/dashboard-chat-3.webp'
   },
   {
     id: '4',
@@ -63,7 +63,7 @@ const defaultNotifications: Notification[] = [
     message: 'Great news! Your listing for \'Fresh Red Tomatoes\' has been approved and is now live for buyers',
     timestamp: '1 day',
     isRead: true,
-    avatar: '/dashboard-chat-5.png'
+    avatar: '/dashboard-chat-5.webp'
   },
   {
     id: '6',

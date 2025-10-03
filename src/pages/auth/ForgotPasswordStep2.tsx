@@ -90,7 +90,7 @@ const ForgotPasswordStep2: React.FC = () => {
         `}
       </style>
       <div className="min-h-screen bg-cover bg-center bg-no-repeat relative flex items-center" style={{
-        backgroundImage: 'url("/Login.png")',
+        backgroundImage: 'url("/Login.webp")',
         backgroundColor: 'hsl(var(--brand-colors-HarvestMist))'
       }}>
         <div 
