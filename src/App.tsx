@@ -15,35 +15,46 @@ import BuyerSignupStep2 from "./pages/auth/BuyerSignupStep2";
 import BuyerSignupStep3 from "./pages/auth/BuyerSignupStep3";
 import FarmerDashboard from "./pages/dashboard/FarmerDashboard";
 import BuyersMarketplace from "./pages/marketplace/BuyersMarketplace";
+import { AuthProvider, ProtectedRoute } from "./components/auth/AuthProvider";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <BrowserRouter>
-      <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/forgot-password-step2" element={<ForgotPasswordStep2 />} />
-          <Route path="/forgot-password-step3" element={<ForgotPasswordStep3 />} />
-          <Route path="/password-reset-success" element={<PasswordResetSuccess />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/farmers-signup" element={<Signup />} />
-          <Route path="/signup-step2" element={<SignupStep2 />} />
-          <Route path="/farmers-signup-step2" element={<SignupStep2 />} />
-          <Route path="/signup-step3" element={<SignupStep3 />} />
-          <Route path="/farmers-signup-step3" element={<SignupStep3 />} />
-          <Route path="/buyer-signup" element={<BuyerSignup />} />
-          <Route path="/buyer-signup-step2" element={<BuyerSignupStep2 />} />
-          <Route path="/buyer-signup-step3" element={<BuyerSignupStep3 />} />
-          <Route path="/farmer-dashboard" element={<FarmerDashboard />} />
-          <Route path="/marketplace" element={<BuyersMarketplace />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-  </QueryClientProvider>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/forgot-password-step2" element={<ForgotPasswordStep2 />} />
+            <Route path="/forgot-password-step3" element={<ForgotPasswordStep3 />} />
+            <Route path="/password-reset-success" element={<PasswordResetSuccess />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/farmers-signup" element={<Signup />} />
+            <Route path="/signup-step2" element={<SignupStep2 />} />
+            <Route path="/farmers-signup-step2" element={<SignupStep2 />} />
+            <Route path="/signup-step3" element={<SignupStep3 />} />
+            <Route path="/farmers-signup-step3" element={<SignupStep3 />} />
+            <Route path="/buyer-signup" element={<BuyerSignup />} />
+            <Route path="/buyer-signup-step2" element={<BuyerSignupStep2 />} />
+            <Route path="/buyer-signup-step3" element={<BuyerSignupStep3 />} />
+            <Route path="/farmer-dashboard" element={
+              <ProtectedRoute>
+                <FarmerDashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/marketplace" element={
+              <ProtectedRoute>
+                <BuyersMarketplace />
+              </ProtectedRoute>
+            } />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </QueryClientProvider>
 );
 
 export default App;
