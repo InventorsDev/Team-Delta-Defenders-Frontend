@@ -51,14 +51,10 @@ const FarmerDashboard: React.FC = () => {
   const { listings, activeListings, soldListings, deleteListing, editListing } = useListings();
   const isScrolled = useScrollDetection();
 
-  // Fetch user data on component mount
   useEffect(() => {
     const userData = getUserData();
     if (userData) {
-      // Use name as business name (backend doesn't have separate businessName field)
       setBusinessName(userData.name || 'Farmer');
-      console.log('User data loaded:', userData);
-      console.log('Display name:', userData.name);
     }
   }, []);
 
@@ -101,8 +97,6 @@ const FarmerDashboard: React.FC = () => {
   };
 
   const handleSaveProduct = (product: ProductData) => {
-    console.log('Save product:', product);
-    // TODO: Implement save functionality
     setActiveView('product-detail');
   };
 
@@ -120,8 +114,6 @@ const FarmerDashboard: React.FC = () => {
   };
 
   const handleSaveNewListing = (formData: any) => {
-    console.log('Save new listing:', formData);
-    // TODO: Implement save functionality
     setActiveView('listings');
   };
 
@@ -217,7 +209,7 @@ const FarmerDashboard: React.FC = () => {
                 }}
                 className="flex-shrink-0 w-10 h-10 p-0.5 rounded-2xl overflow-hidden btn-shadow"
               >
-                <img className="w-full h-full rounded-full object-cover" src="/profile image.png" alt="Profile" />
+                <img className="w-full h-full rounded-full object-cover" src="/profile image.webp" alt="Profile" />
               </button>
             </div>
           </div>
@@ -268,21 +260,15 @@ const FarmerDashboard: React.FC = () => {
                   <div className="flex justify-start items-center gap-4">
                     <NotificationDropdown
                       buttonClassName="bg-white"
-                      onMarkAllAsRead={() => {
-                        console.log('Mark all as read');
-                      }}
-                      onOpenNotifications={() => {
-                        console.log('Open notifications');
-                      }}
-                      onNotificationClick={(notification) => {
-                        console.log('Notification clicked:', notification);
-                      }}
+                      onMarkAllAsRead={() => {}}
+                      onOpenNotifications={() => {}}
+                      onNotificationClick={(notification) => {}}
                     />
                     <button
                       onClick={() => setActiveView('settings')}
                       className="hover:opacity-80 transition-opacity"
                     >
-                      <img className="w-10 h-10 rounded-full object-cover" src="/profile image.png" alt="Profile" />
+                      <img className="w-10 h-10 rounded-full object-cover" src="/profile image.webp" alt="Profile" />
                     </button>
                   </div>
                 </div>
@@ -330,7 +316,7 @@ const FarmerDashboard: React.FC = () => {
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                         <div className="p-5 bg-white rounded-[20px] shadow-lg relative overflow-hidden">
-                          <img className="absolute w-32 h-24 right-4 bottom-4 mix-blend-multiply" src="/tomatoes-trending-farm-produce.png" alt="Tomatoes" />
+                          <img className="absolute w-32 h-24 right-4 bottom-4 mix-blend-multiply" src="/tomatoes-trending-farm-produce.webp" alt="Tomatoes" />
                           <div className="flex items-center gap-2 mb-2">
                             <h3 className="text-xl font-bold text-brand-colors-RootBlack">Tomatoes</h3>
                             <img src="/ph_trend-up-bold.svg" alt="Trend up" className="w-5 h-5" />
@@ -352,7 +338,7 @@ const FarmerDashboard: React.FC = () => {
                           </div>
                         </div>
                         <div className="p-5 bg-white rounded-[20px] shadow-lg relative overflow-hidden">
-                          <img className="absolute w-32 h-24 right-4 bottom-4 mix-blend-multiply" src="/maize-trending-farm-produce.png" alt="Maize" />
+                          <img className="absolute w-32 h-24 right-4 bottom-4 mix-blend-multiply" src="/maize-trending-farm-produce.webp" alt="Maize" />
                           <div className="flex items-center gap-2 mb-2">
                             <h3 className="text-xl font-bold text-brand-colors-RootBlack">Maize</h3>
                             <img src="/ph_trend-down-bold.svg" alt="Trend down" className="w-5 h-5" />
@@ -390,9 +376,9 @@ const FarmerDashboard: React.FC = () => {
                       </div>
                       <div className="flex flex-col gap-2">
                         {[
-                          { name: "Ugonna Chibuike", message: "oga watin be last price", time: "5 mins", avatar: "/dashboard-chat-1.png" },
-                          { name: "White Tapes", message: "How fresh is the pepper", time: "30 mins", avatar: "/dashboard-chat-2.png" },
-                          { name: "Tunde Ednut", message: "How fresh is the pepper", time: "3 hrs", avatar: "/dashboard-chat-3.png" }
+                          { name: "Ugonna Chibuike", message: "oga watin be last price", time: "5 mins", avatar: "/dashboard-chat-1.webp" },
+                          { name: "White Tapes", message: "How fresh is the pepper", time: "30 mins", avatar: "/dashboard-chat-2.webp" },
+                          { name: "Tunde Ednut", message: "How fresh is the pepper", time: "3 hrs", avatar: "/dashboard-chat-3.webp" }
                         ].map((chat, index) => (
                           <div key={index} className="px-3 py-2 bg-white rounded-[20px] flex items-start gap-3">
                             <img className="w-9 h-9 rounded-full object-cover" src={chat.avatar} alt={chat.name} />

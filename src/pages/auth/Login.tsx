@@ -51,51 +51,28 @@ const Login: React.FC = () => {
         rememberMe,
       });
 
-      console.log("Login successful:", response);
-      console.log("Response type:", typeof response);
-      console.log("Response keys:", response ? Object.keys(response) : 'null/undefined');
-
-      // Validate response structure
       if (!response) {
         throw new Error('No response received from server');
       }
 
-      // Get user role from response, or fallback to decoding the stored token
       let userRole = response.user?.role;
 
       if (!userRole) {
-        console.warn('Role not found in response, checking stored token...');
         userRole = getCurrentUserType();
-        console.log('User role from stored token:', userRole);
       }
 
       if (!userRole) {
-        console.error("Could not determine user role from response or token:", response);
         throw new Error('Unable to determine user type. Please try logging in again.');
       }
 
-      console.log('Routing user based on role:', userRole);
-
-      // Redirect based on user role
       if (userRole === 'farmer') {
-        console.log('Redirecting to farmer dashboard');
         navigate('/farmer-dashboard');
       } else if (userRole === 'buyer') {
-        console.log('Redirecting to marketplace');
         navigate('/marketplace');
       } else {
-        // Fallback for unknown roles - redirect to home
-        console.warn('Unknown user role:', userRole);
         navigate('/');
       }
     } catch (error: any) {
-      console.error("Login error:", error);
-      console.error("Error details:", {
-        message: error.message,
-        status: error.status,
-        data: error.data,
-        stack: error.stack
-      });
       setError(error.message || 'Login failed. Please check your credentials.');
     } finally {
       setIsLoading(false);
@@ -103,7 +80,7 @@ const Login: React.FC = () => {
   };
 
   const handleGoogleLogin = () => {
-    console.log('Google login clicked');
+    // Google login functionality to be implemented
   };
 
   return (
@@ -122,7 +99,7 @@ const Login: React.FC = () => {
         `}
       </style>
       <div className="min-h-screen bg-cover bg-center bg-no-repeat relative flex items-center" style={{
-        backgroundImage: 'url("/Login.png")',
+        backgroundImage: 'url("/Login.webp")',
         backgroundColor: 'hsl(var(--brand-colors-HarvestMist))'
       }}>
         <div 

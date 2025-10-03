@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import agrilinkLogo from '/agrilink-logo.png'; // Corrected import for Vite
+import agrilinkLogo from '/agrilink-logo.webp'; // Corrected import for Vite
 
 const Footer = () => {
   return (

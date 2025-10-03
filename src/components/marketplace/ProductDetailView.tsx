@@ -356,7 +356,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             gap: 15,
             display: 'inline-flex'
           }}>
-            <img style={{width: 40, height: 40}} src="/profile image.png" alt="Seller" />
+            <img style={{width: 40, height: 40}} src="/profile image.webp" alt="Seller" />
             <div style={{
               width: 160,
               flexDirection: 'column',
@@ -527,7 +527,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%)',
             boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.08)',
             borderRadius: 20,
-            backgroundImage: 'url(/marketplace-cta.png)',
+            backgroundImage: 'url(/marketplace-cta.webp)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
@@ -761,7 +761,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
 
           {/* Seller Card */}
           <div style={{width: '100%', maxWidth: '358px', margin: '12px auto 0', paddingLeft: 10, paddingRight: 10, paddingTop: 20, paddingBottom: 20, background: 'white', boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.08)', borderRadius: 20, justifyContent: 'flex-start', alignItems: 'flex-start', gap: 15, display: 'flex', boxSizing: 'border-box'}}>
-            <img style={{width: 40, height: 40}} src="/profile image.png" alt="Seller" />
+            <img style={{width: 40, height: 40}} src="/profile image.webp" alt="Seller" />
             <div style={{flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 14, display: 'flex'}}>
               <div style={{alignSelf: 'stretch', color: '#182605', fontSize: 16, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', wordWrap: 'break-word'}}>
                 Anosikay Farms
@@ -817,7 +817,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
           </div>
 
           {/* Farmer Account CTA */}
-          <div style={{width: '100%', maxWidth: '358px', height: 150, margin: '30px auto 0', backgroundImage: 'url(/marketplace-cta.png)', boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.08)', borderRadius: 20, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', position: 'relative', overflow: 'hidden', boxSizing: 'border-box'}}>
+          <div style={{width: '100%', maxWidth: '358px', height: 150, margin: '30px auto 0', backgroundImage: 'url(/marketplace-cta.webp)', boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.08)', borderRadius: 20, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', position: 'relative', overflow: 'hidden', boxSizing: 'border-box'}}>
             {/* Overlay */}
             <div style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0, 0, 0, 0.40)', borderRadius: 20}} />
 
@@ -860,7 +860,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             ].map((testimonial, index) => (
               <div key={index} style={{alignSelf: 'stretch', padding: 10, background: 'white', boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.08)', overflow: 'hidden', borderRadius: 20, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 20, display: 'flex'}}>
                 <div style={{width: '100%', justifyContent: 'flex-start', alignItems: 'center', gap: 12, display: 'flex'}}>
-                  <img style={{width: 40, height: 40, borderRadius: 9999, flexShrink: 0}} src="/profile image.png" alt={testimonial.name} />
+                  <img style={{width: 40, height: 40, borderRadius: 9999, flexShrink: 0}} src="/profile image.webp" alt={testimonial.name} />
                   <div style={{flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8, display: 'flex'}}>
                     <div style={{width: '100%', color: '#182605', fontSize: 16, fontFamily: 'MadaniArabic-Medium', fontWeight: '400', wordWrap: 'break-word'}}>
                       {testimonial.name}

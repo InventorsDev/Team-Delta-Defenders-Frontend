@@ -28,9 +28,9 @@ const FeatureCard = ({ title, description, number }) => {
         }}
       >
         <Link to="/" className="cursor-pointer w-full h-full">
-          <img 
-            src="/agrilink-logo-features-card.png" 
-            alt="Agrilink Logo Background" 
+          <img
+            src="/agrilink-logo-features-card.webp"
+            alt="Agrilink Logo Background"
             className="w-full h-full object-contain"
             onError={(e) => {
               console.log('Image failed to load:', e.target.src);

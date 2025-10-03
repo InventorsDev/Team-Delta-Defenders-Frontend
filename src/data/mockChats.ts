@@ -6,7 +6,7 @@ const mockUsers: User[] = [
     name: 'Ugonna Chibuike',
     email: 'ugonna@example.com',
     role: 'buyer',
-    avatar: '/dashboard-chat-1.png',
+    avatar: '/dashboard-chat-1.webp',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   },
@@ -15,7 +15,7 @@ const mockUsers: User[] = [
     name: 'White Tapes',
     email: 'white@example.com',
     role: 'buyer',
-    avatar: '/dashboard-chat-2.png',
+    avatar: '/dashboard-chat-2.webp',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   },
@@ -24,7 +24,7 @@ const mockUsers: User[] = [
     name: 'Tunde Ednut',
     email: 'tunde@example.com',
     role: 'buyer',
-    avatar: '/dashboard-chat-3.png',
+    avatar: '/dashboard-chat-3.webp',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   },
@@ -33,7 +33,7 @@ const mockUsers: User[] = [
     name: 'Fatima Alabi',
     email: 'fatima@example.com',
     role: 'buyer',
-    avatar: '/dashboard-chat-4.png',
+    avatar: '/dashboard-chat-4.webp',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   },
@@ -42,7 +42,7 @@ const mockUsers: User[] = [
     name: 'Frank Edward',
     email: 'frank@example.com',
     role: 'buyer',
-    avatar: '/dashboard-chat-5.png',
+    avatar: '/dashboard-chat-5.webp',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   },
@@ -51,7 +51,7 @@ const mockUsers: User[] = [
     name: 'Anozie Kelvin',
     email: 'anozie@example.com',
     role: 'buyer',
-    avatar: '/chat-6.png',
+    avatar: '/chat-6.webp',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   },
@@ -60,7 +60,7 @@ const mockUsers: User[] = [
     name: 'Wahab Akintola',
     email: 'wahab@example.com',
     role: 'buyer',
-    avatar: '/chat-7.png',
+    avatar: '/chat-7.webp',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   },
@@ -69,7 +69,7 @@ const mockUsers: User[] = [
     name: 'Osaro John',
     email: 'osaro@example.com',
     role: 'buyer',
-    avatar: '/chat-8.png',
+    avatar: '/chat-8.webp',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   },
@@ -78,7 +78,7 @@ const mockUsers: User[] = [
     name: 'Pascal Favour',
     email: 'pascal@example.com',
     role: 'buyer',
-    avatar: '/profile image.png',
+    avatar: '/profile image.webp',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   }
@@ -89,7 +89,7 @@ const farmer: User = {
   name: 'John Farmer',
   email: 'john@example.com',
   role: 'farmer',
-  avatar: '/farmer-avatar.png',
+  avatar: '/farmer-avatar.webp',
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString()
 };

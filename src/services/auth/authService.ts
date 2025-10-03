@@ -189,9 +189,6 @@ export class AuthService {
 
       const response = await api.post<any>('/auth/register', sanitizedData);
 
-      console.log('=== REGISTRATION DEBUG ===');
-      console.log('Raw registration response:', response);
-
       // Extract token from response (handle both wrapped and direct formats)
       let token: string;
       let user: any;
@@ -211,18 +208,11 @@ export class AuthService {
         refreshToken = response.refreshToken || token;
         expiresIn = response.expiresIn || 3600;
       } else {
-        console.error('No token found in registration response:', response);
         throw new Error('Invalid response format: missing token');
       }
 
-      console.log('Extracted token:', token);
-
-      // Decode JWT token to get user type/role
       const tokenPayload = decodeJWTToken(token);
-      console.log('Decoded token payload:', tokenPayload);
-
       const userTypeFromToken = getUserTypeFromToken(token);
-      console.log('User type from token:', userTypeFromToken);
 
       // Build user data, prioritizing token data
       const userData: UserData = {
@@ -234,10 +224,7 @@ export class AuthService {
         avatar: user.avatar || user.profilePicture,
       };
 
-      console.log('Final user data:', userData);
-
       if (!userData.role) {
-        console.error('Could not determine user role from token or response');
         throw new Error('Unable to determine user type. Please contact support.');
       }
 
@@ -249,9 +236,6 @@ export class AuthService {
         tokenType: 'Bearer',
         permissions: response.permissions || response.data?.permissions,
       };
-
-      console.log('Final registration auth data:', authData);
-      console.log('========================');
 
       await this.handleAuthSuccess(authData);
 
@@ -272,29 +256,6 @@ export class AuthService {
 
       const response = await api.post<any>('/auth/signin', sanitizedData);
 
-      console.log('=== LOGIN DEBUG ===');
-      console.log('Raw API response:', JSON.stringify(response, null, 2));
-      console.log('Response structure:', {
-        hasData: !!response.data,
-        hasToken: !!response.token,
-        hasUser: !!response.user,
-        hasSuccess: !!response.success,
-        responseKeys: Object.keys(response),
-      });
-      console.log('User from response:', response.user || response.data?.user);
-      if (response.user) {
-        console.log('User properties:', {
-          id: response.user.id,
-          email: response.user.email,
-          name: response.user.name,
-          fullName: response.user.fullName,
-          businessName: response.user.businessName,
-          role: response.user.role,
-          currentRole: response.user.currentRole,
-          allKeys: Object.keys(response.user)
-        });
-      }
-
       // Extract token from response (handle both wrapped and direct formats)
       let token: string;
       let user: any;
@@ -314,20 +275,11 @@ export class AuthService {
         refreshToken = response.refreshToken || token;
         expiresIn = response.expiresIn || 3600;
       } else {
-        console.error('No token found in response:', response);
         throw new Error('Invalid response format: missing token');
       }
 
-      console.log('Extracted token:', token);
-      console.log('User from response:', user);
-
-      // PRIMARY APPROACH: Decode JWT token to get user type/role
       const tokenPayload = decodeJWTToken(token);
-      console.log('Decoded token payload:', tokenPayload);
-
-      // Get user type from token
       const userTypeFromToken = getUserTypeFromToken(token);
-      console.log('User type from token:', userTypeFromToken);
 
       // Build user data, prioritizing token data over response data
       // Try multiple possible field names for name
@@ -339,24 +291,12 @@ export class AuthService {
         const signupBusinessName = sessionStorage.getItem('signupBusinessName');
         const signupEmail = sessionStorage.getItem('signupEmail');
 
-        // Only use fallback if this is the same user who just signed up
         if (signupBusinessName && signupEmail === sanitizedData.email) {
-          console.log('Using stored business name from signup:', signupBusinessName);
           userName = signupBusinessName;
-          // Clear the stored values after using them
           sessionStorage.removeItem('signupBusinessName');
           sessionStorage.removeItem('signupEmail');
         }
       }
-
-      console.log('Name field extraction:', {
-        'user.name': user.name,
-        'user.fullName': user.fullName,
-        'user.businessName': user.businessName,
-        'tokenPayload.name': tokenPayload?.name,
-        'tokenPayload.fullName': tokenPayload?.fullName,
-        'final userName': userName
-      });
 
       const userData: UserData = {
         id: tokenPayload?.id || tokenPayload?.userId || user.id || '',
@@ -367,13 +307,7 @@ export class AuthService {
         avatar: user.avatar || user.profilePicture,
       };
 
-      console.log('Final user data:', userData);
-
-      // Validate that we have a role
       if (!userData.role) {
-        console.error('Could not determine user role from token or response');
-        console.error('Token payload:', tokenPayload);
-        console.error('User from response:', user);
         throw new Error('Unable to determine user type. Please contact support.');
       }
 
@@ -386,16 +320,9 @@ export class AuthService {
         permissions: response.permissions || response.data?.permissions,
       };
 
-      console.log('Final auth data:', authData);
-      console.log('User role for routing:', authData.user.role);
-      console.log('===================');
-
       await this.handleAuthSuccess(authData);
 
-      // Extra workaround: Ensure user data is saved with the correct name
-      // This handles cases where the backend doesn't properly store/return the name
       if (authData.user.name) {
-        console.log('Manually saving user data with name:', authData.user.name);
         setUserData(authData.user);
       }
 
@@ -409,10 +336,9 @@ export class AuthService {
   // Logout
   async logout(): Promise<void> {
     try {
-      // Clear local authentication data (no server logout endpoint available)
       this.clearAuthData();
     } catch (error) {
-      console.warn('Logout error:', error);
+      // Silent error handling
     }
   }
 
@@ -581,18 +507,12 @@ export class AuthService {
   // Handle successful authentication
   private async handleAuthSuccess(authData: AuthResponse): Promise<void> {
     try {
-      // Store tokens securely
       setAuthToken(authData.token, authData.expiresIn);
       setRefreshToken(authData.refreshToken);
       setUserData(authData.user);
-
-      // Set up automatic token refresh
       this.setupTokenRefresh(authData.expiresIn);
-
-      // Log successful login for security monitoring
-      console.info('Authentication successful for user:', authData.user.email);
     } catch (error) {
-      console.error('Error handling auth success:', error);
+      // Silent error handling
     }
   }
 
@@ -611,9 +531,7 @@ export class AuthService {
         try {
           await this.refreshToken();
         } catch (error) {
-          console.warn('Auto token refresh failed:', error);
-          // Don't automatically logout on refresh failure
-          // Let the user continue and handle it on next API call
+          // Silent error handling - don't automatically logout on refresh failure
         }
       }, refreshTime);
     }
@@ -621,16 +539,7 @@ export class AuthService {
 
   // Handle authentication errors
   private handleAuthError(error: any): void {
-    if (error instanceof ApiRequestError) {
-      // Log security events
-      if (error.status === 401 || error.status === 403) {
-        console.warn('Authentication failed:', error.message);
-      }
-
-      if (error.status === 429) {
-        console.warn('Rate limit exceeded for authentication');
-      }
-    }
+    // Silent error handling for production
   }
 
   // Clear all authentication data

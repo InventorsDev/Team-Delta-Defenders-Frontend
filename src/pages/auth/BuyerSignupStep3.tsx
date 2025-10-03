@@ -24,7 +24,7 @@ const BuyerSignupStep3: React.FC = () => {
   return (
     <>
       <div className="min-h-screen bg-cover bg-center bg-no-repeat relative flex items-center" style={{
-        backgroundImage: 'url("/buyerssignup3.png")',
+        backgroundImage: 'url("/buyerssignup3.webp")',
         backgroundColor: 'hsl(var(--brand-colors-HarvestMist))'
       }}>
         <div 

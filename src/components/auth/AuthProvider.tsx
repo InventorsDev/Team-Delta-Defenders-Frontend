@@ -28,18 +28,8 @@ class AuthErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('Authentication error boundary caught an error:', error, errorInfo);
-
-    // Report to error monitoring service
     if (this.props.onError) {
       this.props.onError(error);
-    }
-
-    // Log security-related errors
-    if (error instanceof ApiRequestError) {
-      if (error.status === 401 || error.status === 403) {
-        console.warn('Authentication security error:', error.message);
-      }
     }
   }
 
@@ -100,44 +90,31 @@ const AuthLoadingSpinner: React.FC = () => (
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const auth = useAuthProvider();
 
-  // Security monitoring
   useEffect(() => {
-    // Monitor authentication state changes
     if (auth.isAuthenticated && auth.user) {
-      console.info('User authenticated:', auth.user.email);
-
-      // Track login time for session management
       sessionStorage.setItem('loginTime', Date.now().toString());
     }
 
     if (!auth.isAuthenticated && auth.isInitialized) {
-      // Clear session data on logout
       sessionStorage.removeItem('loginTime');
     }
   }, [auth.isAuthenticated, auth.user, auth.isInitialized]);
 
-  // Handle authentication errors
   const handleAuthError = (error: Error) => {
     if (error instanceof ApiRequestError) {
       switch (error.status) {
         case 401:
-          // Unauthorized - redirect to login
           setTimeout(() => {
             window.location.href = '/login';
           }, 2000);
           break;
         case 403:
-          // Forbidden - redirect to home
           setTimeout(() => {
             window.location.href = '/';
           }, 2000);
           break;
-        case 429:
-          // Rate limited - show message
-          console.warn('Rate limit exceeded');
-          break;
         default:
-          console.error('Authentication error:', error.message);
+          break;
       }
     }
   };

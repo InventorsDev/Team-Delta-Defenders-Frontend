@@ -3,7 +3,7 @@ import { getAuthToken, removeAuthToken } from './auth/tokenStorage';
 
 // API Configuration
 export const API_CONFIG = {
-  BASE_URL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api',
+  BASE_URL: import.meta.env.VITE_API_URL || 'https://team-delta-defenders-backend-1.onrender.com/api',
   TIMEOUT: parseInt(import.meta.env.VITE_API_TIMEOUT || '45000'), // 45 seconds for Render.com
   MAX_RETRIES: parseInt(import.meta.env.VITE_API_RETRIES || '3'),
 } as const;

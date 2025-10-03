@@ -16,7 +16,7 @@ export const mobileStatsCards: StatsCardData[] = [
     title: 'Add New Product',
     type: 'action',
     theme: 'light',
-    backgroundImage: '/dashboard-card-image.png',
+    backgroundImage: '/dashboard-card-image.webp',
     description: 'Expand your marketplace presence by listing fresh produce that buyers are looking for.',
     actionButton: {
       text: 'Add Product',
@@ -29,7 +29,7 @@ export const mobileStatsCards: StatsCardData[] = [
     title: 'Tip of the Day',
     type: 'tip',
     theme: 'hero',
-    backgroundImage: '/dashboard-tip-bg.png',
+    backgroundImage: '/dashboard-tip-bg.webp',
     backgroundOverlay: 'rgba(24, 38, 5, 0.7)',
     description: 'Post high-quality photos of your produce to attract more buyers and increase your sales by up to 40%.'
   }
@@ -55,7 +55,7 @@ export const createDesktopStatsCards = (
     title: 'Ready to sell more',
     type: 'action',
     theme: 'light',
-    backgroundImage: '/stats-card-2.png',
+    backgroundImage: '/stats-card-2.webp',
     description: 'Add your fresh produce and start reaching buyers today.',
     actionButton: {
       text: 'Add New Product',
@@ -71,7 +71,7 @@ export const createDesktopStatsCards = (
     title: 'Today\'s Tip',
     type: 'tip',
     theme: 'hero',
-    backgroundImage: '/stats-card-3.png',
+    backgroundImage: '/stats-card-3.webp',
     backgroundOverlay: 'hsla(86, 78%, 8%, 0.7)',
     description: 'Harvest early in the morning to keep your produce fresher for longer, cooler temps reduce wilting and spoilage!'
   }
@@ -93,7 +93,7 @@ export const desktopStatsCards: StatsCardData[] = [
     title: 'Ready to sell more',
     type: 'action',
     theme: 'light',
-    backgroundImage: '/stats-card-2.png',
+    backgroundImage: '/stats-card-2.webp',
     description: 'Add your fresh produce and start reaching buyers today.',
     actionButton: {
       text: 'Add New Product',
@@ -106,7 +106,7 @@ export const desktopStatsCards: StatsCardData[] = [
     title: 'Today\'s Tip',
     type: 'tip',
     theme: 'hero',
-    backgroundImage: '/stats-card-3.png',
+    backgroundImage: '/stats-card-3.webp',
     backgroundOverlay: 'hsla(86, 78%, 8%, 0.7)',
     description: 'Harvest early in the morning to keep your produce fresher for longer, cooler temps reduce wilting and spoilage!'
   }

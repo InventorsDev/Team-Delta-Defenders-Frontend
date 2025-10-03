@@ -58,7 +58,7 @@ const MobileDashboard: React.FC<MobileDashboardProps> = ({
         card={{
           ...mobileStatsCards[1],
           title: 'Ready to sell more',
-          backgroundImage: '/stats-card-2.png',
+          backgroundImage: '/stats-card-2.webp',
           description: 'Add your fresh produce and start reaching buyers today.',
           actionButton: {
             ...mobileStatsCards[1].actionButton!,
@@ -73,7 +73,7 @@ const MobileDashboard: React.FC<MobileDashboardProps> = ({
         card={{
           ...mobileStatsCards[2],
           title: 'Today\'s Tip',
-          backgroundImage: '/stats-card-3.png',
+          backgroundImage: '/stats-card-3.webp',
           backgroundOverlay: 'rgba(0, 0, 0, 0.7)',
           description: 'Harvest early in the morning to keep your produce fresher for longer, cooler temps reduce wilting and spoilage!'
         }}
@@ -121,7 +121,7 @@ const MobileDashboard: React.FC<MobileDashboardProps> = ({
         </div>
         <div className="flex flex-col gap-5">
           <div className="w-full h-72 bg-white rounded-2xl shadow-lg overflow-hidden relative">
-            <img className="absolute w-32 h-24 right-3 bottom-4" src="/tomatoes-trending-farm-produce.png" alt="Tomatoes" />
+            <img className="absolute w-32 h-24 right-3 bottom-4" src="/tomatoes-trending-farm-produce.webp" alt="Tomatoes" />
             <div className="absolute left-5 top-6 bottom-6 flex flex-col gap-4">
               <div className="flex items-center gap-2">
                 <div className="text-xl font-bold text-brand-colors-RootBlack" style={{ fontFamily: 'MadaniArabic-Bold' }}>
@@ -160,7 +160,7 @@ const MobileDashboard: React.FC<MobileDashboardProps> = ({
           </div>
 
           <div className="w-full h-72 bg-white rounded-2xl shadow-lg overflow-hidden relative">
-            <img className="absolute w-32 h-24 right-3 bottom-4" src="/maize-trending-farm-produce.png" alt="Maize" />
+            <img className="absolute w-32 h-24 right-3 bottom-4" src="/maize-trending-farm-produce.webp" alt="Maize" />
             <div className="absolute left-5 top-6 bottom-6 flex flex-col gap-4">
               <div className="flex items-center gap-2">
                 <div className="text-xl font-bold text-brand-colors-RootBlack" style={{ fontFamily: 'MadaniArabic-Bold' }}>

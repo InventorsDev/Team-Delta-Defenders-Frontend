@@ -22,7 +22,7 @@ const DeleteProductModal: React.FC<DeleteProductModalProps> = ({
           <div className="w-full flex flex-col items-center gap-3">
             <img
               className="w-[100px] h-[100px]"
-              src="/delete-popup.png"
+              src="/delete-popup.webp"
               alt="Delete Warning"
             />
             <div className="w-full flex flex-col items-center gap-6">

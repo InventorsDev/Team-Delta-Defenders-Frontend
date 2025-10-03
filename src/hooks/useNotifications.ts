@@ -6,14 +6,14 @@ import { mockNotifications } from '@/data/mockNotifications';
 const getAvatarForNotification = (type: string, title: string): string => {
   // For chat/buyer messages, use appropriate avatar
   if (title.toLowerCase().includes('buyer') || title.toLowerCase().includes('message')) {
-    return '/dashboard-chat-1.png';
+    return '/dashboard-chat-1.webp';
   }
   // For reviews, use reviewer avatar
   if (title.toLowerCase().includes('review')) {
-    return '/dashboard-chat-2.png';
+    return '/dashboard-chat-2.webp';
   }
   // For system notifications, use default avatar
-  return '/profile image.png';
+  return '/profile image.webp';
 };
 
 // Helper function to format timestamp

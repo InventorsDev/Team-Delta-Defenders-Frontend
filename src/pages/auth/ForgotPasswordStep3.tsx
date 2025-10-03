@@ -87,20 +87,14 @@ const ForgotPasswordStep3: React.FC = () => {
 
     setIsLoading(true);
     try {
-      // TODO: Implement actual password reset logic
-      console.log(`Password reset completed for ${contactType}:`, contact);
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Navigate to success page
-      navigate('/password-reset-success', { 
-        state: { 
-          contact, 
-          contactType 
-        } 
+      navigate('/password-reset-success', {
+        state: {
+          contact,
+          contactType
+        }
       });
     } catch (error) {
-      console.error("Password reset error:", error);
       setErrors({ submit: 'Failed to reset password. Please try again.' });
     } finally {
       setIsLoading(false);
@@ -123,7 +117,7 @@ const ForgotPasswordStep3: React.FC = () => {
         `}
       </style>
       <div className="min-h-screen bg-cover bg-center bg-no-repeat relative flex items-center" style={{
-        backgroundImage: 'url("/Login.png")',
+        backgroundImage: 'url("/Login.webp")',
         backgroundColor: 'hsl(var(--brand-colors-HarvestMist))'
       }}>
         <div 

@@ -58,17 +58,11 @@ const ForgotPasswordStep2: React.FC = () => {
 
     setIsLoading(true);
     setError('');
-    
+
     try {
-      // TODO: Implement actual PIN verification logic
-      console.log(`PIN verification for ${contactType}:`, contact, "PIN:", pinCode);
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Navigate to password reset final step
       navigate('/forgot-password-step3', { state: { contact, contactType, email, verified: true } });
     } catch (error) {
-      console.error("PIN verification error:", error);
       setError('Invalid code. Please try again.');
     } finally {
       setIsLoading(false);
@@ -77,13 +71,11 @@ const ForgotPasswordStep2: React.FC = () => {
 
   const handleResendCode = async () => {
     try {
-      console.log(`Resending code to ${contactType}:`, contact);
-      // TODO: Implement resend logic
       setCountdown(60);
       setCanResend(false);
       alert('Code resent successfully!');
     } catch (error) {
-      console.error("Resend error:", error);
+      // Silent error handling
     }
   };
 
@@ -98,7 +90,7 @@ const ForgotPasswordStep2: React.FC = () => {
         `}
       </style>
       <div className="min-h-screen bg-cover bg-center bg-no-repeat relative flex items-center" style={{
-        backgroundImage: 'url("/Login.png")',
+        backgroundImage: 'url("/Login.webp")',
         backgroundColor: 'hsl(var(--brand-colors-HarvestMist))'
       }}>
         <div 

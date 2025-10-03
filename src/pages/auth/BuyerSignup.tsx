@@ -29,18 +29,12 @@ const BuyerSignup: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Step 1: Don't call API yet, just store data and navigate to step 2
-    console.log('Buyer Step 1 data collected:', formData);
-
-    // Store in sessionStorage so step 2 can access it
     sessionStorage.setItem('buyerSignupStep1', JSON.stringify(formData));
-
-    // Navigate to step 2
     navigate('/buyer-signup-step2');
   };
 
   const handleGoogleSignup = () => {
-    console.log('Google signup clicked');
+    // Google signup functionality to be implemented
   };
 
   return (
@@ -59,7 +53,7 @@ const BuyerSignup: React.FC = () => {
         `}
       </style>
       <div className="min-h-screen bg-cover bg-center bg-no-repeat relative flex items-center" style={{
-        backgroundImage: 'url("/buyersignup1.png")',
+        backgroundImage: 'url("/buyersignup1.webp")',
         backgroundColor: 'hsl(var(--brand-colors-HarvestMist))'
       }}>
         <div 
