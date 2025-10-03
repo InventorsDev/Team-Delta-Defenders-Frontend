@@ -5,6 +5,7 @@ import { mobileStatsCards } from '@/data/mockStats';
 import { mockListings } from '@/data/mockProducts';
 
 interface MobileDashboardProps {
+  businessName: string;
   onProductClick: (product: ProductData) => void;
   onViewAllListings?: () => void;
   onViewAllTestimonials?: () => void;
@@ -12,6 +13,7 @@ interface MobileDashboardProps {
 }
 
 const MobileDashboard: React.FC<MobileDashboardProps> = ({
+  businessName,
   onProductClick,
   onViewAllListings,
   onViewAllTestimonials,
@@ -28,7 +30,7 @@ const MobileDashboard: React.FC<MobileDashboardProps> = ({
           <div className="flex items-center gap-3">
             <div>
               <span className="text-xl font-bold text-brand-colors-RootBlack" style={{ fontFamily: 'MadaniArabic-Bold' }}>Good Morning </span>
-              <span className="text-xl font-bold text-brand-colors-SproutGreen" style={{ fontFamily: 'MadaniArabic-Bold' }}>Anosikay Farms</span>
+              <span className="text-xl font-bold text-brand-colors-SproutGreen" style={{ fontFamily: 'MadaniArabic-Bold' }}>{businessName}</span>
             </div>
             <img src="/si_sun-fill.svg" alt="Sun" className="w-6 h-6" />
           </div>

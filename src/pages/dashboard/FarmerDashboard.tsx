@@ -29,6 +29,9 @@ import { useNotifications } from '@/hooks/useNotifications';
 import { useFavorites } from '@/hooks/useFavorites';
 import { useListings } from '@/hooks/useListings';
 
+// Services
+import { getUserData } from '@/services/auth/tokenStorage';
+
 
 type ActiveView = 'dashboard' | 'listings' | 'chats' | 'settings' | 'product-detail' | 'edit-product' | 'add-listing';
 
@@ -40,12 +43,24 @@ const FarmerDashboard: React.FC = () => {
     shouldTriggerAddListing: false
   });
   const [selectedProduct, setSelectedProduct] = useState<ProductData | null>(null);
+  const [businessName, setBusinessName] = useState<string>('Farmer');
 
   // Custom hooks for business logic
   const { notifications, markAsRead, handleNotificationClick } = useNotifications();
   const { favoriteProducts, toggleFavorite } = useFavorites();
   const { listings, activeListings, soldListings, deleteListing, editListing } = useListings();
   const isScrolled = useScrollDetection();
+
+  // Fetch user data on component mount
+  useEffect(() => {
+    const userData = getUserData();
+    if (userData) {
+      // Use name as business name (backend doesn't have separate businessName field)
+      setBusinessName(userData.name || 'Farmer');
+      console.log('User data loaded:', userData);
+      console.log('Display name:', userData.name);
+    }
+  }, []);
 
   // Helper functions to update UI state
   const updateUiState = (updates: Partial<typeof uiState>) => {
@@ -232,6 +247,7 @@ const FarmerDashboard: React.FC = () => {
           <>
             <div className="lg:hidden">
               <MobileDashboard
+                businessName={businessName}
                 onProductClick={handleProductClick}
                 onViewAllListings={() => setActiveView('listings')}
                 onSeeMoreTrending={() => setActiveView('listings')}
@@ -245,7 +261,7 @@ const FarmerDashboard: React.FC = () => {
                   <div className="flex flex-col gap-4">
                     <div className="text-brand-colors-RootBlack text-base font-madani-medium">Welcome to your dashboard</div>
                     <div className="flex items-center gap-3">
-                      <div><span className="text-brand-colors-RootBlack text-2xl font-normal font-['MadaniArabic-Bold']">Good Morning </span><span className="text-brand-colors-SproutGreen text-2xl font-normal font-['MadaniArabic-Bold']">Anosikay Farms</span></div>
+                      <div><span className="text-brand-colors-RootBlack text-2xl font-normal font-['MadaniArabic-Bold']">Good Morning </span><span className="text-brand-colors-SproutGreen text-2xl font-normal font-['MadaniArabic-Bold']">{businessName}</span></div>
                       <img src="/si_sun-fill.svg" alt="Sun" className="w-6 h-6" />
                     </div>
                   </div>

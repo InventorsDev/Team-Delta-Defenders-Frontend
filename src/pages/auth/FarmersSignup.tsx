@@ -14,7 +14,7 @@ const Signup: React.FC = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
-    phoneNumber: '',
+    phone: '',  // Changed from phoneNumber to phone
     email: ''
   });
 
@@ -28,41 +28,15 @@ const Signup: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Bypass API call for testing - navigate directly to step 2
-    console.log('Bypassing API call for testing. Form data:', formData);
-    navigate('/farmers-signup-step2');
-    
-    // Original API call (commented out for testing)
-    /*
-    try {
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL || ''}/auth/signup`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          fullName: formData.fullName,
-          phoneNumber: formData.phoneNumber,
-          email: formData.email,
-        }),
-      });
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Signup step 1 successful:', data);
-        // Navigate to step 2 on success
-        navigate('/farmers-signup-step2');
-      } else {
-        const errorData = await response.json();
-        console.error('Signup step 1 failed:', errorData);
-        alert(errorData.message || 'Registration failed. Please try again.');
-      }
-    } catch (error) {
-      console.error('Network error:', error);
-      alert('Network error. Please check your connection and try again.');
-    }
-    */
+    // Step 1: Don't call API yet, just store data and navigate to step 2
+    console.log('Step 1 data collected:', formData);
+
+    // Store in sessionStorage so step 2 can access it
+    sessionStorage.setItem('farmerSignupStep1', JSON.stringify(formData));
+
+    // Navigate to step 2
+    navigate('/farmers-signup-step2');
   };
 
   const handleGoogleSignup = () => {
@@ -169,14 +143,14 @@ const Signup: React.FC = () => {
 
             {/* Phone Number */}
             <div className="space-y-1">
-              <label htmlFor="phoneNumber" className="block text-brand-colors-RootBlack text-sm font-madani-medium">
+              <label htmlFor="phone" className="block text-brand-colors-RootBlack text-sm font-madani-medium">
                 Phone Number
               </label>
               <input
                 type="tel"
-                id="phoneNumber"
-                name="phoneNumber"
-                value={formData.phoneNumber}
+                id="phone"
+                name="phone"
+                value={formData.phone}
                 onChange={handleInputChange}
                 placeholder="Enter your phone number"
                 className="w-full h-11 px-4 bg-brand-colors-HarvestMist border-2 border-brand-colors-HarvestMist rounded-2xl text-brand-colors-RootBlack text-sm font-madani-medium focus:outline-none focus:border-brand-colors-SproutGreen transition-colors custom-placeholder"

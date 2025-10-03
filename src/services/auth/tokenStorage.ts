@@ -8,7 +8,7 @@ const TOKEN_EXPIRY_KEY = 'agrilink_token_expiry';
 
 // Simple encryption for local storage (basic obfuscation)
 class SimpleEncryption {
-  private static key = 'AgriLink2024SecureKey!'; // In production, use env variable
+  private static key = import.meta.env.VITE_ENCRYPTION_KEY || 'AgriLink2024SecureKey!'; // Fallback for development only
 
   static encrypt(text: string): string {
     let encrypted = '';
@@ -46,7 +46,7 @@ export interface TokenInfo {
 export interface UserData {
   id: string;
   email: string;
-  name: string;
+  name: string; // For farmers, this contains their business/farm name
   role: 'farmer' | 'buyer' | 'admin';
   isVerified: boolean;
   avatar?: string;
@@ -278,6 +278,107 @@ export const validateTokenIntegrity = (): boolean => {
   } catch {
     removeAuthToken();
     return false;
+  }
+};
+
+// Decode JWT token to extract payload
+export interface JWTPayload {
+  id?: string;
+  userId?: string;
+  farmerId?: string;
+  buyerId?: string;
+  role?: 'farmer' | 'buyer' | 'admin';
+  currentRole?: 'farmer' | 'buyer' | 'admin';
+  email?: string;
+  exp?: number;
+  iat?: number;
+  [key: string]: any;
+}
+
+export const decodeJWTToken = (token: string): JWTPayload | null => {
+  try {
+    if (!token) return null;
+
+    // JWT tokens have 3 parts separated by dots
+    const parts = token.split('.');
+    if (parts.length !== 3) {
+      console.error('Invalid JWT token format');
+      return null;
+    }
+
+    // Decode the payload (second part)
+    const payload = JSON.parse(atob(parts[1]));
+    console.log('Decoded JWT payload:', payload);
+
+    return payload as JWTPayload;
+  } catch (error) {
+    console.error('Error decoding JWT token:', error);
+    return null;
+  }
+};
+
+// Extract user role/type from JWT token
+export const getUserTypeFromToken = (token: string): 'farmer' | 'buyer' | null => {
+  try {
+    const payload = decodeJWTToken(token);
+    if (!payload) return null;
+
+    console.log('Extracting user type from token payload:', payload);
+
+    // Check for explicit role field
+    if (payload.role) {
+      console.log('Found role in payload:', payload.role);
+      return payload.role === 'farmer' || payload.role === 'buyer' ? payload.role : null;
+    }
+
+    if (payload.currentRole) {
+      console.log('Found currentRole in payload:', payload.currentRole);
+      return payload.currentRole === 'farmer' || payload.currentRole === 'buyer' ? payload.currentRole : null;
+    }
+
+    // Check for farmerId or buyerId to infer type
+    if (payload.farmerId) {
+      console.log('Found farmerId in payload, user is farmer');
+      return 'farmer';
+    }
+
+    if (payload.buyerId) {
+      console.log('Found buyerId in payload, user is buyer');
+      return 'buyer';
+    }
+
+    // Check for id field that might indicate type
+    if (payload.id) {
+      console.log('Checking id field for type indication:', payload.id);
+      // If id contains 'farmer' or 'buyer', use that
+      const idLower = payload.id.toString().toLowerCase();
+      if (idLower.includes('farmer')) return 'farmer';
+      if (idLower.includes('buyer')) return 'buyer';
+    }
+
+    console.warn('Could not determine user type from token payload');
+    return null;
+  } catch (error) {
+    console.error('Error extracting user type from token:', error);
+    return null;
+  }
+};
+
+// Get current user type from stored token
+export const getCurrentUserType = (): 'farmer' | 'buyer' | null => {
+  try {
+    const token = getAuthToken();
+    if (!token) {
+      console.log('No auth token found');
+      return null;
+    }
+
+    const userType = getUserTypeFromToken(token);
+    console.log('Current user type from stored token:', userType);
+    return userType;
+  } catch (error) {
+    console.error('Error getting current user type:', error);
+    return null;
   }
 };
 
