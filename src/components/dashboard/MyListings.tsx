@@ -34,11 +34,11 @@ const listingsData: Listing[] = [
     price: "₦35,000",
     unit: "Per Unit",
     location: "Ojo, Lagos",
-    image: "/listing-1.png",
+    image: "/listing-1.webp",
     category: "Vegetables",
     farmAddress: "Plot 15, Igbogbo Road, OJo, Lagos State, Nigeria",
     averageMarketPrice: "₦36,000",
-    images: ["/listing-1.png", "/listing-2.png", "/listing-3.png", "/listing-4.png", "/listing-5.png"]
+    images: ["/listing-1.webp", "/listing-2.webp", "/listing-3.webp", "/listing-4.webp", "/listing-5.webp"]
   },
   {
     id: 2,
@@ -47,11 +47,11 @@ const listingsData: Listing[] = [
     price: "₦50,000",
     unit: "Per Unit",
     location: "Ojo, Lagos",
-    image: "/listing-2.png",
+    image: "/listing-2.webp",
     category: "Vegetables",
     farmAddress: "Plot 15, Igbogbo Road, OJo, Lagos State, Nigeria",
     averageMarketPrice: "₦52,000",
-    images: ["/listing-2.png", "/listing-3.png", "/listing-4.png", "/listing-5.png", "/listing-6.png"]
+    images: ["/listing-2.webp", "/listing-3.webp", "/listing-4.webp", "/listing-5.webp", "/listing-6.webp"]
   },
   {
     id: 3,
@@ -60,11 +60,11 @@ const listingsData: Listing[] = [
     price: "₦50,500",
     unit: "Per Unit",
     location: "Ojo, Lagos",
-    image: "/listing-3.png",
+    image: "/listing-3.webp",
     category: "Vegetables",
     farmAddress: "Plot 15, Igbogbo Road, OJo, Lagos State, Nigeria",
     averageMarketPrice: "₦51,000",
-    images: ["/listing-3.png", "/listing-4.png", "/listing-5.png", "/listing-6.png", "/listing-7.png"]
+    images: ["/listing-3.webp", "/listing-4.webp", "/listing-5.webp", "/listing-6.webp", "/listing-7.webp"]
   },
   {
     id: 4,
@@ -73,11 +73,11 @@ const listingsData: Listing[] = [
     price: "₦20,000",
     unit: "Per Unit",
     location: "Ojo, Lagos",
-    image: "/listing-4.png",
+    image: "/listing-4.webp",
     category: "Tubers",
     farmAddress: "Plot 15, Igbogbo Road, OJo, Lagos State, Nigeria",
     averageMarketPrice: "₦21,000",
-    images: ["/listing-4.png", "/listing-5.png", "/listing-6.png", "/listing-7.png", "/listing-8.png"]
+    images: ["/listing-4.webp", "/listing-5.webp", "/listing-6.webp", "/listing-7.webp", "/listing-8.webp"]
   },
   {
     id: 5,
@@ -86,11 +86,11 @@ const listingsData: Listing[] = [
     price: "₦30,000",
     unit: "Per Unit",
     location: "Ojo, Lagos",
-    image: "/listing-5.png",
+    image: "/listing-5.webp",
     category: "Vegetables",
     farmAddress: "Plot 15, Igbogbo Road, OJo, Lagos State, Nigeria",
     averageMarketPrice: "₦31,000",
-    images: ["/listing-5.png", "/listing-6.png", "/listing-7.png", "/listing-8.png", "/listing-9.png"]
+    images: ["/listing-5.webp", "/listing-6.webp", "/listing-7.webp", "/listing-8.webp", "/listing-9.webp"]
   },
   {
     id: 6,
@@ -99,11 +99,11 @@ const listingsData: Listing[] = [
     price: "₦35,000",
     unit: "Per Unit",
     location: "Ojo, Lagos",
-    image: "/listing-6.png",
+    image: "/listing-6.webp",
     category: "Fruits",
     farmAddress: "Plot 15, Igbogbo Road, OJo, Lagos State, Nigeria",
     averageMarketPrice: "₦36,000",
-    images: ["/listing-6.png", "/listing-7.png", "/listing-8.png", "/listing-9.png", "/listing-10.png"]
+    images: ["/listing-6.webp", "/listing-7.webp", "/listing-8.webp", "/listing-9.webp", "/listing-10.webp"]
   },
   {
     id: 7,
@@ -112,11 +112,11 @@ const listingsData: Listing[] = [
     price: "₦55,000",
     unit: "Per Unit",
     location: "Ojo, Lagos",
-    image: "/listing-7.png",
+    image: "/listing-7.webp",
     category: "Grains",
     farmAddress: "Plot 15, Igbogbo Road, OJo, Lagos State, Nigeria",
     averageMarketPrice: "₦56,000",
-    images: ["/listing-7.png", "/listing-8.png", "/listing-9.png", "/listing-10.png", "/listing-1.png"]
+    images: ["/listing-7.webp", "/listing-8.webp", "/listing-9.webp", "/listing-10.webp", "/listing-1.webp"]
   },
   {
     id: 8,
@@ -125,11 +125,11 @@ const listingsData: Listing[] = [
     price: "₦21,500",
     unit: "Per Unit",
     location: "Ojo, Lagos",
-    image: "/listing-8.png",
+    image: "/listing-8.webp",
     category: "Vegetables",
     farmAddress: "Plot 15, Igbogbo Road, OJo, Lagos State, Nigeria",
     averageMarketPrice: "₦22,000",
-    images: ["/listing-8.png", "/listing-9.png", "/listing-10.png", "/listing-1.png", "/listing-2.png"]
+    images: ["/listing-8.webp", "/listing-9.webp", "/listing-10.webp", "/listing-1.webp", "/listing-2.webp"]
   },
   {
     id: 9,
@@ -138,11 +138,11 @@ const listingsData: Listing[] = [
     price: "₦55,000",
     unit: "Per Unit",
     location: "Ojo, Lagos",
-    image: "/listing-9.png",
+    image: "/listing-9.webp",
     category: "Grains",
     farmAddress: "Plot 15, Igbogbo Road, OJo, Lagos State, Nigeria",
     averageMarketPrice: "₦56,000",
-    images: ["/listing-9.png", "/listing-10.png", "/listing-1.png", "/listing-2.png", "/listing-3.png"]
+    images: ["/listing-9.webp", "/listing-10.webp", "/listing-1.webp", "/listing-2.webp", "/listing-3.webp"]
   },
   {
     id: 10,
@@ -151,11 +151,11 @@ const listingsData: Listing[] = [
     price: "₦35,000",
     unit: "Per Unit",
     location: "Ojo, Lagos",
-    image: "/listing-10.png",
+    image: "/listing-10.webp",
     category: "Vegetables",
     farmAddress: "Plot 15, Igbogbo Road, OJo, Lagos State, Nigeria",
     averageMarketPrice: "₦36,000",
-    images: ["/listing-10.png", "/listing-1.png", "/listing-2.png", "/listing-3.png", "/listing-4.png"]
+    images: ["/listing-10.webp", "/listing-1.webp", "/listing-2.webp", "/listing-3.webp", "/listing-4.webp"]
   }
 ];
 
@@ -675,7 +675,7 @@ const MyListings: React.FC<MyListingsProps> = ({
               onClick={onProfileClick}
               className="hover:opacity-80 transition-opacity"
             >
-              <img className="w-10 h-10 rounded-full object-cover" src="/profile image.png" alt="Profile" />
+              <img className="w-10 h-10 rounded-full object-cover" src="/profile image.webp" alt="Profile" />
             </button>
           </div>
         </div>

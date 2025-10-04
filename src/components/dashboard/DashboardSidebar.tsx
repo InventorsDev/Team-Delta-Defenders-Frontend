@@ -102,7 +102,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
       <div className="mb-8 lg:mb-12 relative">
         <AgrilinkLogo />
         <div className="w-32 lg:w-40 h-32 lg:h-40 absolute -top-2 right-0 overflow-hidden">
-          <img src="/lsicon_leaf-outline.png" alt="Leaf outline" className="w-24 lg:w-32 h-16 lg:h-24 right-[2px] top-[2px] absolute object-contain" style={{
+          <img src="/lsicon_leaf-outline.webp" alt="Leaf outline" className="w-24 lg:w-32 h-16 lg:h-24 right-[2px] top-[2px] absolute object-contain" style={{
             filter: 'invert(47%) sepia(94%) saturate(568%) hue-rotate(81deg) brightness(94%) contrast(88%)'
           }} />
         </div>
@@ -164,7 +164,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
         <div className="bg-white rounded-xl shadow-md p-3 lg:p-4 text-center w-full max-w-64 mx-auto flex flex-col justify-between">
           <div className="w-16 h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24 mx-auto mb-2 lg:mb-3 rounded-lg overflow-hidden">
             <img
-              src="/farmers-dashoard-sidebar .png"
+              src="/farmers-dashoard-sidebar .webp"
               alt="Fresh Produce"
               className="w-full h-full object-contain"
             />
