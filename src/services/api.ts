@@ -1,12 +1,34 @@
 // Core API configuration with security best practices
 import { getAuthToken, removeAuthToken } from './auth/tokenStorage';
 
+// Get API base URL with proper fallback
+const getApiBaseUrl = (): string => {
+  const envUrl = import.meta.env.VITE_API_URL;
+  const fallbackUrl = 'https://team-delta-defenders-backend-1.onrender.com/api';
+
+  // If environment variable is undefined or empty string, use fallback
+  if (!envUrl || envUrl === 'undefined' || envUrl.trim() === '') {
+    console.warn('VITE_API_URL is not set, using fallback:', fallbackUrl);
+    return fallbackUrl;
+  }
+
+  return envUrl;
+};
+
 // API Configuration
 export const API_CONFIG = {
-  BASE_URL: import.meta.env.VITE_API_URL || 'https://team-delta-defenders-backend-1.onrender.com/api',
+  BASE_URL: getApiBaseUrl(),
   TIMEOUT: parseInt(import.meta.env.VITE_API_TIMEOUT || '45000'), // 45 seconds for Render.com
   MAX_RETRIES: parseInt(import.meta.env.VITE_API_RETRIES || '3'),
 } as const;
+
+// Log configuration on load (only in development)
+if (import.meta.env.DEV) {
+  console.log('API Configuration:', {
+    BASE_URL: API_CONFIG.BASE_URL,
+    VITE_API_URL: import.meta.env.VITE_API_URL,
+  });
+}
 
 // API Response Types
 export interface ApiResponse<T = any> {

@@ -7,7 +7,7 @@ const CTASection = () => {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
         <img
-          src="/midpage-cta.webp"
+          src="/midpage-cta-bg.webp"
           alt="Nigerian farmland landscape"
           className="w-full h-full object-cover"
         />
