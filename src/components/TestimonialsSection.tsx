@@ -6,11 +6,11 @@ import TestimonialCard from './TestimonialCard';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 
-import image1 from '/image1.png';
-import image2 from '/image2.png';
-import image3 from '/image3.png';
-import image4 from '/image4.png';
-import image5 from '/image5.png';
+import image1 from '/image1.webp';
+import image2 from '/image2.webp';
+import image3 from '/image3.webp';
+import image4 from '/image4.webp';
+import image5 from '/image5.webp';
 
 
 const testimonials = [
