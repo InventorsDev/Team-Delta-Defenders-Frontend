@@ -3,6 +3,7 @@ import DeleteListingModal from './DeleteListingModal';
 import EditListingView from './EditListingView';
 import AddListingView from './AddListingView';
 import NotificationDropdown from '../ui/NotificationDropdown';
+import { productsService, Product } from '@/services/productsService';
 
 interface MyListingsProps {
   onDeleteListing: (id: number) => void;
@@ -26,7 +27,8 @@ interface Listing {
   images: string[];
 }
 
-const listingsData: Listing[] = [
+// Fallback data for when API fails or no products
+const fallbackListingsData: Listing[] = [
   {
     id: 1,
     title: "Basket of Tomatoes",
@@ -180,10 +182,48 @@ const MyListings: React.FC<MyListingsProps> = ({
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [listingToDelete, setListingToDelete] = useState<Listing | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [listingsData, setListingsData] = useState<Listing[]>(fallbackListingsData);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const editScrollContainerRef = useRef<HTMLDivElement>(null);
   const addScrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Convert Product to Listing format
+  const convertProductToListing = (product: Product): Listing => ({
+    id: parseInt(product.id),
+    title: product.name,
+    description: product.description,
+    price: `₦${product.price.toLocaleString()}`,
+    unit: 'Per Unit',
+    location: 'Lagos, Nigeria', // Default location
+    image: product.images?.[0] || '/placeholder-image.jpg',
+    category: product.category,
+    farmAddress: 'Farm Address', // This should come from user profile
+    averageMarketPrice: `₦${(product.price * 1.1).toLocaleString()}`, // 10% markup for market price
+    images: product.images || ['/placeholder-image.jpg']
+  });
+
+  // Fetch listings from API
+  const fetchListings = async () => {
+    setIsLoading(true);
+    try {
+      const products = await productsService.getAllProducts();
+      const listings = products.map(convertProductToListing);
+      setListingsData(listings.length > 0 ? listings : fallbackListingsData);
+    } catch (error) {
+      console.error('Failed to fetch listings:', error);
+      setListingsData(fallbackListingsData);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Fetch listings on component mount
+  useEffect(() => {
+    fetchListings();
+  }, []);
 
   const sortOptions = [
     "Latest Listing",
@@ -329,12 +369,11 @@ const MyListings: React.FC<MyListingsProps> = ({
   };
 
   // Handle save new listing
-  const handleSaveNewListing = () => {
-    // Here you would typically save to backend
-    console.log('Saving new listing:', addFormData);
+  const handleSaveNewListing = async () => {
     setIsAddMode(false);
     setAddFormData(null);
-    // You could add the new listing to the listings data here
+    // Refresh listings to show the newly added product
+    await fetchListings();
   };
 
   // Handle delete popup
@@ -344,16 +383,37 @@ const MyListings: React.FC<MyListingsProps> = ({
     setShowDeletePopup(true);
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     if (listingToDelete) {
-      onDeleteListing(listingToDelete.id);
-      setShowDeletePopup(false);
-      setListingToDelete(null);
-      // Close detail view if deleting the currently selected listing
-      if (selectedListing?.id === listingToDelete.id) {
-        setSelectedListing(null);
-        setIsEditMode(false);
-        setEditFormData(null);
+      setIsDeleting(true);
+      try {
+        // Delete from backend
+        await productsService.deleteProduct(listingToDelete.id.toString());
+
+        // Remove from local state
+        setListingsData(prevListings =>
+          prevListings.filter(listing => listing.id !== listingToDelete.id)
+        );
+
+        // Call parent handler
+        onDeleteListing(listingToDelete.id);
+
+        setShowDeletePopup(false);
+        setListingToDelete(null);
+
+        // Close detail view if deleting the currently selected listing
+        if (selectedListing?.id === listingToDelete.id) {
+          setSelectedListing(null);
+          setIsEditMode(false);
+          setEditFormData(null);
+        }
+
+        alert('Product deleted successfully!');
+      } catch (error) {
+        console.error('Failed to delete listing:', error);
+        alert('Failed to delete product. Please try again.');
+      } finally {
+        setIsDeleting(false);
       }
     }
   };
@@ -378,10 +438,16 @@ const MyListings: React.FC<MyListingsProps> = ({
         className="min-h-[764px] px-2.5 pb-2.5 left-0 sm:left-[30px] top-[226px] absolute flex justify-start items-start gap-2.5"
       >
         <div className={`${(selectedListing || isAddMode) ? 'w-full sm:w-[528px] grid grid-cols-1 sm:grid-cols-2 gap-5' : 'w-full sm:w-[1048px] flex flex-wrap gap-5'} transition-all duration-300`}>
-          {filteredListings.length === 0 ? (
+          {isLoading ? (
+            <div className="w-full py-12 text-center">
+              <p className="text-brand-colors-SproutGreen text-lg font-madani-medium">
+                Loading listings...
+              </p>
+            </div>
+          ) : filteredListings.length === 0 ? (
             <div className="w-full py-12 text-center">
               <p className="text-brand-colors-rootgrey text-lg font-madani-medium">
-                No listings found matching "{searchQuery}"
+                {searchQuery ? `No listings found matching "${searchQuery}"` : 'No listings available'}
               </p>
             </div>
           ) : (
@@ -771,11 +837,12 @@ const MyListings: React.FC<MyListingsProps> = ({
       </div>
 
       {/* Delete Listing Modal */}
-      <DeleteListingModal 
+      <DeleteListingModal
         isOpen={showDeletePopup}
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
-        productName={selectedListing?.title}
+        productName={listingToDelete?.title}
+        isDeleting={isDeleting}
       />
     </div>
   ); 

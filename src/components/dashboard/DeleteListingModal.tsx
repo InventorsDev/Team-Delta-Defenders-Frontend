@@ -5,13 +5,15 @@ interface DeleteListingModalProps {
   onClose: () => void;
   onConfirm: () => void;
   productName?: string;
+  isDeleting?: boolean;
 }
 
 const DeleteListingModal: React.FC<DeleteListingModalProps> = ({
   isOpen,
   onClose,
   onConfirm,
-  productName = 'this product'
+  productName = 'this product',
+  isDeleting = false
 }) => {
   if (!isOpen) return null;
 
@@ -43,20 +45,22 @@ const DeleteListingModal: React.FC<DeleteListingModalProps> = ({
             </div>
           </div>
           <div className="flex justify-start items-center gap-4 mt-4">
-            <button 
+            <button
               onClick={onClose}
-              className="h-[60px] min-w-0 sm:min-w-[200px] px-6 py-3 bg-brand-colors-HarvestMist rounded-[30px] flex justify-center items-center gap-2.5 border-none cursor-pointer hover:opacity-90 transition-opacity"
+              disabled={isDeleting}
+              className="h-[60px] min-w-0 sm:min-w-[200px] px-6 py-3 bg-brand-colors-HarvestMist rounded-[30px] flex justify-center items-center gap-2.5 border-none cursor-pointer hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <div className="text-brand-colors-RootBlack text-base font-['MadaniArabic-Bold']">
                 Cancel
               </div>
             </button>
-            <button 
+            <button
               onClick={onConfirm}
-              className="h-[60px] min-w-0 sm:min-w-[200px] px-6 py-3 bg-brand-colors-pepper-red rounded-[30px] flex justify-center items-center gap-2.5 border-none cursor-pointer hover:opacity-90 transition-opacity"
+              disabled={isDeleting}
+              className="h-[60px] min-w-0 sm:min-w-[200px] px-6 py-3 bg-brand-colors-pepper-red rounded-[30px] flex justify-center items-center gap-2.5 border-none cursor-pointer hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <div className="text-white text-base font-['MadaniArabic-Bold']">
-                Yes, Delete
+                {isDeleting ? 'Deleting...' : 'Yes, Delete'}
               </div>
             </button>
           </div>

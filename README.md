@@ -2,6 +2,8 @@
 
 A modern React-based web marketplace connecting farmers directly with buyers across Nigeria, eliminating middlemen and ensuring fair prices for agricultural products.
 
+**🌐 Live Application:** [https://agrilink-delta-defenders.vercel.app](https://agrilink-delta-defenders.vercel.app)
+
 ## 📖 Project Overview
 
 AgriLink NG is a comprehensive agricultural marketplace platform that empowers farmers to sell their products directly to buyers, featuring real-time negotiation, secure communication, and seamless transaction management. The platform aims to revolutionize Nigeria's agricultural sector by creating transparent, efficient market connections.
