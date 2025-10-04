@@ -215,7 +215,7 @@ const MobileDashboard: React.FC<MobileDashboardProps> = ({
         </div>
         <div className="w-full p-3 bg-white rounded-2xl shadow-lg flex flex-col gap-5">
           <div className="flex items-center gap-3">
-            <img className="w-10 h-10 rounded-full object-cover" src="/dashboard-chat-2.png" alt="Profile" />
+            <img className="w-10 h-10 rounded-full object-cover" src="/dashboard-chat-2.webp" alt="Profile" />
             <div className="flex flex-col gap-2">
               <div className="text-base font-medium text-brand-colors-RootBlack" style={{ fontFamily: 'MadaniArabic-Medium' }}>
                 White Tapes
