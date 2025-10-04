@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { API_CONFIG } from '@/services/api';
+import { setAuthToken, setRefreshToken, setUserData } from '@/services/auth/tokenStorage';
 
 const GoogleIcon: React.FC = () => (
   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -83,7 +85,8 @@ const SignupStep2: React.FC = () => {
       const step1Data = JSON.parse(step1DataStr);
 
       const signupData = {
-        fullName: formData.businessName || step1Data.fullName,
+        fullName: step1Data.fullName,
+        businessName: formData.businessName,
         phone: step1Data.phone,
         email: step1Data.email,
         state: formData.state,
@@ -91,7 +94,9 @@ const SignupStep2: React.FC = () => {
         password: formData.password
       };
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/farmers/signup`, {
+      console.log('Signup data being sent:', signupData);
+
+      const response = await fetch(`${API_CONFIG.BASE_URL}/auth/farmers/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -136,15 +141,30 @@ const SignupStep2: React.FC = () => {
         throw new Error('Server returned invalid response format');
       }
 
-      const businessName = formData.businessName || step1Data.fullName;
+      console.log('Signup response from backend:', data);
+
+      // Store authentication tokens and user data
+      if (data.token) {
+        setAuthToken(data.token, data.expiresIn);
+      }
+      if (data.refreshToken) {
+        setRefreshToken(data.refreshToken);
+      }
+      if (data.user) {
+        setUserData(data.user);
+      }
+
       sessionStorage.setItem('signupRole', 'farmer');
-      sessionStorage.setItem('signupBusinessName', businessName);
+      if (formData.businessName) {
+        sessionStorage.setItem('signupBusinessName', formData.businessName);
+      }
       sessionStorage.setItem('signupEmail', step1Data.email);
       localStorage.setItem('signupRole', 'farmer');
 
       sessionStorage.removeItem('farmerSignupStep1');
 
-      navigate('/farmers-signup-step3');
+      // Redirect to dashboard instead of step 3
+      navigate('/farmer-dashboard');
 
     } catch (error: any) {
       setError(error.message || 'Signup failed. Please try again.');

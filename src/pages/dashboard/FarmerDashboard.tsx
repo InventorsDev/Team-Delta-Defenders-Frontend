@@ -54,7 +54,7 @@ const FarmerDashboard: React.FC = () => {
   useEffect(() => {
     const userData = getUserData();
     if (userData) {
-      setBusinessName(userData.name || 'Farmer');
+      setBusinessName(userData.businessName || 'Farmer');
     }
   }, []);
 
