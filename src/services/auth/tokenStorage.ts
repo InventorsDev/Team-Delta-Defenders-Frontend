@@ -46,7 +46,8 @@ export interface TokenInfo {
 export interface UserData {
   id: string;
   email: string;
-  name: string; // For farmers, this contains their business/farm name
+  name: string; // Full name
+  businessName?: string; // For farmers - business/farm name
   role: 'farmer' | 'buyer' | 'admin';
   isVerified: boolean;
   avatar?: string;
@@ -162,6 +163,7 @@ export const setUserData = (userData: UserData): void => {
       id: userData.id,
       email: userData.email,
       name: userData.name,
+      businessName: userData.businessName,
       role: userData.role,
       isVerified: userData.isVerified,
       avatar: userData.avatar,

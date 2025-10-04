@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { API_CONFIG } from '@/services/api';
 
 const EyeIcon: React.FC<{ isVisible: boolean }> = ({ isVisible }) => (
   <img 
@@ -81,7 +82,7 @@ const BuyerSignupStep2: React.FC = () => {
         password: formData.password
       };
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/buyers/signup`, {
+      const response = await fetch(`${API_CONFIG.BASE_URL}/auth/buyers/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -33,6 +33,7 @@ export interface RegisterRequest {
   name: string;
   role: 'farmer' | 'buyer';
   phoneNumber?: string;
+  businessName?: string;
   acceptTerms: boolean;
   marketingConsent?: boolean;
 }
