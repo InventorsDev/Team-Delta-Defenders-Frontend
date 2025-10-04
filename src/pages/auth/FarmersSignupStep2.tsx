@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { API_CONFIG } from '@/services/api';
+import { setAuthToken, setRefreshToken, setUserData } from '@/services/auth/tokenStorage';
 
 const GoogleIcon: React.FC = () => (
   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -140,6 +141,19 @@ const SignupStep2: React.FC = () => {
         throw new Error('Server returned invalid response format');
       }
 
+      console.log('Signup response from backend:', data);
+
+      // Store authentication tokens and user data
+      if (data.token) {
+        setAuthToken(data.token, data.expiresIn);
+      }
+      if (data.refreshToken) {
+        setRefreshToken(data.refreshToken);
+      }
+      if (data.user) {
+        setUserData(data.user);
+      }
+
       sessionStorage.setItem('signupRole', 'farmer');
       if (formData.businessName) {
         sessionStorage.setItem('signupBusinessName', formData.businessName);
@@ -149,7 +163,8 @@ const SignupStep2: React.FC = () => {
 
       sessionStorage.removeItem('farmerSignupStep1');
 
-      navigate('/farmers-signup-step3');
+      // Redirect to dashboard instead of step 3
+      navigate('/farmer-dashboard');
 
     } catch (error: any) {
       setError(error.message || 'Signup failed. Please try again.');

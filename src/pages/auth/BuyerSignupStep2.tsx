@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { API_CONFIG } from '@/services/api';
+import { setAuthToken, setRefreshToken, setUserData } from '@/services/auth/tokenStorage';
 
 const EyeIcon: React.FC<{ isVisible: boolean }> = ({ isVisible }) => (
   <img 
@@ -127,12 +128,26 @@ const BuyerSignupStep2: React.FC = () => {
         throw new Error('Server returned invalid response format');
       }
 
+      console.log('Buyer signup response from backend:', data);
+
+      // Store authentication tokens and user data
+      if (data.token) {
+        setAuthToken(data.token, data.expiresIn);
+      }
+      if (data.refreshToken) {
+        setRefreshToken(data.refreshToken);
+      }
+      if (data.user) {
+        setUserData(data.user);
+      }
+
       sessionStorage.setItem('signupRole', 'buyer');
       localStorage.setItem('signupRole', 'buyer');
 
       sessionStorage.removeItem('buyerSignupStep1');
 
-      navigate('/buyer-signup-step3');
+      // Redirect to marketplace instead of step 3
+      navigate('/marketplace');
 
     } catch (error: any) {
       setError(error.message || 'Signup failed. Please try again.');
