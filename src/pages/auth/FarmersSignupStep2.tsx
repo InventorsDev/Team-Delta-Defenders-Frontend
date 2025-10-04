@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { API_CONFIG } from '@/services/api';
+import { api } from '@/services/api';
 import { setAuthToken, setRefreshToken, setUserData } from '@/services/auth/tokenStorage';
 
 const GoogleIcon: React.FC = () => (
@@ -96,52 +96,12 @@ const SignupStep2: React.FC = () => {
 
       console.log('Signup data being sent:', signupData);
 
-      const response = await fetch(`${API_CONFIG.BASE_URL}/auth/farmers/signup`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(signupData),
-      });
+      const response = await api.post<any>('/auth/farmers/signup', signupData);
 
-      // Check if response has content before parsing
-      const contentType = response.headers.get('content-type');
-      const hasJsonContent = contentType && contentType.includes('application/json');
+      console.log('Signup response from backend:', response);
 
-      if (!response.ok) {
-        // Try to get error message from response
-        let errorMessage = 'Signup failed. Please try again.';
-
-        if (hasJsonContent) {
-          try {
-            const errorData = await response.json();
-            errorMessage = errorData.message || errorData.error || errorMessage;
-          } catch (parseError) {
-            // If JSON parsing fails, try to get text
-            const errorText = await response.text();
-            if (errorText) {
-              errorMessage = `Server error: ${errorText.substring(0, 100)}`;
-            }
-          }
-        } else {
-          // Non-JSON response
-          const errorText = await response.text();
-          errorMessage = errorText || `Server error (${response.status})`;
-        }
-
-        throw new Error(errorMessage);
-      }
-
-      // Parse successful response
-      let data;
-      if (hasJsonContent) {
-        data = await response.json();
-      } else {
-        throw new Error('Server returned invalid response format');
-      }
-
-      console.log('Signup response from backend:', data);
+      // Extract data from the API response wrapper
+      const data = response.data || response;
 
       // Store authentication tokens and user data
       if (data.token) {
