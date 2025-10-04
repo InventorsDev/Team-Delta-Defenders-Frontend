@@ -36,7 +36,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
         }`}
         style={{
           width: '729px',
-          background: 'var(--brand-colors-SteamWhite, white)',
+          background: 'hsl(var(--brand-colors-SteamWhite, 0 0% 100%))',
           borderTopLeftRadius: 20,
           borderBottomLeftRadius: 20,
           position: 'fixed',
@@ -51,7 +51,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             width: '100%',
             height: '100%',
             position: 'relative',
-            background: 'var(--brand-colors-SteamWhite, white)',
+            background: 'hsl(var(--brand-colors-SteamWhite, 0 0% 100%))',
             overflow: 'auto',
             borderTopLeftRadius: 20,
             borderBottomLeftRadius: 20
@@ -83,7 +83,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             gap: 16,
             display: 'inline-flex'
           }}>
-            <img style={{flex: '1 1 0', height: 89, borderRadius: 10, border: '3px var(--brand-colors-SproutGreen, #84C62C) solid', objectFit: 'cover'}} src={product.image} alt="thumbnail" />
+            <img style={{flex: '1 1 0', height: 89, borderRadius: 10, border: '3px hsl(var(--brand-colors-SproutGreen, 86 64% 47%)) solid', objectFit: 'cover'}} src={product.image} alt="thumbnail" />
             <img style={{flex: '1 1 0', height: 89, borderRadius: 10, objectFit: 'cover'}} src={product.image} alt="thumbnail" />
             <img style={{flex: '1 1 0', height: 89, borderRadius: 10, objectFit: 'cover'}} src={product.image} alt="thumbnail" />
             <img style={{flex: '1 1 0', height: 89, borderRadius: 10, objectFit: 'cover'}} src={product.image} alt="thumbnail" />
@@ -101,44 +101,34 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             alignItems: 'center',
             display: 'inline-flex'
           }}>
-            <div style={{
+            <button style={{
               width: 50,
               height: 50,
-              paddingLeft: 15,
-              paddingRight: 15,
-              paddingTop: 10,
-              paddingBottom: 10,
-              transform: 'rotate(180deg)',
-              transformOrigin: 'top left',
               background: 'rgba(255, 255, 255, 0.70)',
               overflow: 'hidden',
               borderRadius: 40,
               justifyContent: 'center',
               alignItems: 'center',
-              gap: 10,
-              display: 'flex'
+              display: 'flex',
+              border: 'none',
+              cursor: 'pointer'
             }}>
-              {/* Replace with left arrow SVG or icon */}
-              <img src="/chevron-left.svg" alt="Previous" style={{width: 24, height: 24}} />
-            </div>
-            <div style={{
+              <img src="/chevron-left-2.svg" alt="Previous" style={{width: 24, height: 24}} />
+            </button>
+            <button style={{
               width: 50,
               height: 50,
-              paddingLeft: 15,
-              paddingRight: 15,
-              paddingTop: 10,
-              paddingBottom: 10,
               background: 'rgba(255, 255, 255, 0.70)',
               overflow: 'hidden',
               borderRadius: 40,
               justifyContent: 'center',
               alignItems: 'center',
-              gap: 10,
-              display: 'flex'
+              display: 'flex',
+              border: 'none',
+              cursor: 'pointer'
             }}>
-              {/* Replace with right arrow SVG or icon */}
-              <img src="/chevron-right.svg" alt="Next" style={{width: 24, height: 24}} />
-            </div>
+              <img src="/chevron-right-2.svg" alt="Next" style={{width: 24, height: 24}} />
+            </button>
           </div>
 
           {/* Seller Title */}
@@ -146,7 +136,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             left: 457,
             top: 111,
             position: 'absolute',
-            color: 'var(--brand-colors-RootBlack, #182605)',
+            color: 'hsl(var(--brand-colors-RootBlack, 86 78% 8%))',
             fontSize: 24,
             fontFamily: 'MadaniArabic-Bold',
             fontWeight: '400',
@@ -170,7 +160,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             {/* Product Name */}
             <div style={{
               alignSelf: 'stretch',
-              color: 'var(--brand-colors-RootBlack, #182605)',
+              color: 'hsl(var(--brand-colors-RootBlack, 86 78% 8%))',
               fontSize: 32,
               fontFamily: 'MadaniArabic-Bold',
               fontWeight: '400',
@@ -187,7 +177,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
               display: 'inline-flex'
             }}>
               <div style={{
-                color: 'var(--brand-colors-RootBlack, #182605)',
+                color: 'hsl(var(--brand-colors-RootBlack, 86 78% 8%))',
                 fontSize: 24,
                 fontFamily: 'MadaniArabic-Bold',
                 fontWeight: '400',
@@ -196,7 +186,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
                 {product.price}
               </div>
               <div style={{
-                color: 'var(--brand-colors-RootBlack, #182605)',
+                color: 'hsl(var(--brand-colors-RootBlack, 86 78% 8%))',
                 fontSize: 16,
                 fontFamily: 'MadaniArabic-Medium',
                 fontWeight: '400',
@@ -208,7 +198,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             {/* Average Market Price */}
             <div data-property-1="Default" style={{
               padding: 10,
-              background: 'var(--brand-colors-HarvestMist, #E4FDE1)',
+              background: 'hsl(var(--brand-colors-HarvestMist, 114 88% 94%))',
               borderRadius: 20,
               justifyContent: 'center',
               alignItems: 'center',
@@ -216,7 +206,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
               display: 'inline-flex'
             }}>
               <div style={{
-                color: 'var(--brand-colors-RootBlack, #182605)',
+                color: 'hsl(var(--brand-colors-RootBlack, 86 78% 8%))',
                 fontSize: 16,
                 fontFamily: 'MadaniArabic-Medium',
                 fontWeight: '400',
@@ -235,7 +225,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
               display: 'flex'
             }}>
               <div style={{
-                color: 'var(--brand-colors-RootBlack, #182605)',
+                color: 'hsl(var(--brand-colors-RootBlack, 86 78% 8%))',
                 fontSize: 16,
                 fontFamily: 'MadaniArabic-Medium',
                 fontWeight: '400',
@@ -245,7 +235,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
               </div>
               <div style={{
                 alignSelf: 'stretch',
-                color: 'var(--brand-colors-rootgrey, #8B9281)',
+                color: 'hsl(var(--brand-colors-rootgrey, 0 0% 60%))',
                 fontSize: 16,
                 fontFamily: 'MadaniArabic-Medium',
                 fontWeight: '400',
@@ -270,7 +260,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
                 <img src="/location-icon.svg" alt="Location" style={{width: 24, height: 24}} />
               </div>
               <div style={{
-                color: 'var(--brand-colors-RootBlack, #182605)',
+                color: 'hsl(var(--brand-colors-RootBlack, 86 78% 8%))',
                 fontSize: 16,
                 fontFamily: 'MadaniArabic-Medium',
                 fontWeight: '400',
@@ -289,7 +279,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
               display: 'flex'
             }}>
               <div style={{
-                color: 'var(--brand-colors-RootBlack, #182605)',
+                color: 'hsl(var(--brand-colors-RootBlack, 86 78% 8%))',
                 fontSize: 16,
                 fontFamily: 'MadaniArabic-Medium',
                 fontWeight: '400',
@@ -299,7 +289,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
               </div>
               <div style={{
                 alignSelf: 'stretch',
-                color: 'var(--brand-colors-rootgrey, #8B9281)',
+                color: 'hsl(var(--brand-colors-rootgrey, 0 0% 60%))',
                 fontSize: 16,
                 fontFamily: 'MadaniArabic-Medium',
                 fontWeight: '400',
@@ -318,7 +308,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
               display: 'flex'
             }}>
               <div style={{
-                color: 'var(--brand-colors-RootBlack, #182605)',
+                color: 'hsl(var(--brand-colors-RootBlack, 86 78% 8%))',
                 fontSize: 16,
                 fontFamily: 'MadaniArabic-Medium',
                 fontWeight: '400',
@@ -328,7 +318,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
               </div>
               <div style={{
                 alignSelf: 'stretch',
-                color: 'var(--brand-colors-rootgrey, #8B9281)',
+                color: 'hsl(var(--brand-colors-rootgrey, 0 0% 60%))',
                 fontSize: 16,
                 fontFamily: 'MadaniArabic-Medium',
                 fontWeight: '400',
@@ -346,9 +336,9 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             paddingTop: 20,
             paddingBottom: 20,
             left: 457,
-            top: 139,
+            top: 155,
             position: 'absolute',
-            background: 'var(--brand-colors-SteamWhite, white)',
+            background: 'hsl(var(--brand-colors-SteamWhite, 0 0% 100%))',
             boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.08)',
             borderRadius: 20,
             justifyContent: 'flex-start',
@@ -367,7 +357,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             }}>
               <div style={{
                 alignSelf: 'stretch',
-                color: 'var(--brand-colors-RootBlack, #182605)',
+                color: 'hsl(var(--brand-colors-RootBlack, 86 78% 8%))',
                 fontSize: 20,
                 fontFamily: 'MadaniArabic-Medium',
                 fontWeight: '400',
@@ -377,7 +367,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
                 Anosikay Farms
               </div>
               <div style={{
-                color: 'var(--brand-colors-rootgrey, #8B9281)',
+                color: 'hsl(var(--brand-colors-rootgrey, 0 0% 60%))',
                 fontSize: 16,
                 fontFamily: 'MadaniArabic-Medium',
                 fontWeight: '400',
@@ -386,7 +376,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
                 2y 3m on agrilink
               </div>
               <div style={{
-                color: 'var(--brand-colors-rootgrey, #8B9281)',
+                color: 'hsl(var(--brand-colors-rootgrey, 0 0% 60%))',
                 fontSize: 16,
                 fontFamily: 'MadaniArabic-Medium',
                 fontWeight: '400',
@@ -423,9 +413,9 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             paddingTop: 20,
             paddingBottom: 20,
             left: 454,
-            top: 479,
+            top: 545,
             position: 'absolute',
-            background: 'var(--brand-colors-SteamWhite, white)',
+            background: 'hsl(var(--brand-colors-SteamWhite, 0 0% 100%))',
             boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.08)',
             borderRadius: 20,
             justifyContent: 'flex-start',
@@ -433,19 +423,22 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             gap: 15,
             display: 'inline-flex'
           }}>
-            <div style={{
+            <ul style={{
               flex: '1 1 0',
-              color: 'var(--brand-colors-rootgrey, #8B9281)',
+              color: 'hsl(var(--brand-colors-rootgrey, 0 0% 60%))',
               fontSize: 16,
               fontFamily: 'MadaniArabic-Medium',
               fontWeight: '400',
-              wordWrap: 'break-word'
+              wordWrap: 'break-word',
+              margin: 0,
+              paddingLeft: 20,
+              listStyleType: 'disc'
             }}>
-              Avoid paying in advance, even for delivery<br />
-              Meet with seller at a safe public place<br />
-              Inspect the item and ensure it’s exactly what you want<br />
-              Only pay if you’re satisfied
-            </div>
+              <li style={{ marginBottom: 8 }}>Avoid paying in advance, even for delivery</li>
+              <li style={{ marginBottom: 8 }}>Meet with seller at a safe public place</li>
+              <li style={{ marginBottom: 8 }}>Inspect the item and ensure it's exactly what you want</li>
+              <li style={{ marginBottom: 0 }}>Only pay if you're satisfied</li>
+            </ul>
           </div>
           {/* Action Buttons */}
           <div data-property-1="alternate" style={{
@@ -457,9 +450,9 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             paddingTop: 12,
             paddingBottom: 12,
             left: 457,
-            top: 304,
+            top: 375,
             position: 'absolute',
-            background: 'var(--brand-colors-HarvestMist, #E4FDE1)',
+            background: 'hsl(var(--brand-colors-HarvestMist, 114 88% 94%))',
             borderRadius: 30,
             justifyContent: 'center',
             alignItems: 'center',
@@ -467,7 +460,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             display: 'inline-flex'
           }}>
             <div style={{
-              color: 'var(--brand-colors-RootBlack, #182605)',
+              color: 'hsl(var(--brand-colors-RootBlack, 86 78% 8%))',
               fontSize: 16,
               fontFamily: 'MadaniArabic-Bold',
               fontWeight: '400',
@@ -485,9 +478,9 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             paddingTop: 12,
             paddingBottom: 12,
             left: 457,
-            top: 354,
+            top: 435,
             position: 'absolute',
-            background: 'var(--brand-colors-pepper-red, #FF3D00)',
+            background: 'hsl(var(--brand-colors-pepper-red, 0 84% 60%))',
             borderRadius: 30,
             justifyContent: 'center',
             alignItems: 'center',
@@ -495,7 +488,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             display: 'inline-flex'
           }}>
             <div style={{
-              color: 'var(--brand-colors-SteamWhite, white)',
+              color: 'hsl(var(--brand-colors-SteamWhite, 0 0% 100%))',
               fontSize: 16,
               fontFamily: 'MadaniArabic-Bold',
               fontWeight: '400',
@@ -507,9 +500,9 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
           {/* Safety Tips Title */}
           <div style={{
             left: 454,
-            top: 441,
+            top: 505,
             position: 'absolute',
-            color: 'var(--brand-colors-RootBlack, #182605)',
+            color: 'hsl(var(--brand-colors-RootBlack, 86 78% 8%))',
             fontSize: 24,
             fontFamily: 'MadaniArabic-Bold',
             fontWeight: '400',
@@ -522,7 +515,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             width: 262,
             padding: 20,
             left: 454,
-            top: 695,
+            top: 820,
             position: 'absolute',
             background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%)',
             boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.08)',
@@ -540,7 +533,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             <div style={{
               alignSelf: 'stretch',
               textAlign: 'center',
-              color: 'var(--brand-colors-SteamWhite, white)',
+              color: 'hsl(var(--brand-colors-SteamWhite, 0 0% 100%))',
               fontSize: 16,
               fontFamily: 'MadaniArabic-Medium',
               fontWeight: '400',
@@ -556,7 +549,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
               paddingRight: 24,
               paddingTop: 12,
               paddingBottom: 12,
-              background: 'var(--brand-colors-SproutGreen, #84C62C)',
+              background: 'hsl(var(--brand-colors-SproutGreen, 86 64% 47%))',
               borderRadius: 30,
               justifyContent: 'center',
               alignItems: 'center',
@@ -564,7 +557,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
               display: 'inline-flex'
             }}>
               <div style={{
-                color: 'var(--brand-colors-SteamWhite, white)',
+                color: 'hsl(var(--brand-colors-SteamWhite, 0 0% 100%))',
                 fontSize: 16,
                 fontFamily: 'MadaniArabic-Bold',
                 fontWeight: '400',
@@ -581,7 +574,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             left: 729,
             top: 96,
             position: 'absolute',
-            background: 'var(--brand-colors-SproutGreen, #84C62C)',
+            background: 'hsl(var(--brand-colors-SproutGreen, 86 64% 47%))',
             borderRadius: 99
           }} />
           {/* Top Action Bar */}
@@ -606,7 +599,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
               paddingRight: 24,
               paddingTop: 12,
               paddingBottom: 12,
-              background: 'var(--brand-colors-SproutGreen, #84C62C)',
+              background: 'hsl(var(--brand-colors-SproutGreen, 86 64% 47%))',
               borderRadius: 30,
               justifyContent: 'center',
               alignItems: 'center',
@@ -614,7 +607,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
               display: 'flex'
             }}>
               <div style={{
-                color: 'var(--brand-colors-SteamWhite, white)',
+                color: 'hsl(var(--brand-colors-SteamWhite, 0 0% 100%))',
                 fontSize: 16,
                 fontFamily: 'MadaniArabic-Bold',
                 fontWeight: '400',
@@ -625,7 +618,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             </div>
             <div style={{
               padding: 10,
-              background: 'var(--brand-colors-SteamWhite, white)',
+              background: 'hsl(var(--brand-colors-SteamWhite, 0 0% 100%))',
               boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.08)',
               borderRadius: 22,
               justifyContent: 'flex-start',
@@ -644,7 +637,7 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
           <div style={{
             width: 404,
             left: 30,
-            top: 921,
+            top: 1050,
             position: 'absolute',
             flexDirection: 'column',
             justifyContent: 'flex-start',
@@ -652,7 +645,141 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, isOpen, 
             gap: 30,
             display: 'inline-flex'
           }}>
-            {/* ...testimonials content as needed... */}
+            {/* Testimonials Header */}
+            <div style={{
+              alignSelf: 'stretch',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              display: 'inline-flex'
+            }}>
+              <div style={{
+                color: 'hsl(var(--brand-colors-RootBlack, 86 78% 8%))',
+                fontSize: 24,
+                fontFamily: 'MadaniArabic-Bold',
+                fontWeight: '400',
+                wordWrap: 'break-word'
+              }}>
+                Testimonials
+              </div>
+              <div style={{
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                gap: 4,
+                display: 'flex',
+                cursor: 'pointer'
+              }}>
+                <div style={{
+                  color: 'hsl(var(--brand-colors-RootBlack, 86 78% 8%))',
+                  fontSize: 16,
+                  fontFamily: 'MadaniArabic-Medium',
+                  fontWeight: '400',
+                  wordWrap: 'break-word'
+                }}>
+                  View All
+                </div>
+                <img
+                  src="/chevron-right-2.svg"
+                  alt="Arrow right"
+                  style={{width: 16, height: 16}}
+                />
+              </div>
+            </div>
+
+            {/* Testimonial Cards */}
+            {[
+              { name: 'White Tapes', role: 'Fashion Designer' },
+              { name: 'Fatima Alabi', role: 'Buyer' },
+              { name: 'Thunde Ednut', role: 'Store Owner' }
+            ].map((testimonial, index) => (
+              <div key={index} style={{
+                alignSelf: 'stretch',
+                padding: 15,
+                background: 'hsl(var(--brand-colors-SteamWhite, 0 0% 100%))',
+                boxShadow: '0px 4px 30px 5px rgba(0, 0, 0, 0.08)',
+                overflow: 'hidden',
+                borderRadius: 20,
+                flexDirection: 'column',
+                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
+                gap: 20,
+                display: 'flex'
+              }}>
+                <div style={{
+                  width: '100%',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                  gap: 12,
+                  display: 'flex'
+                }}>
+                  <img
+                    style={{width: 40, height: 40, borderRadius: 9999, flexShrink: 0}}
+                    src="/profile image.webp"
+                    alt={testimonial.name}
+                  />
+                  <div style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'flex-start',
+                    alignItems: 'flex-start',
+                    gap: 8,
+                    display: 'flex'
+                  }}>
+                    <div style={{
+                      width: '100%',
+                      color: 'hsl(var(--brand-colors-RootBlack, 86 78% 8%))',
+                      fontSize: 16,
+                      fontFamily: 'MadaniArabic-Medium',
+                      fontWeight: '400',
+                      wordWrap: 'break-word'
+                    }}>
+                      {testimonial.name}
+                    </div>
+                    <div style={{
+                      width: '100%',
+                      color: 'hsl(var(--brand-colors-rootgrey, 0 0% 60%))',
+                      fontSize: 14,
+                      fontFamily: 'MadaniArabic-Light',
+                      fontWeight: '400',
+                      wordWrap: 'break-word'
+                    }}>
+                      {testimonial.role}
+                    </div>
+                  </div>
+                </div>
+                <div style={{
+                  width: '100%',
+                  color: 'hsl(var(--brand-colors-RootBlack, 86 78% 8%))',
+                  fontSize: 16,
+                  fontFamily: 'Montserrat',
+                  fontStyle: 'italic',
+                  fontWeight: '400',
+                  lineHeight: '24px',
+                  wordWrap: 'break-word'
+                }}>
+                  "I found the freshest tomatoes I've ever bought through AgriLink. Your farm's produce was top quality, and it arrived just as promised. Thank you for making it so easy to buy directly from you, I'll definitely order again!"
+                </div>
+                <div style={{
+                  width: '100%',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                  gap: 6,
+                  display: 'flex'
+                }}>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <img
+                      key={star}
+                      src="/star.svg"
+                      alt="Star"
+                      style={{
+                        width: 24,
+                        height: 24,
+                        filter: 'brightness(0) saturate(100%) invert(84%) sepia(78%) saturate(2500%) hue-rotate(2deg) brightness(105%) contrast(102%)'
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
