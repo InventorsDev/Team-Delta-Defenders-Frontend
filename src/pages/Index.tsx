@@ -57,28 +57,38 @@ const Index = () => {
               ></span>
             </div>
             <div className="flex flex-wrap justify-center items-center gap-3 sm:gap-4 md:gap-6 lg:gap-8">
-              {Array.from({ length: 5 }, (_, index) => (
-                <div 
-                  key={index}
-                  className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-white/60 rounded-lg shadow-sm flex items-center justify-center"
-                >
-                  <img
-                    src={index < 4 ? `/partner-${index + 1}.svg` : `/partner-${index + 1}.webp`}
-                    alt={`Partner ${index + 1}`}
-                    className="w-full h-full object-contain rounded-lg"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
-                      if (nextElement) {
-                        nextElement.style.display = 'block';
-                      }
-                    }}
-                  />
-                  <span className="text-gray-400 text-xs sm:text-sm hidden">
-                    Partner {index + 1}
-                  </span>
-                </div>
-              ))}
+              {Array.from({ length: 5 }, (_, index) => {
+                const partnerId = index + 1;
+
+                return (
+                  <div
+                    key={index}
+                    className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-white/60 rounded-lg shadow-sm flex items-center justify-center"
+                  >
+                    <picture>
+                      <source srcSet={`/partner-${partnerId}.webp`} type="image/webp" />
+                      <source srcSet={`/partner-${partnerId}.svg`} type="image/svg+xml" />
+                      <img
+                        src={`/partner-${partnerId}.svg`}
+                        alt={`Partner ${partnerId}`}
+                        className="w-full h-full object-contain"
+                        loading="lazy"
+                        onError={(e) => {
+                          console.error(`Failed to load partner image: partner-${partnerId}`);
+                          e.currentTarget.style.display = 'none';
+                          const nextElement = e.currentTarget.parentElement?.nextElementSibling as HTMLElement;
+                          if (nextElement) {
+                            nextElement.style.display = 'flex';
+                          }
+                        }}
+                      />
+                    </picture>
+                    <span className="text-gray-400 text-xs sm:text-sm hidden items-center justify-center">
+                      Partner {partnerId}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

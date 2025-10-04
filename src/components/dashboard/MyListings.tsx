@@ -179,6 +179,7 @@ const MyListings: React.FC<MyListingsProps> = ({
   const [addFormData, setAddFormData] = useState<Listing | null>(null);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [listingToDelete, setListingToDelete] = useState<Listing | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const editScrollContainerRef = useRef<HTMLDivElement>(null);
@@ -362,6 +363,14 @@ const MyListings: React.FC<MyListingsProps> = ({
     setListingToDelete(null);
   };
 
+  // Filter listings based on search query
+  const filteredListings = listingsData.filter(listing =>
+    listing.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    listing.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    listing.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    listing.location.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="w-full max-w-full lg:max-w-[1129px] min-h-[980px] relative bg-white rounded-[20px]">
       {/* Listings Grid */}
@@ -369,11 +378,18 @@ const MyListings: React.FC<MyListingsProps> = ({
         className="min-h-[764px] px-2.5 pb-2.5 left-0 sm:left-[30px] top-[226px] absolute flex justify-start items-start gap-2.5"
       >
         <div className={`${(selectedListing || isAddMode) ? 'w-full sm:w-[528px] grid grid-cols-1 sm:grid-cols-2 gap-5' : 'w-full sm:w-[1048px] flex flex-wrap gap-5'} transition-all duration-300`}>
-          {listingsData.map((listing) => (
-            <div 
-              key={listing.id} 
-              onClick={() => handleSelectListing(listing)}
-              className="w-60 h-80 relative bg-white rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] overflow-hidden cursor-pointer hover:shadow-lg transition-shadow">
+          {filteredListings.length === 0 ? (
+            <div className="w-full py-12 text-center">
+              <p className="text-brand-colors-rootgrey text-lg font-madani-medium">
+                No listings found matching "{searchQuery}"
+              </p>
+            </div>
+          ) : (
+            filteredListings.map((listing) => (
+              <div
+                key={listing.id}
+                onClick={() => handleSelectListing(listing)}
+                className="w-60 h-80 relative bg-white rounded-[20px] shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] overflow-hidden cursor-pointer hover:shadow-lg transition-shadow">
             {/* Image Container */}
             <div className="w-56 h-36 left-[10px] top-[10px] absolute rounded-[10px] overflow-hidden">
               <img className="w-full h-full object-cover rounded-[10px]" src={listing.image} alt={listing.title} />
@@ -408,19 +424,20 @@ const MyListings: React.FC<MyListingsProps> = ({
             </div>
             
               {/* Delete Icon */}
-              <button 
+              <button
                 onClick={(e) => handleDeleteClick(listing, e)}
                 className="p-2.5 left-[188px] top-[15px] absolute bg-white rounded-3xl shadow-[0px_4px_30px_5px_rgba(0,0,0,0.08)] flex items-center hover:bg-red-50 transition-colors group"
               >
-                <img 
-                  src="/delete icon.svg" 
-                  alt="Delete" 
+                <img
+                  src="/delete icon.svg"
+                  alt="Delete"
                   className="w-5 h-5 group-hover:opacity-80"
                   style={{ filter: 'invert(36%) sepia(69%) saturate(2083%) hue-rotate(338deg) brightness(97%) contrast(106%)' }}
                 />
               </button>
             </div>
-          ))}
+            ))
+          )}
         </div>
         
         {/* Detail/Edit/Add View - Isolated Component */}
@@ -685,9 +702,13 @@ const MyListings: React.FC<MyListingsProps> = ({
           {/* Search Bar */}
           <div className="w-full sm:w-96 p-3 bg-black/5 rounded-[30px] outline outline-1 outline-offset-[-1px] outline-black/5 flex items-center gap-2">
             <img className="w-6 h-6" src="/search icon.svg" alt="Search" />
-            <div className="text-brand-colors-rootgrey text-xl font-madani-medium leading-9">
-              Search
-            </div>
+            <input
+              type="text"
+              placeholder="Search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="flex-1 bg-transparent text-brand-colors-RootBlack text-xl font-madani-medium leading-9 placeholder:text-brand-colors-rootgrey focus:outline-none"
+            />
           </div>
           
           <div className="flex justify-start items-center gap-5">
